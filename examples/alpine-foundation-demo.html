@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine.js Foundation Demo - Fondation Botnar Dashboard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'botnar-pink': {
+                            50: '#fce4ec', 100: '#f8bbd9', 200: '#f48fb1',
+                            300: '#f06292', 400: '#ec407a', 500: '#e91e63',
+                            600: '#d81b60', 700: '#c2185b', 800: '#ad1457', 900: '#880e4f'
+                        },
+                        'botnar-blue': {
+                            50: '#e3f2fd', 100: '#bbdefb', 200: '#90caf9',
+                            300: '#64b5f6', 400: '#42a5f5', 500: '#2196f3',
+                            600: '#1976d2', 700: '#1565c0', 800: '#0d47a1', 900: '#0a3d7c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Botnar Chart Configuration -->
+    <script src="../design-system/assets/js/chart-config-cdn.js"></script>
+    
+    <!-- Alpine.js Foundation -->
+    <script src="../design-system/assets/js/alpine-foundation.js"></script>
+    <script src="../design-system/components/chart-components.js"></script>
+    <script src="../design-system/components/utility-components.js"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; height: 300px; }
+        .sr-only {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50" x-data="dashboardDemo()">
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-600 font-medium">fondation</span>
+                            <span class="text-lg text-botnar-pink-500 font-bold uppercase tracking-wide">BOTNAR</span>
+                        </div>
+                        <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
+                        <div class="hidden sm:block">
+                            <h1 class="text-sm font-medium text-gray-900">Alpine.js Foundation Demo</h1>
+                            <p class="text-xs text-gray-500">Component Architecture & State Management</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme Switcher -->
+                    <div x-data="themeSwitcher()" class="flex items-center gap-4">
+                        <button @click="toggleTheme()" 
+                                class="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+                                :title="`Current theme: ${currentTheme}`">
+                            <span x-text="themes.find(t => t.value === currentTheme)?.icon || '🌓'"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-8 py-6">
+            
+            <!-- Notifications -->
+            <div x-data="notificationSystem()" class="fixed top-4 right-4 z-50 space-y-2">
+                <template x-for="notification in notifications.slice(0, 5)" :key="notification.id">
+                    <div class="max-w-sm rounded-lg shadow-lg border-l-4 p-4 transition-all transform"
+                         :class="getNotificationClass(notification.type)"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 transform translate-x-full"
+                         x-transition:enter-end="opacity-100 transform translate-x-0"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100 transform translate-x-0"
+                         x-transition:leave-end="opacity-0 transform translate-x-full">
+                        <div class="flex items-start">
+                            <span class="flex-shrink-0 mr-3" x-text="getNotificationIcon(notification.type)"></span>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium" x-text="notification.message"></p>
+                                <p class="text-xs mt-1 opacity-75" x-text="new Date(notification.timestamp).toLocaleTimeString()"></p>
+                            </div>
+                            <button @click="removeNotification(notification.id)" 
+                                    class="ml-3 text-gray-400 hover:text-gray-600">
+                                ×
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            
+            <!-- Dashboard Filters -->
+            <section class="mb-6">
+                <div x-data="dashboardFilters()" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Dashboard Filters</h2>
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-500">Active filters:</span>
+                            <span class="bg-botnar-blue-100 text-botnar-blue-800 px-2 py-1 rounded-full text-xs font-medium"
+                                  x-text="getActiveFiltersCount()"></span>
+                            <button @click="resetFilters()" 
+                                    class="text-sm text-gray-500 hover:text-gray-700 ml-2">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Time Period</label>
+                            <select x-model="filters.dateRange.period" 
+                                    @change="updateDateRange($event.target.value)"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <template x-for="preset in dateRangePresets" :key="preset.value">
+                                    <option :value="preset.value" x-text="preset.label"></option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                            <select x-model="filters.countries" 
+                                    @change="updateFilter('countries', $event.target.value)"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <template x-for="country in countries" :key="country">
+                                    <option :value="country" x-text="country"></option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Program</label>
+                            <select x-model="filters.programs" 
+                                    @change="updateFilter('programs', $event.target.value)"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <template x-for="program in programs" :key="program">
+                                    <option :value="program" x-text="program"></option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Grant Status</label>
+                            <select x-model="filters.grantStatus" 
+                                    @change="updateFilter('grantStatus', $event.target.value)"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <template x-for="status in grantStatuses" :key="status">
+                                    <option :value="status.toLowerCase().replace(' ', '')" x-text="status"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                
+                <!-- Grant Distribution Chart -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div x-data="grantDistributionChart({ canvasId: 'grantChart', debug: true })" class="h-full">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Grant Distribution</h3>
+                                <p class="text-sm text-gray-500">By country</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button @click="refreshData()" 
+                                        :disabled="refreshing"
+                                        class="px-3 py-1.5 text-sm bg-botnar-pink-500 text-white rounded-md hover:bg-botnar-pink-600 disabled:opacity-50">
+                                    <span x-show="!refreshing">Refresh</span>
+                                    <span x-show="refreshing">Loading...</span>
+                                </button>
+                                <button @click="exportChart()" 
+                                        class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="grantChart"></canvas>
+                        </div>
+                        
+                        <div x-show="error" class="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                            <p class="text-sm text-red-800" x-text="error?.message"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Funding Trends Chart -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div x-data="fundingTrendsChart({ canvasId: 'trendChart', debug: true })" class="h-full">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Funding Trends</h3>
+                                <p class="text-sm text-gray-500">Over time</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <select x-model="timePeriod" @change="changePeriod($event.target.value)"
+                                        class="px-3 py-1.5 text-sm border border-gray-300 rounded-md">
+                                    <option value="6m">6 months</option>
+                                    <option value="1y">1 year</option>
+                                    <option value="2y">2 years</option>
+                                </select>
+                                <button @click="exportChart()" 
+                                        class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                        
+                        <div x-show="loading" class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                            <p class="text-sm text-blue-800">Loading funding data...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Budget Allocation Chart -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div x-data="budgetAllocationChart({ canvasId: 'budgetChart', debug: true })" class="h-full">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Budget Allocation</h3>
+                                <p class="text-sm text-gray-500">By program area</p>
+                            </div>
+                            <button @click="exportChart()" 
+                                    class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                Export
+                            </button>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="budgetChart"></canvas>
+                        </div>
+                        
+                        <div x-show="loading" class="mt-4 text-center">
+                            <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-botnar-pink-500"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grant Status Chart -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div x-data="grantStatusChart({ canvasId: 'statusChart', debug: true })" class="h-full">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Grant Status</h3>
+                                <p class="text-sm text-gray-500">Current distribution</p>
+                            </div>
+                            <button @click="exportChart()" 
+                                    class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                Export
+                            </button>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Performance Monitor -->
+            <section class="mb-6">
+                <div x-data="performanceMonitor()" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Performance Monitor</h2>
+                        <div class="flex gap-2">
+                            <button @click="toggleDetails()" 
+                                    class="text-sm text-gray-500 hover:text-gray-700">
+                                <span x-show="!showDetails">Show Details</span>
+                                <span x-show="showDetails">Hide Details</span>
+                            </button>
+                            <button @click="clearMetrics()" 
+                                    class="text-sm text-gray-500 hover:text-gray-700">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold" :class="getMetricClass('chartRender', averages.chartRender)" 
+                                 x-text="averages.chartRender ? averages.chartRender.toFixed(1) + 'ms' : 'N/A'"></div>
+                            <div class="text-sm text-gray-600">Avg Chart Render</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold" :class="getMetricClass('dataLoad', averages.dataLoad)" 
+                                 x-text="averages.dataLoad ? averages.dataLoad.toFixed(1) + 'ms' : 'N/A'"></div>
+                            <div class="text-sm text-gray-600">Avg Data Load</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900" x-text="memoryUsage + ' MB'"></div>
+                            <div class="text-sm text-gray-600">Memory Usage</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-gray-900" x-text="chartCount"></div>
+                            <div class="text-sm text-gray-600">Active Charts</div>
+                        </div>
+                    </div>
+                    
+                    <div x-show="showDetails" x-collapse class="mt-4 p-4 bg-gray-50 rounded-md">
+                        <h4 class="text-sm font-medium text-gray-900 mb-2">Recent Metrics</h4>
+                        <div class="space-y-1 text-xs">
+                            <template x-for="metric in metrics.slice(0, 5)" :key="metric.timestamp">
+                                <div class="flex justify-between">
+                                    <span x-text="metric.type"></span>
+                                    <span x-text="metric.duration.toFixed(1) + 'ms'"></span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Data Export -->
+            <section class="mb-6">
+                <div x-data="dataExporter()" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Data Export</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Format</label>
+                            <select x-model="exportFormat" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <template x-for="option in exportOptions" :key="option.value">
+                                    <option :value="option.value" x-text="option.label"></option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <div class="flex items-center space-y-2 pt-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" x-model="includeFilters" class="mr-2">
+                                <span class="text-sm text-gray-700">Include filters</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center space-y-2 pt-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" x-model="includeCharts" class="mr-2">
+                                <span class="text-sm text-gray-700">Include chart data</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button @click="exportData()" 
+                            :disabled="exporting"
+                            class="px-4 py-2 bg-botnar-blue-500 text-white rounded-md hover:bg-botnar-blue-600 disabled:opacity-50">
+                        <span x-show="!exporting">Export Dashboard Data</span>
+                        <span x-show="exporting">Exporting...</span>
+                    </button>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <script>
+        function dashboardDemo() {
+            return {
+                init() {
+                    console.log('Dashboard demo initialized');
+                    
+                    // Add some test notifications
+                    setTimeout(() => {
+                        Alpine.store('dashboardData').addNotification('success', 'Dashboard loaded successfully', 5000);
+                    }, 1000);
+                    
+                    setTimeout(() => {
+                        Alpine.store('dashboardData').addNotification('info', 'All components initialized', 3000);
+                    }, 2000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
