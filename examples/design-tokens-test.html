@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Tokens Test - Fondation Botnar Dashboard</title>
+    
+    <!-- Tailwind CSS CDN for testing -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'botnar-pink': {
+                            50: '#fce4ec', 100: '#f8bbd9', 200: '#f48fb1',
+                            300: '#f06292', 400: '#ec407a', 500: '#e91e63',
+                            600: '#d81b60', 700: '#c2185b', 800: '#ad1457', 900: '#880e4f'
+                        },
+                        'botnar-blue': {
+                            50: '#e3f2fd', 100: '#bbdefb', 200: '#90caf9',
+                            300: '#64b5f6', 400: '#42a5f5', 500: '#2196f3',
+                            600: '#1976d2', 700: '#1565c0', 800: '#0d47a1', 900: '#0a3d7c'
+                        },
+                        'success': {
+                            50: '#e8f5e8', 100: '#c8e6c9', 200: '#a5d6a7',
+                            300: '#81c784', 400: '#66bb6a', 500: '#4caf50',
+                            600: '#43a047', 700: '#388e3c', 800: '#2e7d32', 900: '#1b5e20'
+                        },
+                        'warning': {
+                            50: '#fff8e1', 100: '#ffecb3', 200: '#ffe082',
+                            300: '#ffd54f', 400: '#ffca28', 500: '#ffc107',
+                            600: '#ffb300', 700: '#f57c00', 800: '#ef6c00', 900: '#e65100'
+                        },
+                        'error': {
+                            50: '#ffebee', 100: '#ffcdd2', 200: '#ef9a9a',
+                            300: '#e57373', 400: '#ef5350', 500: '#f44336',
+                            600: '#e53935', 700: '#d32f2f', 800: '#c62828', 900: '#b71c1c'
+                        }
+                    },
+                    fontSize: {
+                        'dashboard-title': ['2rem', { lineHeight: '2.5rem', fontWeight: '700' }],
+                        'section-title': ['1.5rem', { lineHeight: '2rem', fontWeight: '600' }],
+                        'widget-title': ['1.125rem', { lineHeight: '1.75rem', fontWeight: '600' }],
+                        'kpi-large': ['1.75rem', { lineHeight: '2.25rem', fontWeight: '700' }],
+                    },
+                    spacing: {
+                        'dashboard-margin': '2rem',
+                        'section-gap': '1.5rem',
+                        'component-gap': '1rem',
+                        'card-padding': '1.5rem',
+                        'touch-target': '2.75rem'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Import Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 font-sans">
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-dashboard-margin">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-600 font-medium">fondation</span>
+                            <span class="text-lg text-botnar-pink-500 font-bold uppercase tracking-wide">BOTNAR</span>
+                        </div>
+                        <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
+                        <div class="hidden sm:block">
+                            <h1 class="text-sm font-medium text-gray-900">Design Tokens Test</h1>
+                            <p class="text-xs text-gray-500">Verifying Color and Typography System</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-dashboard-margin py-section-gap">
+            
+            <!-- Typography Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-dashboard-title text-botnar-blue-600 mb-component-gap">Typography System</h2>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding mb-component-gap">
+                    <h3 class="text-section-title text-botnar-blue-600 mb-4">Dashboard Headers</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h1 class="text-dashboard-title text-botnar-blue-600">Dashboard Title (32px, Bold)</h1>
+                            <p class="text-xs text-gray-500 mt-1">Used for main dashboard titles</p>
+                        </div>
+                        <div>
+                            <h2 class="text-section-title text-botnar-blue-600">Section Title (24px, Semibold)</h2>
+                            <p class="text-xs text-gray-500 mt-1">Used for section headings</p>
+                        </div>
+                        <div>
+                            <h3 class="text-widget-title text-gray-900">Widget Title (18px, Semibold)</h3>
+                            <p class="text-xs text-gray-500 mt-1">Used for widget and component titles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding mb-component-gap">
+                    <h3 class="text-section-title text-botnar-blue-600 mb-4">Data Labels</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="text-kpi-large text-gray-900">CHF 2.4M</div>
+                            <p class="text-xs text-gray-500 mt-1">Large KPI Numbers (28px, Bold)</p>
+                        </div>
+                        <div>
+                            <div class="text-base font-medium text-gray-900">Medium Data Label</div>
+                            <p class="text-xs text-gray-500 mt-1">Medium data labels (16px, Medium)</p>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600">Small Data Label</div>
+                            <p class="text-xs text-gray-500 mt-1">Small data labels (14px, Regular)</p>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-600">Axis Label</div>
+                            <p class="text-xs text-gray-500 mt-1">Chart axis labels (12px, Regular)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Color System Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-dashboard-title text-botnar-blue-600 mb-component-gap">Color System</h2>
+                
+                <!-- Brand Colors -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding mb-component-gap">
+                    <h3 class="text-section-title text-botnar-blue-600 mb-4">Brand Colors</h3>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-botnar-pink-500 mx-auto mb-2 border border-gray-200"></div>
+                            <div class="text-sm font-medium">Botnar Pink</div>
+                            <div class="text-xs text-gray-500">#e91e63</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-botnar-blue-600 mx-auto mb-2 border border-gray-200"></div>
+                            <div class="text-sm font-medium">Botnar Blue</div>
+                            <div class="text-xs text-gray-500">#1976d2</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-success-700 mx-auto mb-2 border border-gray-200"></div>
+                            <div class="text-sm font-medium">Success Green</div>
+                            <div class="text-xs text-gray-500">#388e3c</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-warning-800 mx-auto mb-2 border border-gray-200"></div>
+                            <div class="text-sm font-medium">Warning Orange</div>
+                            <div class="text-xs text-gray-500">#ef6c00</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-lg bg-error-700 mx-auto mb-2 border border-gray-200"></div>
+                            <div class="text-sm font-medium">Error Red</div>
+                            <div class="text-xs text-gray-500">#d32f2f</div>
+                        </div>
+                    </div>
+
+                    <!-- Pink Scale -->
+                    <h4 class="text-widget-title text-gray-900 mb-3">Pink Scale</h4>
+                    <div class="flex space-x-1 mb-6">
+                        <div class="flex-1 h-12 bg-botnar-pink-50 rounded-l border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-gray-600">50</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-100 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-gray-600">100</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-200 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">200</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-300 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">300</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-400 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">400</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-500 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white font-bold">500</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-600 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">600</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-700 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">700</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-800 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">800</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-pink-900 rounded-r flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">900</span>
+                        </div>
+                    </div>
+
+                    <!-- Blue Scale -->
+                    <h4 class="text-widget-title text-gray-900 mb-3">Blue Scale</h4>
+                    <div class="flex space-x-1">
+                        <div class="flex-1 h-12 bg-botnar-blue-50 rounded-l border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-gray-600">50</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-100 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-gray-600">100</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-200 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-gray-600">200</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-300 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">300</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-400 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">400</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-500 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">500</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-600 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white font-bold">600</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-700 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">700</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-800 border-r border-white flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">800</span>
+                        </div>
+                        <div class="flex-1 h-12 bg-botnar-blue-900 rounded-r flex items-end justify-center pb-1">
+                            <span class="text-xs text-white">900</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Button System Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-dashboard-title text-botnar-blue-600 mb-component-gap">Button System</h2>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h4 class="text-widget-title text-gray-900 mb-3">Primary Buttons</h4>
+                            <div class="space-y-3">
+                                <button class="w-full min-h-touch-target px-4 py-2 bg-botnar-pink-500 text-white rounded-md hover:bg-botnar-pink-600 focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2">
+                                    Create New Grant
+                                </button>
+                                <button class="w-full min-h-touch-target px-4 py-2 bg-botnar-pink-500 text-white rounded-md opacity-50 cursor-not-allowed" disabled>
+                                    Disabled State
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-widget-title text-gray-900 mb-3">Secondary Buttons</h4>
+                            <div class="space-y-3">
+                                <button class="w-full min-h-touch-target px-4 py-2 bg-white text-botnar-blue-600 border border-botnar-blue-600 rounded-md hover:bg-botnar-blue-50 focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2">
+                                    View Details
+                                </button>
+                                <button class="w-full min-h-touch-target px-4 py-2 bg-white text-botnar-blue-600 border border-botnar-blue-600 rounded-md opacity-50 cursor-not-allowed" disabled>
+                                    Disabled State
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-widget-title text-gray-900 mb-3">Ghost Buttons</h4>
+                            <div class="space-y-3">
+                                <button class="w-full min-h-touch-target px-4 py-2 bg-transparent text-gray-600 border border-transparent rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                    Cancel
+                                </button>
+                                <button class="w-full min-h-touch-target px-4 py-2 bg-transparent text-gray-600 border border-transparent rounded-md opacity-50 cursor-not-allowed" disabled>
+                                    Disabled State
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Spacing System Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-dashboard-title text-botnar-blue-600 mb-component-gap">Spacing System</h2>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                    <h3 class="text-section-title text-botnar-blue-600 mb-4">Spacing Scale</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-1 bg-botnar-pink-500 rounded" style="height: 0.25rem;"></div>
+                            <span class="text-sm">0.25rem (4px) - Micro spacing</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-2 bg-botnar-pink-500 rounded" style="height: 0.5rem;"></div>
+                            <span class="text-sm">0.5rem (8px) - XS spacing</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-4 bg-botnar-pink-500 rounded" style="height: 1rem;"></div>
+                            <span class="text-sm">1rem (16px) - Base spacing</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-6 bg-botnar-pink-500 rounded" style="height: 1.5rem;"></div>
+                            <span class="text-sm">1.5rem (24px) - Section spacing</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 bg-botnar-pink-500 rounded" style="height: 2rem;"></div>
+                            <span class="text-sm">2rem (32px) - Dashboard margins</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accessibility Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-dashboard-title text-botnar-blue-600 mb-component-gap">Accessibility Verification</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                        <h3 class="text-widget-title text-gray-900 mb-4">Touch Targets</h3>
+                        <div class="space-y-3">
+                            <button class="w-full min-h-touch-target px-4 py-2 bg-botnar-pink-500 text-white rounded-md">
+                                44px Minimum Touch Target ✓
+                            </button>
+                            <p class="text-xs text-gray-500">All interactive elements meet the 44px minimum touch target requirement for accessibility.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                        <h3 class="text-widget-title text-gray-900 mb-4">Focus Management</h3>
+                        <div class="space-y-3">
+                            <button class="w-full min-h-touch-target px-4 py-2 bg-white text-botnar-blue-600 border border-botnar-blue-600 rounded-md focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2">
+                                Tab to Focus This Button
+                            </button>
+                            <p class="text-xs text-gray-500">Focus rings provide clear visual feedback for keyboard navigation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white mt-16">
+            <div class="max-w-7xl mx-auto px-dashboard-margin py-8">
+                <div class="text-center">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <span class="text-sm text-gray-400">fondation</span>
+                        <span class="text-base text-botnar-pink-400 font-bold uppercase tracking-wide">BOTNAR</span>
+                    </div>
+                    <p class="text-sm text-gray-300">Design System Test Page</p>
+                    <p class="text-xs text-gray-400 mt-2">Verifying design tokens and accessibility compliance</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
