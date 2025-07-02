@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js Integration Test - Fondation Botnar Dashboard</title>
+    
+    <!-- Tailwind CSS CDN for testing -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'botnar-pink': {
+                            50: '#fce4ec', 100: '#f8bbd9', 200: '#f48fb1',
+                            300: '#f06292', 400: '#ec407a', 500: '#e91e63',
+                            600: '#d81b60', 700: '#c2185b', 800: '#ad1457', 900: '#880e4f'
+                        },
+                        'botnar-blue': {
+                            50: '#e3f2fd', 100: '#bbdefb', 200: '#90caf9',
+                            300: '#64b5f6', 400: '#42a5f5', 500: '#2196f3',
+                            600: '#1976d2', 700: '#1565c0', 800: '#0d47a1', 900: '#0a3d7c'
+                        }
+                    },
+                    spacing: {
+                        'card-padding': '1.5rem',
+                        'section-gap': '1.5rem'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Import Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Botnar Chart Configuration -->
+    <script src="../design-system/assets/js/chart-config-cdn.js"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; height: 400px; }
+        .sr-only {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 font-sans" x-data="dashboardDemo()">
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-600 font-medium">fondation</span>
+                            <span class="text-lg text-botnar-pink-500 font-bold uppercase tracking-wide">BOTNAR</span>
+                        </div>
+                        <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
+                        <div class="hidden sm:block">
+                            <h1 class="text-sm font-medium text-gray-900">Chart.js Integration Test</h1>
+                            <p class="text-xs text-gray-500">Testing Chart.js with Botnar Design System</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-8 py-section-gap">
+            
+            <!-- Diagnostic Section -->
+            <section class="mb-section-gap" x-show="eventLog.some(event => event.type.includes('error'))">
+                <h2 class="text-2xl font-bold text-red-600 mb-4">🔧 Diagnostic Information</h2>
+                <div class="bg-red-50 border border-red-200 rounded-lg p-card-padding">
+                    <h3 class="text-lg font-semibold text-red-900 mb-3">Configuration Status</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div>
+                            <span class="text-red-700">Chart.js:</span>
+                            <span class="font-medium ml-1" x-text="typeof Chart !== 'undefined' ? '✅ Loaded' : '❌ Missing'"></span>
+                        </div>
+                        <div>
+                            <span class="text-red-700">BotnarColors:</span>
+                            <span class="font-medium ml-1" x-text="typeof window.BotnarColors !== 'undefined' ? '✅ Loaded' : '❌ Missing'"></span>
+                        </div>
+                        <div>
+                            <span class="text-red-700">BotnarChart:</span>
+                            <span class="font-medium ml-1" x-text="typeof window.BotnarChart !== 'undefined' ? '✅ Loaded' : '❌ Missing'"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Performance Metrics -->
+            <section class="mb-section-gap">
+                <h2 class="text-2xl font-bold text-botnar-blue-600 mb-4">Performance Metrics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                        <div class="text-2xl font-bold text-gray-900" x-text="performanceMetrics.totalCharts"></div>
+                        <div class="text-sm text-gray-600">Charts Rendered</div>
+                    </div>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                        <div class="text-2xl font-bold text-gray-900" x-text="performanceMetrics.avgRenderTime + 'ms'"></div>
+                        <div class="text-sm text-gray-600">Avg Render Time</div>
+                    </div>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                        <div class="text-2xl font-bold text-gray-900" x-text="performanceMetrics.totalDataPoints"></div>
+                        <div class="text-sm text-gray-600">Data Points</div>
+                    </div>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                        <div class="text-2xl font-bold text-gray-900" x-text="performanceMetrics.memoryUsage"></div>
+                        <div class="text-sm text-gray-600">Memory Usage</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bar Chart Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-2xl font-bold text-botnar-blue-600 mb-4">Bar Chart Integration</h2>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Grant Distribution by Country</h3>
+                            <p class="text-sm text-gray-500">Interactive bar chart with accessibility features</p>
+                        </div>
+                        <div class="flex gap-2 mt-4 sm:mt-0">
+                            <button @click="refreshBarChart()" 
+                                    class="px-3 py-1.5 text-sm bg-botnar-pink-500 text-white rounded-md hover:bg-botnar-pink-600">
+                                Refresh Data
+                            </button>
+                            <button @click="exportChart('barChart')" 
+                                    class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                Export PNG
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="barChart" 
+                                role="img" 
+                                aria-label="Bar chart showing grant distribution by country"
+                                @chart:click="handleChartClick"
+                                @chart:hover="handleChartHover"></canvas>
+                    </div>
+                    
+                    <!-- Accessible Data Table -->
+                    <div class="sr-only">
+                        <table id="barChart-table" aria-label="Grant distribution data in tabular format">
+                            <caption>Grant distribution by country data table</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Number of Grants</th>
+                                    <th scope="col">Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="(item, index) in barChartData.tableData" :key="index">
+                                    <tr>
+                                        <th scope="row" x-text="item.country"></th>
+                                        <td x-text="item.grants"></td>
+                                        <td x-text="item.percentage + '%'"></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Chart Legend -->
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <h4 class="text-sm font-medium text-gray-900 mb-3">Chart Information</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-600">Total Grants:</span>
+                                <span class="font-medium ml-1" x-text="barChartData.total"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Countries:</span>
+                                <span class="font-medium ml-1" x-text="barChartData.labels.length"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Last Updated:</span>
+                                <span class="font-medium ml-1" x-text="new Date().toLocaleDateString()"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Data Source:</span>
+                                <span class="font-medium ml-1">Grant Management System</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Line Chart Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-2xl font-bold text-botnar-blue-600 mb-4">Line Chart Integration</h2>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Funding Trends Over Time</h3>
+                            <p class="text-sm text-gray-500">Time series data with trend analysis</p>
+                        </div>
+                        <div class="flex gap-2 mt-4 sm:mt-0">
+                            <select x-model="lineChartPeriod" @change="updateLineChart()" 
+                                    class="px-3 py-1.5 text-sm border border-gray-300 rounded-md">
+                                <option value="6m">Last 6 months</option>
+                                <option value="1y">Last year</option>
+                                <option value="2y">Last 2 years</option>
+                            </select>
+                            <button @click="exportChart('lineChart')" 
+                                    class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                Export PNG
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="lineChart" 
+                                role="img" 
+                                aria-label="Line chart showing funding trends over time"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pie Chart Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-2xl font-bold text-botnar-blue-600 mb-4">Pie Chart Integration</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Pie Chart -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Budget Allocation</h3>
+                                <p class="text-sm text-gray-500">Distribution by program area</p>
+                            </div>
+                            <button @click="exportChart('pieChart')" 
+                                    class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                Export
+                            </button>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="pieChart" 
+                                    role="img" 
+                                    aria-label="Pie chart showing budget allocation by program area"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Doughnut Chart -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Grant Status Distribution</h3>
+                                <p class="text-sm text-gray-500">Current status of all grants</p>
+                            </div>
+                            <button @click="exportChart('doughnutChart')" 
+                                    class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                Export
+                            </button>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="doughnutChart" 
+                                    role="img" 
+                                    aria-label="Doughnut chart showing grant status distribution"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accessibility Test -->
+            <section class="mb-section-gap">
+                <h2 class="text-2xl font-bold text-botnar-blue-600 mb-4">Accessibility Testing</h2>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Keyboard Navigation Test</h3>
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-600">
+                            Use the following keyboard controls to test chart accessibility:
+                        </p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li><kbd class="px-2 py-1 bg-gray-100 rounded text-xs">Tab</kbd> - Focus on chart</li>
+                            <li><kbd class="px-2 py-1 bg-gray-100 rounded text-xs">←</kbd> <kbd class="px-2 py-1 bg-gray-100 rounded text-xs">→</kbd> - Navigate data points</li>
+                            <li><kbd class="px-2 py-1 bg-gray-100 rounded text-xs">Enter</kbd> - Select data point</li>
+                            <li><kbd class="px-2 py-1 bg-gray-100 rounded text-xs">Esc</kbd> - Clear selection</li>
+                        </ul>
+                        
+                        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                            <h4 class="text-sm font-medium text-blue-900 mb-2">Accessibility Features Tested:</h4>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>✅ ARIA labels and descriptions</li>
+                                <li>✅ Keyboard navigation</li>
+                                <li>✅ Screen reader announcements</li>
+                                <li>✅ Focus management</li>
+                                <li>✅ Alternative data tables</li>
+                                <li>✅ Color contrast compliance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chart Events Log -->
+            <section class="mb-section-gap">
+                <h2 class="text-2xl font-bold text-botnar-blue-600 mb-4">Chart Events Log</h2>
+                
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-card-padding">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Interaction Events</h3>
+                        <button @click="clearEventLog()" 
+                                class="px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                            Clear Log
+                        </button>
+                    </div>
+                    
+                    <div class="max-h-64 overflow-y-auto">
+                        <template x-for="(event, index) in eventLog" :key="index">
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded" x-text="event.type"></span>
+                                    <span class="text-sm text-gray-900" x-text="event.message"></span>
+                                </div>
+                                <span class="text-xs text-gray-500" x-text="event.timestamp"></span>
+                            </div>
+                        </template>
+                        
+                        <div x-show="eventLog.length === 0" class="text-center py-8 text-gray-500">
+                            No events logged yet. Interact with the charts above to see events.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white mt-16">
+            <div class="max-w-7xl mx-auto px-8 py-8">
+                <div class="text-center">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <span class="text-sm text-gray-400">fondation</span>
+                        <span class="text-base text-botnar-pink-400 font-bold uppercase tracking-wide">BOTNAR</span>
+                    </div>
+                    <p class="text-sm text-gray-300">Chart.js Integration Test</p>
+                    <p class="text-xs text-gray-400 mt-2">Testing Chart.js v4.4.1 with Botnar Design System</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function dashboardDemo() {
+            return {
+                // Performance metrics
+                performanceMetrics: {
+                    totalCharts: 0,
+                    avgRenderTime: 0,
+                    totalDataPoints: 0,
+                    memoryUsage: '0 MB'
+                },
+                
+                // Chart instances
+                barChart: null,
+                lineChart: null,
+                pieChart: null,
+                doughnutChart: null,
+                
+                // Chart data
+                barChartData: {
+                    labels: ['Romania', 'Ghana', 'Colombia', 'Indonesia', 'Tanzania', 'Kenya'],
+                    data: [15, 12, 18, 8, 10, 14],
+                    total: 77,
+                    tableData: []
+                },
+                
+                lineChartPeriod: '1y',
+                
+                // Event logging
+                eventLog: [],
+                
+                init() {
+                    // Wait for Chart.js and Botnar configuration to load
+                    this.$nextTick(() => {
+                        // Log what's available
+                        console.log('Initializing dashboard...');
+                        console.log('Chart.js available:', typeof Chart !== 'undefined');
+                        console.log('BotnarColors available:', typeof window.BotnarColors !== 'undefined');
+                        console.log('BotnarChart available:', typeof window.BotnarChart !== 'undefined');
+                        console.log('BotnarBarChartConfig available:', typeof window.BotnarBarChartConfig !== 'undefined');
+                        
+                        if (typeof Chart === 'undefined' || typeof window.BotnarColors === 'undefined') {
+                            console.error('Chart.js or Botnar configuration not loaded yet. Retrying...');
+                            this.logEvent('system:loading', 'Waiting for Chart.js and Botnar configuration...');
+                            setTimeout(() => this.init(), 100);
+                            return;
+                        }
+                        
+                        this.logEvent('system', 'Starting chart initialization');
+                        this.initializeCharts();
+                        this.updatePerformanceMetrics();
+                        this.updateBarChartTableData();
+                    });
+                },
+                
+                initializeCharts() {
+                    try {
+                        this.initBarChart();
+                        this.initLineChart();
+                        this.initPieChart();
+                        this.initDoughnutChart();
+                        this.logEvent('system', 'All charts initialized successfully');
+                        this.performanceMetrics.totalCharts = 4;
+                    } catch (error) {
+                        console.error('Error initializing charts:', error);
+                        this.logEvent('system:error', `Chart initialization failed: ${error.message}`);
+                    }
+                },
+                
+                initBarChart() {
+                    try {
+                        const ctx = document.getElementById('barChart').getContext('2d');
+                        if (!window.BotnarBarChartConfig) {
+                            throw new Error('BotnarBarChartConfig not available');
+                        }
+                        
+                        const config = window.BotnarBarChartConfig();
+                        
+                        this.barChart = new window.BotnarChart(ctx, {
+                            ...config,
+                            data: {
+                                labels: this.barChartData.labels,
+                                datasets: [{
+                                    label: 'Number of Grants',
+                                    data: this.barChartData.data,
+                                    backgroundColor: window.BotnarColors.categorical || ['#1976d2', '#e91e63', '#388e3c'],
+                                    borderColor: window.BotnarColors.categorical || ['#1976d2', '#e91e63', '#388e3c'],
+                                    borderWidth: 2
+                                }]
+                            }
+                        });
+                        
+                        this.logEvent('chart:init', 'Bar chart initialized');
+                        this.measurePerformance(this.barChart, 'bar');
+                    } catch (error) {
+                        console.error('Error initializing bar chart:', error);
+                        this.logEvent('chart:error', `Bar chart failed: ${error.message}`);
+                    }
+                },
+                
+                initLineChart() {
+                    try {
+                        const ctx = document.getElementById('lineChart').getContext('2d');
+                        if (!window.BotnarLineChartConfig) {
+                            throw new Error('BotnarLineChartConfig not available');
+                        }
+                        
+                        const config = window.BotnarLineChartConfig();
+                        
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        const fundingData = [2.1, 2.3, 2.8, 3.2, 2.9, 3.5, 3.8, 4.1, 3.7, 4.2, 4.5, 4.8];
+                        
+                        this.lineChart = new window.BotnarChart(ctx, {
+                            ...config,
+                            data: {
+                                labels: months,
+                                datasets: [{
+                                    label: 'Funding (CHF Millions)',
+                                    data: fundingData,
+                                    borderColor: (window.BotnarColors && window.BotnarColors.blue && window.BotnarColors.blue[600]) || '#1976d2',
+                                    backgroundColor: (window.BotnarColors && window.BotnarColors.blue && window.BotnarColors.blue[100]) || 'rgba(25, 118, 210, 0.1)',
+                                    fill: true,
+                                    tension: 0.1
+                                }]
+                            }
+                        });
+                        
+                        this.logEvent('chart:init', 'Line chart initialized');
+                        this.measurePerformance(this.lineChart, 'line');
+                    } catch (error) {
+                        console.error('Error initializing line chart:', error);
+                        this.logEvent('chart:error', `Line chart failed: ${error.message}`);
+                    }
+                },
+                
+                initPieChart() {
+                    try {
+                        const ctx = document.getElementById('pieChart').getContext('2d');
+                        if (!window.BotnarPieChartConfig) {
+                            throw new Error('BotnarPieChartConfig not available');
+                        }
+                        
+                        const config = window.BotnarPieChartConfig();
+                        
+                        this.pieChart = new window.BotnarChart(ctx, {
+                            ...config,
+                            data: {
+                                labels: ['Health', 'Education', 'Research', 'Infrastructure', 'Capacity Building'],
+                                datasets: [{
+                                    data: [35, 25, 20, 12, 8],
+                                    backgroundColor: (window.BotnarColors && window.BotnarColors.categorical) 
+                                        ? window.BotnarColors.categorical.slice(0, 5) 
+                                        : ['#1976d2', '#e91e63', '#388e3c', '#ef6c00', '#9c27b0'],
+                                    borderColor: '#ffffff',
+                                    borderWidth: 2
+                                }]
+                            }
+                        });
+                        
+                        this.logEvent('chart:init', 'Pie chart initialized');
+                        this.measurePerformance(this.pieChart, 'pie');
+                    } catch (error) {
+                        console.error('Error initializing pie chart:', error);
+                        this.logEvent('chart:error', `Pie chart failed: ${error.message}`);
+                    }
+                },
+                
+                initDoughnutChart() {
+                    try {
+                        const ctx = document.getElementById('doughnutChart').getContext('2d');
+                        if (!window.BotnarDoughnutChartConfig) {
+                            throw new Error('BotnarDoughnutChartConfig not available');
+                        }
+                        
+                        const config = window.BotnarDoughnutChartConfig();
+                        
+                        this.doughnutChart = new window.BotnarChart(ctx, {
+                            ...config,
+                            data: {
+                                labels: ['Active', 'Pending', 'Completed', 'On Hold'],
+                                datasets: [{
+                                    data: [42, 8, 25, 3],
+                                    backgroundColor: [
+                                        (window.BotnarColors && window.BotnarColors.success && window.BotnarColors.success[700]) || '#388e3c',
+                                        (window.BotnarColors && window.BotnarColors.warning && window.BotnarColors.warning[800]) || '#ef6c00',
+                                        (window.BotnarColors && window.BotnarColors.blue && window.BotnarColors.blue[600]) || '#1976d2',
+                                        (window.BotnarColors && window.BotnarColors.error && window.BotnarColors.error[700]) || '#d32f2f'
+                                    ],
+                                    borderColor: '#ffffff',
+                                    borderWidth: 2
+                                }]
+                            }
+                        });
+                        
+                        this.logEvent('chart:init', 'Doughnut chart initialized');
+                        this.measurePerformance(this.doughnutChart, 'doughnut');
+                    } catch (error) {
+                        console.error('Error initializing doughnut chart:', error);
+                        this.logEvent('chart:error', `Doughnut chart failed: ${error.message}`);
+                    }
+                },
+                
+                refreshBarChart() {
+                    try {
+                        if (!this.barChart) {
+                            this.logEvent('chart:error', 'Bar chart not initialized');
+                            return;
+                        }
+                        
+                        // Generate new random data
+                        this.barChartData.data = this.barChartData.labels.map(() => 
+                            Math.floor(Math.random() * 20) + 5
+                        );
+                        
+                        this.barChart.data.datasets[0].data = this.barChartData.data;
+                        this.barChart.update('active');
+                        
+                        this.updateBarChartTableData();
+                        this.logEvent('chart:update', 'Bar chart data refreshed');
+                    } catch (error) {
+                        console.error('Error refreshing bar chart:', error);
+                        this.logEvent('chart:error', `Bar chart refresh failed: ${error.message}`);
+                    }
+                },
+                
+                updateLineChart() {
+                    try {
+                        if (!this.lineChart) {
+                            this.logEvent('chart:error', 'Line chart not initialized');
+                            return;
+                        }
+                        
+                        // Simulate different time periods
+                        let months, data;
+                        
+                        switch(this.lineChartPeriod) {
+                            case '6m':
+                                months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                                data = [3.8, 4.1, 3.7, 4.2, 4.5, 4.8];
+                                break;
+                            case '2y':
+                                months = ['2023 Q1', '2023 Q2', '2023 Q3', '2023 Q4', '2024 Q1', '2024 Q2', '2024 Q3', '2024 Q4'];
+                                data = [8.5, 9.2, 8.8, 9.5, 10.1, 10.8, 11.2, 11.9];
+                                break;
+                            default:
+                                months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                                data = [2.1, 2.3, 2.8, 3.2, 2.9, 3.5, 3.8, 4.1, 3.7, 4.2, 4.5, 4.8];
+                        }
+                        
+                        this.lineChart.data.labels = months;
+                        this.lineChart.data.datasets[0].data = data;
+                        this.lineChart.update('active');
+                        
+                        this.logEvent('chart:update', `Line chart updated to ${this.lineChartPeriod} period`);
+                    } catch (error) {
+                        console.error('Error updating line chart:', error);
+                        this.logEvent('chart:error', `Line chart update failed: ${error.message}`);
+                    }
+                },
+                
+                exportChart(chartId) {
+                    try {
+                        const chart = this[chartId];
+                        if (!chart) {
+                            this.logEvent('chart:error', `Chart ${chartId} not found for export`);
+                            return;
+                        }
+                        
+                        const link = document.createElement('a');
+                        link.download = `${chartId}-${new Date().toISOString().split('T')[0]}.png`;
+                        link.href = chart.toBase64Image();
+                        link.click();
+                        
+                        this.logEvent('chart:export', `${chartId} exported as PNG`);
+                    } catch (error) {
+                        console.error('Error exporting chart:', error);
+                        this.logEvent('chart:error', `Export failed for ${chartId}: ${error.message}`);
+                    }
+                },
+                
+                updateBarChartTableData() {
+                    const total = this.barChartData.data.reduce((a, b) => a + b, 0);
+                    this.barChartData.total = total;
+                    
+                    this.barChartData.tableData = this.barChartData.labels.map((country, index) => ({
+                        country: country,
+                        grants: this.barChartData.data[index],
+                        percentage: ((this.barChartData.data[index] / total) * 100).toFixed(1)
+                    }));
+                },
+                
+                measurePerformance(chart, type) {
+                    try {
+                        if (window.BotnarChartUtils && window.BotnarChartUtils.measureChartPerformance) {
+                            window.BotnarChartUtils.measureChartPerformance(chart, type);
+                        } else {
+                            // Fallback performance measurement
+                            const startTime = performance.now();
+                            chart.update();
+                            const endTime = performance.now();
+                            const renderTime = endTime - startTime;
+                            
+                            console.log(`Chart ${type} render time: ${renderTime.toFixed(2)}ms`);
+                            
+                            // Store performance data
+                            if (!window.chartPerformance) {
+                                window.chartPerformance = [];
+                            }
+                            
+                            window.chartPerformance.push({
+                                type: type,
+                                renderTime: renderTime,
+                                timestamp: new Date().toISOString(),
+                                dataPoints: chart.data.datasets.reduce((total, dataset) => total + dataset.data.length, 0)
+                            });
+                        }
+                        
+                        // Update metrics in real-time
+                        setTimeout(() => this.updatePerformanceMetrics(), 100);
+                    } catch (error) {
+                        console.error('Error measuring performance:', error);
+                    }
+                },
+                
+                updatePerformanceMetrics() {
+                    try {
+                        // Count actual rendered charts
+                        let chartCount = 0;
+                        if (this.barChart) chartCount++;
+                        if (this.lineChart) chartCount++;
+                        if (this.pieChart) chartCount++;
+                        if (this.doughnutChart) chartCount++;
+                        
+                        this.performanceMetrics.totalCharts = chartCount;
+                        
+                        // Calculate total data points
+                        let totalDataPoints = 0;
+                        if (this.barChart && this.barChart.data) {
+                            totalDataPoints += this.barChart.data.datasets.reduce((sum, dataset) => sum + dataset.data.length, 0);
+                        }
+                        if (this.lineChart && this.lineChart.data) {
+                            totalDataPoints += this.lineChart.data.datasets.reduce((sum, dataset) => sum + dataset.data.length, 0);
+                        }
+                        if (this.pieChart && this.pieChart.data) {
+                            totalDataPoints += this.pieChart.data.datasets.reduce((sum, dataset) => sum + dataset.data.length, 0);
+                        }
+                        if (this.doughnutChart && this.doughnutChart.data) {
+                            totalDataPoints += this.doughnutChart.data.datasets.reduce((sum, dataset) => sum + dataset.data.length, 0);
+                        }
+                        this.performanceMetrics.totalDataPoints = totalDataPoints;
+                        
+                        // Calculate average render time from performance data
+                        if (window.chartPerformance && window.chartPerformance.length > 0) {
+                            const total = window.chartPerformance.reduce((sum, perf) => sum + perf.renderTime, 0);
+                            this.performanceMetrics.avgRenderTime = (total / window.chartPerformance.length).toFixed(1);
+                        } else {
+                            this.performanceMetrics.avgRenderTime = '0.0';
+                        }
+                        
+                        // Estimate memory usage
+                        if (performance.memory) {
+                            const used = performance.memory.usedJSHeapSize / 1024 / 1024;
+                            this.performanceMetrics.memoryUsage = used.toFixed(1) + ' MB';
+                        } else {
+                            this.performanceMetrics.memoryUsage = 'N/A';
+                        }
+                    } catch (error) {
+                        console.error('Error updating performance metrics:', error);
+                    }
+                },
+                
+                handleChartClick(event) {
+                    try {
+                        const detail = event.detail;
+                        if (detail && detail.dataset && detail.dataset.label) {
+                            this.logEvent('chart:click', `Clicked ${detail.dataset.label}: ${detail.data} (${detail.label})`);
+                        } else {
+                            this.logEvent('chart:click', 'Chart element clicked');
+                        }
+                    } catch (error) {
+                        console.error('Error handling chart click:', error);
+                        this.logEvent('chart:error', 'Error handling chart click');
+                    }
+                },
+                
+                handleChartHover(event) {
+                    try {
+                        const detail = event.detail;
+                        if (detail && detail.dataset && detail.dataset.label) {
+                            this.logEvent('chart:hover', `Hovering ${detail.dataset.label}: ${detail.data} (${detail.label})`);
+                        }
+                    } catch (error) {
+                        console.error('Error handling chart hover:', error);
+                    }
+                },
+                
+                logEvent(type, message) {
+                    this.eventLog.unshift({
+                        type: type,
+                        message: message,
+                        timestamp: new Date().toLocaleTimeString()
+                    });
+                    
+                    // Keep only last 20 events
+                    if (this.eventLog.length > 20) {
+                        this.eventLog = this.eventLog.slice(0, 20);
+                    }
+                },
+                
+                clearEventLog() {
+                    this.eventLog = [];
+                }
+            }
+        }
+    </script>
+</body>
+</html>

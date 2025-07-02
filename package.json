@@ -25,5 +25,9 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^3.0.6"
+  }
 }

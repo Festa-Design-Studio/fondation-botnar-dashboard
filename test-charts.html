@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Chart Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="design-system/assets/js/chart-config-cdn.js"></script>
+</head>
+<body class="p-8 bg-gray-50" x-data="quickTest()">
+    <h1 class="text-2xl font-bold mb-6">Quick Chart Test</h1>
+    
+    <div class="grid grid-cols-2 gap-6">
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-4">Bar Chart</h2>
+            <div style="position: relative; height: 300px;">
+                <canvas id="testBar"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-4">Line Chart</h2>
+            <div style="position: relative; height: 300px;">
+                <canvas id="testLine"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-6 p-4 bg-white rounded-lg shadow">
+        <h2 class="text-lg font-semibold mb-2">Status</h2>
+        <div class="text-sm space-y-1">
+            <div>Chart.js: <span x-text="typeof Chart !== 'undefined' ? '✅ Loaded' : '❌ Missing'"></span></div>
+            <div>BotnarColors: <span x-text="typeof window.BotnarColors !== 'undefined' ? '✅ Loaded' : '❌ Missing'"></span></div>
+            <div>BotnarChart: <span x-text="typeof window.BotnarChart !== 'undefined' ? '✅ Loaded' : '❌ Missing'"></span></div>
+        </div>
+    </div>
+
+    <script>
+        function quickTest() {
+            return {
+                init() {
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            this.createCharts();
+                        }, 100);
+                    });
+                },
+                
+                createCharts() {
+                    try {
+                        console.log('Creating test charts...');
+                        console.log('Chart available:', typeof Chart);
+                        console.log('BotnarColors available:', typeof window.BotnarColors);
+                        
+                        if (typeof window.BotnarBarChartConfig === 'undefined') {
+                            console.error('BotnarBarChartConfig not found');
+                            return;
+                        }
+                        
+                        // Bar Chart
+                        const barCtx = document.getElementById('testBar').getContext('2d');
+                        const barConfig = window.BotnarBarChartConfig();
+                        new window.BotnarChart(barCtx, {
+                            ...barConfig,
+                            data: {
+                                labels: ['A', 'B', 'C'],
+                                datasets: [{
+                                    label: 'Test Data',
+                                    data: [10, 20, 15],
+                                    backgroundColor: ['#1976d2', '#e91e63', '#388e3c']
+                                }]
+                            }
+                        });
+                        
+                        // Line Chart
+                        const lineCtx = document.getElementById('testLine').getContext('2d');
+                        const lineConfig = window.BotnarLineChartConfig();
+                        new window.BotnarChart(lineCtx, {
+                            ...lineConfig,
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar'],
+                                datasets: [{
+                                    label: 'Test Line',
+                                    data: [5, 10, 8],
+                                    borderColor: '#1976d2',
+                                    backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                                    fill: true
+                                }]
+                            }
+                        });
+                        
+                        console.log('Charts created successfully');
+                    } catch (error) {
+                        console.error('Error creating charts:', error);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
