@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{component.title}} - Fondation Botnar Design System</title>
+    <meta name="description" content="{{component.description}} - Component showcase for Fondation Botnar Dashboard">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'botnar-pink': {
+                            50: '#fce4ec', 100: '#f8bbd9', 200: '#f48fb1',
+                            300: '#f06292', 400: '#ec407a', 500: '#e91e63',
+                            600: '#d81b60', 700: '#c2185b', 800: '#ad1457', 900: '#880e4f'
+                        },
+                        'botnar-blue': {
+                            50: '#e3f2fd', 100: '#bbdefb', 200: '#90caf9',
+                            300: '#64b5f6', 400: '#42a5f5', 500: '#2196f3',
+                            600: '#1976d2', 700: '#1565c0', 800: '#0d47a1', 900: '#0a3d7c'
+                        }
+                    },
+                    spacing: {
+                        'card-padding': '1.5rem',
+                        'section-gap': '1.5rem'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    
+    <!-- Chart.js (if needed) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Botnar Components (if needed) -->
+    <!--<script src="../../design-system/assets/js/chart-config-cdn.js"></script>-->
+    <!--<script src="../../design-system/assets/js/alpine-foundation.js"></script>-->
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* Code highlighting adjustments */
+        pre[class*="language-"] {
+            background: #1e1e1e !important;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        /* Responsive iframe container */
+        .responsive-container {
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .responsive-frame {
+            width: 100%;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        /* Viewport sizes */
+        .viewport-mobile { max-width: 375px; }
+        .viewport-tablet { max-width: 768px; }
+        .viewport-desktop { max-width: 1200px; }
+        .viewport-full { max-width: 100%; }
+        
+        /* Tab styling */
+        .tab-button {
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            @apply bg-botnar-blue-500 text-white;
+        }
+        .tab-button:not(.active) {
+            @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+        }
+        
+        /* Copy button styling */
+        .copy-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .copy-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Accessibility indicators */
+        .a11y-pass { @apply text-green-600 bg-green-50; }
+        .a11y-warn { @apply text-yellow-600 bg-yellow-50; }
+        .a11y-fail { @apply text-red-600 bg-red-50; }
+        
+        /* Dark mode adjustments */
+        .dark .responsive-container {
+            background: #1f2937;
+            border-color: #374151;
+        }
+        
+        .dark pre[class*="language-"] {
+            background: #0f172a !important;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="showcaseApp()">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Brand and Navigation -->
+                    <div class="flex items-center space-x-8">
+                        <!-- Botnar Logo -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">fondation</span>
+                            <span class="text-lg text-botnar-pink-500 font-bold uppercase tracking-wide">BOTNAR</span>
+                        </div>
+                        
+                        <!-- Main Navigation -->
+                        <nav class="hidden md:flex space-x-6">
+                            <a href="../index.html" class="text-gray-700 dark:text-gray-300 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400 text-sm font-medium">
+                                Overview
+                            </a>
+                            <a href="../atoms/index.html" class="text-gray-700 dark:text-gray-300 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400 text-sm font-medium">
+                                Atoms
+                            </a>
+                            <a href="../molecules/index.html" class="text-gray-700 dark:text-gray-300 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400 text-sm font-medium">
+                                Molecules
+                            </a>
+                            <a href="../organisms/index.html" class="text-gray-700 dark:text-gray-300 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400 text-sm font-medium">
+                                Organisms
+                            </a>
+                            <a href="../templates/index.html" class="text-gray-700 dark:text-gray-300 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400 text-sm font-medium">
+                                Templates
+                            </a>
+                            <a href="../pages/index.html" class="text-gray-700 dark:text-gray-300 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400 text-sm font-medium">
+                                Pages
+                            </a>
+                        </nav>
+                    </div>
+                    
+                    <!-- Header Actions -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Theme Toggle -->
+                        <button @click="toggleTheme()" 
+                                class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                            <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                            <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Mobile Menu Button -->
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" 
+                                class="md:hidden p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu -->
+                <div x-show="mobileMenuOpen" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 transform -translate-y-2"
+                     x-transition:enter-end="opacity-100 transform translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 transform translate-y-0"
+                     x-transition:leave-end="opacity-0 transform -translate-y-2"
+                     class="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
+                    <nav class="space-y-2">
+                        <a href="../index.html" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Overview</a>
+                        <a href="../atoms/index.html" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Atoms</a>
+                        <a href="../molecules/index.html" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Molecules</a>
+                        <a href="../organisms/index.html" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Organisms</a>
+                        <a href="../templates/index.html" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Templates</a>
+                        <a href="../pages/index.html" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Pages</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Breadcrumb Navigation -->
+        <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700" aria-label="Breadcrumb">
+            <div class="max-w-7xl mx-auto px-6 py-3">
+                <ol class="flex items-center space-x-2 text-sm">
+                    <li>
+                        <a href="../index.html" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                            Design System
+                        </a>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-4 h-4 text-gray-400 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <a href="{{component.categoryUrl}}" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                            {{component.category}}
+                        </a>
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-4 h-4 text-gray-400 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-gray-900 dark:text-gray-100 font-medium">{{component.name}}</span>
+                    </li>
+                </ol>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Component Header -->
+            <div class="mb-8">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{{component.title}}</h1>
+                        <p class="text-lg text-gray-600 dark:text-gray-400 mb-4">{{component.description}}</p>
+                        
+                        <!-- Component Meta -->
+                        <div class="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-1">
+                                <span class="font-medium">Status:</span>
+                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs font-medium">
+                                    {{component.status}}
+                                </span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <span class="font-medium">Version:</span>
+                                <span>{{component.version}}</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <span class="font-medium">Last Updated:</span>
+                                <span>{{component.lastUpdated}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Component Actions -->
+                    <div class="flex items-center space-x-3">
+                        <button @click="copyComponentUrl()" 
+                                class="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                            📋 Copy URL
+                        </button>
+                        <button @click="reportIssue()" 
+                                class="px-3 py-2 text-sm bg-botnar-pink-100 dark:bg-botnar-pink-900 text-botnar-pink-700 dark:text-botnar-pink-300 rounded-md hover:bg-botnar-pink-200 dark:hover:bg-botnar-pink-800 transition-colors">
+                            🐛 Report Issue
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="mb-6">
+                <div class="border-b border-gray-200 dark:border-gray-700">
+                    <nav class="-mb-px flex space-x-8">
+                        <button @click="activeTab = 'preview'" 
+                                :class="activeTab === 'preview' ? 'border-botnar-blue-500 text-botnar-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                                class="py-2 px-1 border-b-2 font-medium text-sm transition-colors">
+                            Preview
+                        </button>
+                        <button @click="activeTab = 'code'" 
+                                :class="activeTab === 'code' ? 'border-botnar-blue-500 text-botnar-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                                class="py-2 px-1 border-b-2 font-medium text-sm transition-colors">
+                            Code
+                        </button>
+                        <button @click="activeTab = 'accessibility'" 
+                                :class="activeTab === 'accessibility' ? 'border-botnar-blue-500 text-botnar-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                                class="py-2 px-1 border-b-2 font-medium text-sm transition-colors">
+                            Accessibility
+                        </button>
+                        <button @click="activeTab = 'usage'" 
+                                :class="activeTab === 'usage' ? 'border-botnar-blue-500 text-botnar-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                                class="py-2 px-1 border-b-2 font-medium text-sm transition-colors">
+                            Usage
+                        </button>
+                        <button @click="activeTab = 'design'" 
+                                :class="activeTab === 'design' ? 'border-botnar-blue-500 text-botnar-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                                class="py-2 px-1 border-b-2 font-medium text-sm transition-colors">
+                            Design Specs
+                        </button>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="tab-content">
+                
+                <!-- Preview Tab -->
+                <div x-show="activeTab === 'preview'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                    
+                    <!-- Viewport Controls -->
+                    <div class="mb-6 flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Viewport:</span>
+                            <div class="flex space-x-2">
+                                <button @click="viewport = 'mobile'" 
+                                        :class="viewport === 'mobile' ? 'bg-botnar-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                        class="px-3 py-1.5 text-xs rounded-md transition-colors">
+                                    📱 Mobile
+                                </button>
+                                <button @click="viewport = 'tablet'" 
+                                        :class="viewport === 'tablet' ? 'bg-botnar-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                        class="px-3 py-1.5 text-xs rounded-md transition-colors">
+                                    📄 Tablet
+                                </button>
+                                <button @click="viewport = 'desktop'" 
+                                        :class="viewport === 'desktop' ? 'bg-botnar-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                        class="px-3 py-1.5 text-xs rounded-md transition-colors">
+                                    🖥️ Desktop
+                                </button>
+                                <button @click="viewport = 'full'" 
+                                        :class="viewport === 'full' ? 'bg-botnar-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                        class="px-3 py-1.5 text-xs rounded-md transition-colors">
+                                    📐 Full
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm text-gray-500 dark:text-gray-400" x-text="getViewportDimensions()"></span>
+                            <button @click="togglePreviewTheme()" 
+                                    class="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                <span x-text="previewTheme === 'light' ? '🌙' : '☀️'"></span>
+                                <span x-text="previewTheme === 'light' ? 'Dark' : 'Light'"></span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Component Preview -->
+                    <div class="mb-6">
+                        <div class="responsive-container mx-auto" :class="'viewport-' + viewport">
+                            <div class="p-8 min-h-64" :class="previewTheme === 'dark' ? 'dark bg-gray-900' : 'bg-white'">
+                                
+                                <!-- COMPONENT PREVIEW CONTENT GOES HERE -->
+                                <div id="component-preview">
+                                    {{component.preview}}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Variations -->
+                    <div x-show="hasVariations">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Variations</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <template x-for="variation in variations" :key="variation.name">
+                                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                    <div class="p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                        <h4 class="font-medium text-gray-900 dark:text-gray-100" x-text="variation.name"></h4>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400" x-text="variation.description"></p>
+                                    </div>
+                                    <div class="p-4 bg-white dark:bg-gray-900" x-html="variation.preview"></div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Code Tab -->
+                <div x-show="activeTab === 'code'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                    
+                    <div class="space-y-6">
+                        <!-- HTML -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">HTML</h3>
+                                <button @click="copyCode('html')" 
+                                        class="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <pre class="language-html"><code id="html-code">{{component.code.html}}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <!-- CSS (if needed) -->
+                        <div x-show="component.code.css">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">CSS</h3>
+                                <button @click="copyCode('css')" 
+                                        class="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <pre class="language-css"><code id="css-code">{{component.code.css}}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <!-- JavaScript (if needed) -->
+                        <div x-show="component.code.js">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">JavaScript</h3>
+                                <button @click="copyCode('js')" 
+                                        class="px-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <pre class="language-javascript"><code id="js-code">{{component.code.js}}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Accessibility Tab -->
+                <div x-show="activeTab === 'accessibility'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                    
+                    <div class="space-y-6">
+                        <!-- Accessibility Summary -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Accessibility Summary</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-green-600">{{component.accessibility.score}}</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">Overall Score</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">WCAG {{component.accessibility.wcagLevel}}</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">Compliance Level</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-blue-600">{{component.accessibility.keyboardScore}}/10</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">Keyboard Navigation</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Accessibility Checklist -->
+                            <div class="space-y-3">
+                                <template x-for="check in component.accessibility.checklist" :key="check.name">
+                                    <div class="flex items-center space-x-3">
+                                        <span :class="check.status === 'pass' ? 'a11y-pass' : check.status === 'warn' ? 'a11y-warn' : 'a11y-fail'" 
+                                              class="px-2 py-1 rounded-full text-xs font-medium">
+                                            <span x-text="check.status === 'pass' ? '✅' : check.status === 'warn' ? '⚠️' : '❌'"></span>
+                                            <span x-text="check.status.toUpperCase()"></span>
+                                        </span>
+                                        <span class="text-sm text-gray-900 dark:text-gray-100" x-text="check.name"></span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400" x-text="check.description"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        
+                        <!-- Keyboard Navigation -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Keyboard Navigation</h3>
+                            <div class="space-y-2 text-sm">
+                                <template x-for="key in component.accessibility.keyboardShortcuts" :key="key.combination">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <kbd class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded text-xs font-mono" x-text="key.combination"></kbd>
+                                        </div>
+                                        <span class="text-gray-600 dark:text-gray-400" x-text="key.description"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        
+                        <!-- Screen Reader Support -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Screen Reader Support</h3>
+                            <div class="space-y-3 text-sm">
+                                <template x-for="feature in component.accessibility.screenReader" :key="feature.name">
+                                    <div class="flex items-start space-x-3">
+                                        <span class="text-green-500 mt-0.5">✓</span>
+                                        <div>
+                                            <div class="font-medium text-gray-900 dark:text-gray-100" x-text="feature.name"></div>
+                                            <div class="text-gray-600 dark:text-gray-400" x-text="feature.description"></div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Usage Tab -->
+                <div x-show="activeTab === 'usage'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                    
+                    <div class="space-y-6">
+                        <!-- Installation -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Installation</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Dependencies</h4>
+                                    <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                                        <template x-for="dep in component.usage.dependencies" :key="dep">
+                                            <li x-text="dep"></li>
+                                        </template>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Import</h4>
+                                    <pre class="language-javascript"><code x-text="component.usage.import"></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Props/API -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Props & Configuration</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <th class="text-left py-2 font-medium text-gray-900 dark:text-gray-100">Prop</th>
+                                            <th class="text-left py-2 font-medium text-gray-900 dark:text-gray-100">Type</th>
+                                            <th class="text-left py-2 font-medium text-gray-900 dark:text-gray-100">Default</th>
+                                            <th class="text-left py-2 font-medium text-gray-900 dark:text-gray-100">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="prop in component.usage.props" :key="prop.name">
+                                            <tr class="border-b border-gray-100 dark:border-gray-700">
+                                                <td class="py-2 font-mono text-botnar-blue-600 dark:text-botnar-blue-400" x-text="prop.name"></td>
+                                                <td class="py-2 text-gray-600 dark:text-gray-400" x-text="prop.type"></td>
+                                                <td class="py-2 font-mono text-sm text-gray-500 dark:text-gray-500" x-text="prop.default"></td>
+                                                <td class="py-2 text-gray-600 dark:text-gray-400" x-text="prop.description"></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Examples -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Examples</h3>
+                            <div class="space-y-6">
+                                <template x-for="example in component.usage.examples" :key="example.name">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2" x-text="example.name"></h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3" x-text="example.description"></p>
+                                        <pre class="language-html"><code x-text="example.code"></code></pre>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        
+                        <!-- Best Practices -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Best Practices</h3>
+                            <div class="space-y-3">
+                                <template x-for="practice in component.usage.bestPractices" :key="practice.title">
+                                    <div class="flex items-start space-x-3">
+                                        <span :class="practice.type === 'do' ? 'text-green-500' : 'text-red-500'" 
+                                              class="mt-0.5" x-text="practice.type === 'do' ? '✓' : '✗'"></span>
+                                        <div>
+                                            <div class="font-medium text-gray-900 dark:text-gray-100" x-text="practice.title"></div>
+                                            <div class="text-sm text-gray-600 dark:text-gray-400" x-text="practice.description"></div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Design Specs Tab -->
+                <div x-show="activeTab === 'design'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                    
+                    <div class="space-y-6">
+                        <!-- Design Tokens -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Design Tokens</h3>
+                            
+                            <!-- Colors -->
+                            <div class="mb-6">
+                                <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-3">Colors</h4>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <template x-for="color in component.design.colors" :key="color.name">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 rounded-lg mx-auto mb-2 border border-gray-200 dark:border-gray-700" 
+                                                 :style="'background-color: ' + color.value"></div>
+                                            <div class="text-xs font-medium text-gray-900 dark:text-gray-100" x-text="color.name"></div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400" x-text="color.value"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            
+                            <!-- Typography -->
+                            <div class="mb-6">
+                                <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-3">Typography</h4>
+                                <div class="space-y-3">
+                                    <template x-for="type in component.design.typography" :key="type.name">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4">
+                                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="type.name"></span>
+                                                <span :style="'font-size: ' + type.size + '; font-weight: ' + type.weight + '; line-height: ' + type.lineHeight" 
+                                                      class="text-gray-700 dark:text-gray-300">Aa</span>
+                                            </div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                                <span x-text="type.size"></span> / <span x-text="type.weight"></span> / <span x-text="type.lineHeight"></span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            
+                            <!-- Spacing -->
+                            <div>
+                                <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-3">Spacing</h4>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <template x-for="space in component.design.spacing" :key="space.name">
+                                        <div class="text-center">
+                                            <div class="bg-botnar-blue-100 dark:bg-botnar-blue-900 mx-auto mb-2" 
+                                                 :style="'width: ' + space.value + '; height: 16px'"></div>
+                                            <div class="text-xs font-medium text-gray-900 dark:text-gray-100" x-text="space.name"></div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400" x-text="space.value"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Figma Link -->
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Design Resources</h3>
+                            <div class="space-y-3">
+                                <a :href="component.design.figmaUrl" 
+                                   class="inline-flex items-center space-x-2 text-botnar-blue-600 dark:text-botnar-blue-400 hover:underline">
+                                    <span>🎨</span>
+                                    <span>View in Figma</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">
+                                    Design specifications, measurements, and assets available in Figma.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-gray-900 dark:bg-gray-950 text-white mt-16">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    
+                    <!-- Brand -->
+                    <div class="md:col-span-1">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <span class="text-sm text-gray-400 font-medium">fondation</span>
+                            <span class="text-lg text-botnar-pink-400 font-bold uppercase tracking-wide">BOTNAR</span>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">
+                            Design System for data visualization dashboard components, 
+                            following atomic design principles and accessibility best practices.
+                        </p>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-white mb-4">Components</h3>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="../atoms/index.html" class="hover:text-white transition-colors">Atoms</a></li>
+                            <li><a href="../molecules/index.html" class="hover:text-white transition-colors">Molecules</a></li>
+                            <li><a href="../organisms/index.html" class="hover:text-white transition-colors">Organisms</a></li>
+                            <li><a href="../templates/index.html" class="hover:text-white transition-colors">Templates</a></li>
+                            <li><a href="../pages/index.html" class="hover:text-white transition-colors">Pages</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Resources -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-white mb-4">Resources</h3>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="../documentation/getting-started.html" class="hover:text-white transition-colors">Getting Started</a></li>
+                            <li><a href="../documentation/design-tokens.html" class="hover:text-white transition-colors">Design Tokens</a></li>
+                            <li><a href="../documentation/accessibility.html" class="hover:text-white transition-colors">Accessibility</a></li>
+                            <li><a href="../documentation/contributing.html" class="hover:text-white transition-colors">Contributing</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Contact -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-white mb-4">Support</h3>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="mailto:design-system@fondationbotnar.org" class="hover:text-white transition-colors">Contact Us</a></li>
+                            <li><a href="#" @click="reportIssue()" class="hover:text-white transition-colors">Report Issue</a></li>
+                            <li><a href="../changelog.html" class="hover:text-white transition-colors">Changelog</a></li>
+                            <li><a href="../license.html" class="hover:text-white transition-colors">License</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+                
+                <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-sm text-gray-400">
+                        © 2025 Fondation Botnar. Design System by 
+                        <a href="https://festa.design" class="text-botnar-pink-400 hover:text-botnar-pink-300 transition-colors">Festa Design Studio</a>.
+                    </div>
+                    <div class="text-sm text-gray-400 mt-4 md:mt-0">
+                        Version {{designSystem.version}} • Last updated {{designSystem.lastUpdated}}
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+    </div>
+
+    <script>
+        function showcaseApp() {
+            return {
+                // App state
+                theme: 'light',
+                mobileMenuOpen: false,
+                activeTab: 'preview',
+                viewport: 'desktop',
+                previewTheme: 'light',
+                
+                // Component data placeholder - will be replaced by template variables
+                component: {
+                    title: '{{component.title}}',
+                    description: '{{component.description}}',
+                    name: '{{component.name}}',
+                    category: '{{component.category}}',
+                    categoryUrl: '{{component.categoryUrl}}',
+                    status: '{{component.status}}',
+                    version: '{{component.version}}',
+                    lastUpdated: '{{component.lastUpdated}}',
+                    preview: '{{component.preview}}',
+                    code: {
+                        html: '{{component.code.html}}',
+                        css: '{{component.code.css}}',
+                        js: '{{component.code.js}}'
+                    },
+                    accessibility: {
+                        score: '{{component.accessibility.score}}',
+                        wcagLevel: '{{component.accessibility.wcagLevel}}',
+                        keyboardScore: '{{component.accessibility.keyboardScore}}',
+                        checklist: [],
+                        keyboardShortcuts: [],
+                        screenReader: []
+                    },
+                    usage: {
+                        dependencies: [],
+                        import: '{{component.usage.import}}',
+                        props: [],
+                        examples: [],
+                        bestPractices: []
+                    },
+                    design: {
+                        colors: [],
+                        typography: [],
+                        spacing: [],
+                        figmaUrl: '{{component.design.figmaUrl}}'
+                    }
+                },
+                
+                // Variations
+                variations: [],
+                hasVariations: false,
+                
+                // Design system info
+                designSystem: {
+                    version: '1.0.0',
+                    lastUpdated: new Date().toLocaleDateString()
+                },
+                
+                init() {
+                    // Initialize theme from localStorage
+                    const savedTheme = localStorage.getItem('botnar-theme') || 'light';
+                    this.setTheme(savedTheme);
+                    
+                    // Initialize syntax highlighting
+                    this.$nextTick(() => {
+                        if (window.Prism) {
+                            Prism.highlightAll();
+                        }
+                    });
+                    
+                    // Close mobile menu when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!e.target.closest('header') && this.mobileMenuOpen) {
+                            this.mobileMenuOpen = false;
+                        }
+                    });
+                },
+                
+                // Theme management
+                toggleTheme() {
+                    this.setTheme(this.theme === 'light' ? 'dark' : 'light');
+                },
+                
+                setTheme(theme) {
+                    this.theme = theme;
+                    localStorage.setItem('botnar-theme', theme);
+                    
+                    if (theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                togglePreviewTheme() {
+                    this.previewTheme = this.previewTheme === 'light' ? 'dark' : 'light';
+                },
+                
+                // Viewport management
+                getViewportDimensions() {
+                    const dimensions = {
+                        mobile: '375px',
+                        tablet: '768px', 
+                        desktop: '1200px',
+                        full: '100%'
+                    };
+                    return dimensions[this.viewport] || '100%';
+                },
+                
+                // Code management
+                copyCode(type) {
+                    const codeElement = document.getElementById(`${type}-code`);
+                    if (codeElement) {
+                        const code = codeElement.textContent;
+                        navigator.clipboard.writeText(code).then(() => {
+                            this.showNotification('Code copied to clipboard!', 'success');
+                        }).catch(() => {
+                            this.showNotification('Failed to copy code', 'error');
+                        });
+                    }
+                },
+                
+                // Utility functions
+                copyComponentUrl() {
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        this.showNotification('URL copied to clipboard!', 'success');
+                    }).catch(() => {
+                        this.showNotification('Failed to copy URL', 'error');
+                    });
+                },
+                
+                reportIssue() {
+                    const subject = encodeURIComponent(`Issue with ${this.component.name} component`);
+                    const body = encodeURIComponent(`Component: ${this.component.name}
+URL: ${window.location.href}
+
+Issue description:
+[Please describe the issue you encountered]`);
+                    
+                    window.open(`mailto:design-system@fondationbotnar.org?subject=${subject}&body=${body}`);
+                },
+                
+                showNotification(message, type = 'info') {
+                    // Simple notification system
+                    const notification = document.createElement('div');
+                    notification.className = `fixed top-4 right-4 px-4 py-2 rounded-md text-white z-50 ${
+                        type === 'success' ? 'bg-green-500' : 
+                        type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+                    }`;
+                    notification.textContent = message;
+                    
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

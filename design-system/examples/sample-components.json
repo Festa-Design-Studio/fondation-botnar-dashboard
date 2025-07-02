@@ -1,0 +1,393 @@
+{
+  "components": [
+    {
+      "name": "Primary Button",
+      "title": "Primary Button",
+      "description": "The primary call-to-action button used for main actions throughout the dashboard.",
+      "category": "Atoms",
+      "categoryUrl": "../atoms/index.html",
+      "status": "Stable",
+      "version": "1.0.0",
+      "lastUpdated": "2025-01-02",
+      "preview": "<button class=\"px-4 py-2 bg-botnar-pink-500 text-white rounded-md hover:bg-botnar-pink-600 focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 transition-colors\">Primary Button</button>",
+      "code": {
+        "html": "<button class=\"btn btn-primary\">\n  Primary Button\n</button>",
+        "css": ".btn {\n  @apply px-4 py-2 rounded-md font-medium transition-colors;\n  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;\n}\n\n.btn-primary {\n  @apply bg-botnar-pink-500 text-white;\n  @apply hover:bg-botnar-pink-600;\n  @apply focus:ring-botnar-pink-500;\n}",
+        "js": ""
+      },
+      "accessibility": {
+        "score": "98",
+        "wcagLevel": "AA",
+        "keyboardScore": "10",
+        "checklist": [
+          {
+            "name": "Color Contrast",
+            "status": "pass",
+            "description": "4.5:1 contrast ratio maintained"
+          },
+          {
+            "name": "Keyboard Navigation",
+            "status": "pass",
+            "description": "Focusable and activatable with keyboard"
+          },
+          {
+            "name": "Screen Reader Support",
+            "status": "pass",
+            "description": "Properly labeled and announced"
+          },
+          {
+            "name": "Touch Target Size",
+            "status": "pass",
+            "description": "Minimum 44px touch target"
+          }
+        ],
+        "keyboardShortcuts": [
+          {
+            "combination": "Tab",
+            "description": "Focus the button"
+          },
+          {
+            "combination": "Enter / Space",
+            "description": "Activate the button"
+          }
+        ],
+        "screenReader": [
+          {
+            "name": "Role Recognition",
+            "description": "Announced as 'button' by screen readers"
+          },
+          {
+            "name": "State Changes",
+            "description": "Focus and disabled states properly announced"
+          }
+        ]
+      },
+      "usage": {
+        "dependencies": [
+          "Tailwind CSS",
+          "Botnar Design Tokens"
+        ],
+        "import": "import Button from '@botnar/components/Button';",
+        "props": [
+          {
+            "name": "variant",
+            "type": "string",
+            "default": "primary",
+            "description": "Button style variant (primary, secondary, ghost)"
+          },
+          {
+            "name": "size",
+            "type": "string", 
+            "default": "md",
+            "description": "Button size (sm, md, lg)"
+          },
+          {
+            "name": "disabled",
+            "type": "boolean",
+            "default": "false",
+            "description": "Disable the button"
+          },
+          {
+            "name": "loading",
+            "type": "boolean",
+            "default": "false",
+            "description": "Show loading spinner"
+          }
+        ],
+        "examples": [
+          {
+            "name": "Basic Usage",
+            "description": "Standard primary button implementation",
+            "code": "<button class=\"btn btn-primary\">\n  Save Changes\n</button>"
+          },
+          {
+            "name": "With Icon",
+            "description": "Button with icon for better visual hierarchy",
+            "code": "<button class=\"btn btn-primary\">\n  <svg class=\"w-4 h-4 mr-2\">...</svg>\n  Download Report\n</button>"
+          },
+          {
+            "name": "Loading State",
+            "description": "Button showing loading state",
+            "code": "<button class=\"btn btn-primary\" disabled>\n  <svg class=\"w-4 h-4 mr-2 animate-spin\">...</svg>\n  Processing...\n</button>"
+          }
+        ],
+        "bestPractices": [
+          {
+            "type": "do",
+            "title": "Use for primary actions",
+            "description": "Reserve primary buttons for the main action on a page or section"
+          },
+          {
+            "type": "do", 
+            "title": "Keep text concise",
+            "description": "Use clear, action-oriented text that describes what will happen"
+          },
+          {
+            "type": "dont",
+            "title": "Don't use multiple primary buttons",
+            "description": "Only one primary button should be visible in a given context"
+          },
+          {
+            "type": "dont",
+            "title": "Don't disable without explanation",
+            "description": "Always provide context when a button is disabled"
+          }
+        ]
+      },
+      "design": {
+        "colors": [
+          {
+            "name": "Background",
+            "value": "#e91e63"
+          },
+          {
+            "name": "Hover",
+            "value": "#d81b60"
+          },
+          {
+            "name": "Text",
+            "value": "#ffffff"
+          }
+        ],
+        "typography": [
+          {
+            "name": "Button Text",
+            "size": "14px",
+            "weight": "500",
+            "lineHeight": "1.25"
+          }
+        ],
+        "spacing": [
+          {
+            "name": "Padding X",
+            "value": "16px"
+          },
+          {
+            "name": "Padding Y",
+            "value": "8px"
+          },
+          {
+            "name": "Border Radius",
+            "value": "6px"
+          }
+        ],
+        "figmaUrl": "https://figma.com/design/botnar-button"
+      },
+      "variations": [
+        {
+          "name": "Secondary",
+          "description": "Secondary button variant",
+          "preview": "<button class=\"px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors\">Secondary</button>"
+        },
+        {
+          "name": "Ghost",
+          "description": "Ghost/outline button variant", 
+          "preview": "<button class=\"px-4 py-2 border border-botnar-pink-500 text-botnar-pink-500 rounded-md hover:bg-botnar-pink-50 focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 transition-colors\">Ghost</button>"
+        }
+      ]
+    },
+    {
+      "name": "Data Card",
+      "title": "Data Card",
+      "description": "A versatile card component for displaying key metrics and data points in the dashboard.",
+      "category": "Molecules", 
+      "categoryUrl": "../molecules/index.html",
+      "status": "Stable",
+      "version": "1.2.0",
+      "lastUpdated": "2025-01-02",
+      "preview": "<div class=\"bg-white rounded-lg border border-gray-200 p-6 shadow-sm\"><div class=\"flex items-center justify-between mb-2\"><h3 class=\"text-sm font-medium text-gray-600\">Total Grants</h3><svg class=\"w-5 h-5 text-green-500\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\" clip-rule=\"evenodd\"></path></svg></div><div class=\"text-2xl font-bold text-gray-900 mb-1\">247</div><div class=\"text-sm text-green-600\">+12% from last month</div></div>",
+      "code": {
+        "html": "<div class=\"data-card\">\n  <div class=\"data-card-header\">\n    <h3 class=\"data-card-title\">Total Grants</h3>\n    <div class=\"data-card-icon\">\n      <svg class=\"w-5 h-5 text-green-500\" fill=\"currentColor\" viewBox=\"0 0 20 20\">\n        <!-- Icon SVG -->\n      </svg>\n    </div>\n  </div>\n  <div class=\"data-card-value\">247</div>\n  <div class=\"data-card-change positive\">+12% from last month</div>\n</div>",
+        "css": ".data-card {\n  @apply bg-white rounded-lg border border-gray-200 p-6 shadow-sm;\n}\n\n.data-card-header {\n  @apply flex items-center justify-between mb-2;\n}\n\n.data-card-title {\n  @apply text-sm font-medium text-gray-600;\n}\n\n.data-card-value {\n  @apply text-2xl font-bold text-gray-900 mb-1;\n}\n\n.data-card-change {\n  @apply text-sm;\n}\n\n.data-card-change.positive {\n  @apply text-green-600;\n}\n\n.data-card-change.negative {\n  @apply text-red-600;\n}",
+        "js": "// Alpine.js component\nfunction dataCard() {\n  return {\n    value: 0,\n    change: 0,\n    isPositive: true,\n    \n    init() {\n      this.isPositive = this.change >= 0;\n    },\n    \n    formatValue(value) {\n      return new Intl.NumberFormat().format(value);\n    },\n    \n    formatChange(change) {\n      const sign = change >= 0 ? '+' : '';\n      return `${sign}${change}%`;\n    }\n  }\n}"
+      },
+      "accessibility": {
+        "score": "95",
+        "wcagLevel": "AA",
+        "keyboardScore": "8",
+        "checklist": [
+          {
+            "name": "Color Contrast",
+            "status": "pass",
+            "description": "All text meets 4.5:1 contrast ratio"
+          },
+          {
+            "name": "Semantic Structure",
+            "status": "pass", 
+            "description": "Proper heading hierarchy and labels"
+          },
+          {
+            "name": "Color Independence",
+            "status": "pass",
+            "description": "Information not conveyed by color alone"
+          },
+          {
+            "name": "Focus Management",
+            "status": "warn",
+            "description": "Consider adding interactive elements for keyboard users"
+          }
+        ],
+        "keyboardShortcuts": [],
+        "screenReader": [
+          {
+            "name": "Content Structure",
+            "description": "Card content properly structured for screen readers"
+          },
+          {
+            "name": "Data Relationships",
+            "description": "Clear relationship between title, value, and change"
+          }
+        ]
+      },
+      "usage": {
+        "dependencies": [
+          "Tailwind CSS",
+          "Alpine.js (optional)",
+          "Botnar Design Tokens"
+        ],
+        "import": "import DataCard from '@botnar/components/DataCard';",
+        "props": [
+          {
+            "name": "title",
+            "type": "string",
+            "default": "",
+            "description": "Card title/label"
+          },
+          {
+            "name": "value",
+            "type": "number|string",
+            "default": "0",
+            "description": "Main data value to display"
+          },
+          {
+            "name": "change",
+            "type": "number",
+            "default": "0", 
+            "description": "Percentage change value"
+          },
+          {
+            "name": "icon",
+            "type": "string",
+            "default": "",
+            "description": "Icon component or SVG"
+          },
+          {
+            "name": "trend",
+            "type": "string",
+            "default": "neutral",
+            "description": "Trend direction (positive, negative, neutral)"
+          }
+        ],
+        "examples": [
+          {
+            "name": "Basic Metric Card",
+            "description": "Simple metric display without trend",
+            "code": "<div class=\"data-card\">\n  <h3 class=\"data-card-title\">Active Users</h3>\n  <div class=\"data-card-value\">1,247</div>\n</div>"
+          },
+          {
+            "name": "With Trend Indicator",
+            "description": "Card showing positive/negative trend",
+            "code": "<div class=\"data-card\">\n  <div class=\"data-card-header\">\n    <h3 class=\"data-card-title\">Revenue</h3>\n    <div class=\"data-card-icon trend-up\">↗</div>\n  </div>\n  <div class=\"data-card-value\">$24,580</div>\n  <div class=\"data-card-change positive\">+8.2% from last week</div>\n</div>"
+          }
+        ],
+        "bestPractices": [
+          {
+            "type": "do",
+            "title": "Use consistent formatting",
+            "description": "Format numbers and percentages consistently across all cards"
+          },
+          {
+            "type": "do",
+            "title": "Provide context",
+            "description": "Include comparison periods or benchmarks when showing changes"
+          },
+          {
+            "type": "dont",
+            "title": "Don't overload with data",
+            "description": "Keep each card focused on a single key metric"
+          },
+          {
+            "type": "dont",
+            "title": "Don't rely only on color",
+            "description": "Use icons and text to convey positive/negative trends"
+          }
+        ]
+      },
+      "design": {
+        "colors": [
+          {
+            "name": "Background", 
+            "value": "#ffffff"
+          },
+          {
+            "name": "Border",
+            "value": "#e5e7eb"
+          },
+          {
+            "name": "Title",
+            "value": "#6b7280"
+          },
+          {
+            "name": "Value",
+            "value": "#111827"
+          },
+          {
+            "name": "Positive",
+            "value": "#059669"
+          },
+          {
+            "name": "Negative", 
+            "value": "#dc2626"
+          }
+        ],
+        "typography": [
+          {
+            "name": "Title",
+            "size": "14px",
+            "weight": "500",
+            "lineHeight": "1.25"
+          },
+          {
+            "name": "Value",
+            "size": "24px",
+            "weight": "700",
+            "lineHeight": "1.2"
+          },
+          {
+            "name": "Change",
+            "size": "14px", 
+            "weight": "400",
+            "lineHeight": "1.25"
+          }
+        ],
+        "spacing": [
+          {
+            "name": "Padding",
+            "value": "24px"
+          },
+          {
+            "name": "Border Radius",
+            "value": "8px"
+          },
+          {
+            "name": "Title Margin",
+            "value": "8px"
+          }
+        ],
+        "figmaUrl": "https://figma.com/design/botnar-data-card"
+      },
+      "variations": [
+        {
+          "name": "Compact",
+          "description": "Smaller version for dense layouts",
+          "preview": "<div class=\"bg-white rounded-md border border-gray-200 p-4 shadow-sm\"><h3 class=\"text-xs font-medium text-gray-600 mb-1\">Orders</h3><div class=\"text-lg font-bold text-gray-900\">156</div></div>"
+        },
+        {
+          "name": "With Chart",
+          "description": "Card including a small trend chart",
+          "preview": "<div class=\"bg-white rounded-lg border border-gray-200 p-6 shadow-sm\"><h3 class=\"text-sm font-medium text-gray-600 mb-2\">Revenue Trend</h3><div class=\"text-2xl font-bold text-gray-900 mb-2\">$12,450</div><div class=\"h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded opacity-20\"></div></div>"
+        }
+      ]
+    }
+  ]
+}
