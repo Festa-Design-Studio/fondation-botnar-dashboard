@@ -1,0 +1,24 @@
+{
+  "name": "fondation-botnar-dashboard",
+  "version": "0.1.0",
+  "description": "Data Visualization Dashboard for Fondation Botnar's Strategic Learning and Evaluation Function",
+  "author": "Festa Design Studio",
+  "license": "PROPRIETARY",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Development server to be configured'",
+    "build": "echo 'Build process to be configured'",
+    "test": "echo 'Test runner to be configured'",
+    "lint": "echo 'Linter to be configured'"
+  },
+  "keywords": [
+    "dashboard",
+    "data-visualization",
+    "fondation-botnar",
+    "alpine-js",
+    "tailwind-css",
+    "chart-js"
+  ],
+  "devDependencies": {},
+  "dependencies": {}
+}
