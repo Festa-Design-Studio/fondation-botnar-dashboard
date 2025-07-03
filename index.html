@@ -50,24 +50,33 @@
 
     <!-- Hero Section -->
     <section class="hero-gradient text-white">
-        <div class="max-w-7xl mx-auto px-6 py-20">
-            <div class="text-center">
-                <div class="flex justify-center items-center mb-8">
-                    <img src="./design-system/assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-16 w-auto filter brightness-0 invert">
+        <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+            <div class="text-center py-12 sm:py-16 lg:py-20">
+                <!-- Logo with proper spacing -->
+                <div class="flex justify-center items-center mb-8 lg:mb-12">
+                    <img src="./design-system/assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-12 sm:h-16 lg:h-20 w-auto filter brightness-0 invert">
                 </div>
-                <h1 class="text-4xl md:text-6xl font-bold mb-6">Dashboard & Design System</h1>
-                <p class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto leading-relaxed">
+                
+                <!-- Heading with responsive spacing -->
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 lg:mb-8 leading-tight">
+                    Dashboard & Design System
+                </h1>
+                
+                <!-- Description with proper line height and spacing -->
+                <p class="text-lg sm:text-xl lg:text-2xl mb-8 lg:mb-12 max-w-4xl mx-auto leading-relaxed px-4">
                     A comprehensive design system and interactive dashboard for Fondation Botnar's 
                     Strategic Learning and Evaluation function. Built with accessibility, performance, 
                     and modern web standards in mind.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                
+                <!-- CTA buttons with proper touch targets -->
+                <div class="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center px-4">
                     <a href="./design-system/pages/auth/login.html" 
-                       class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
+                       class="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-gray-100 transition-colors min-h-[44px] flex items-center justify-center">
                         🚀 Try Live Dashboard Demo
                     </a>
                     <a href="./design-system/" 
-                       class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-colors">
+                       class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-white hover:text-blue-600 transition-colors min-h-[44px] flex items-center justify-center">
                         📚 Explore Design System
                     </a>
                 </div>
@@ -76,117 +85,127 @@
     </section>
 
     <!-- Main Content -->
-    <main id="main-content" class="max-w-7xl mx-auto px-6 py-16">
+    <main id="main-content" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         
         <!-- Project Overview -->
-        <section class="mb-20">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Project Overview</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <section class="py-12 lg:py-16">
+            <!-- Section Header with proper spacing -->
+            <div class="text-center mb-12 lg:mb-16">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 lg:mb-6">Project Overview</h2>
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
                     A complete implementation following atomic design principles with 63.9% completion status. 
                     Phases 1-6 complete with full dashboard functionality and authentication system.
                 </p>
             </div>
             
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <!-- Feature cards with responsive grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div class="text-center bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:p-8 card-hover">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">WCAG AA Compliant</h3>
-                    <p class="text-gray-600">Full accessibility compliance with keyboard navigation and screen reader support</p>
+                    <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-900">WCAG AA Compliant</h3>
+                    <p class="text-gray-600 leading-relaxed">Full accessibility compliance with keyboard navigation and screen reader support</p>
                 </div>
                 
-                <div class="text-center">
-                    <div class="bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="text-center bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:p-8 card-hover">
+                    <div class="bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Performance Optimized</h3>
-                    <p class="text-gray-600">Lightweight implementation with fast load times and optimized Chart.js integration</p>
+                    <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-900">Performance Optimized</h3>
+                    <p class="text-gray-600 leading-relaxed">Lightweight implementation with fast load times and optimized Chart.js integration</p>
                 </div>
                 
-                <div class="text-center">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="text-center bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:p-8 card-hover sm:col-span-2 lg:col-span-1">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Mobile Responsive</h3>
-                    <p class="text-gray-600">Optimized for desktop, tablet, and mobile devices with touch-friendly interactions</p>
+                    <h3 class="text-lg sm:text-xl font-semibold mb-3 text-gray-900">Mobile Responsive</h3>
+                    <p class="text-gray-600 leading-relaxed">Optimized for desktop, tablet, and mobile devices with touch-friendly interactions</p>
                 </div>
             </div>
         </section>
 
         <!-- Live Demos -->
-        <section class="mb-20">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Live Demonstrations</h2>
-                <p class="text-xl text-gray-600">Explore the complete dashboard and design system components</p>
+        <section class="py-12 lg:py-16">
+            <!-- Section Header -->
+            <div class="text-center mb-12 lg:mb-16">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 lg:mb-6">Live Demonstrations</h2>
+                <p class="text-lg sm:text-xl text-gray-600 leading-relaxed px-4">Explore the complete dashboard and design system components</p>
             </div>
             
-            <div class="grid md:grid-cols-2 gap-8">
+            <!-- Demo cards with proper spacing -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 <!-- Dashboard Demo -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden card-hover">
+                    <div class="p-6 lg:p-8">
+                        <!-- Card Header -->
+                        <div class="flex items-start mb-6">
+                            <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
                                 <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-semibold">Interactive Dashboard Demo</h3>
-                                <p class="text-gray-600">Full dashboard with authentication and 5 main pages</p>
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2 text-gray-900">Interactive Dashboard Demo</h3>
+                                <p class="text-gray-600 leading-relaxed">Full dashboard with authentication and 5 main pages</p>
                             </div>
                         </div>
                         
-                        <div class="mb-4">
-                            <h4 class="font-semibold mb-2">Demo Credentials:</h4>
-                            <div class="bg-gray-50 p-3 rounded text-sm">
+                        <!-- Demo credentials -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-3 text-gray-900">Demo Credentials:</h4>
+                            <div class="bg-gray-50 p-4 rounded-lg text-sm space-y-1">
                                 <p><strong>Demo User:</strong> demo@fondation-botnar.org / dashboard2025</p>
                                 <p><strong>Administrator:</strong> admin@fondation-botnar.org / admin123</p>
                                 <p><strong>Analyst:</strong> analyst@fondation-botnar.org / analyst123</p>
                             </div>
                         </div>
                         
+                        <!-- CTA Button -->
                         <a href="./design-system/pages/auth/login.html" 
-                           class="block w-full bg-blue-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                           class="block w-full bg-blue-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors min-h-[44px] flex items-center justify-center">
                             Launch Dashboard Demo →
                         </a>
                     </div>
                 </div>
                 
                 <!-- Design System -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="bg-pink-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden card-hover">
+                    <div class="p-6 lg:p-8">
+                        <!-- Card Header -->
+                        <div class="flex items-start mb-6">
+                            <div class="bg-pink-100 w-12 h-12 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
                                 <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
                                 </svg>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-semibold">Design System Showcase</h3>
-                                <p class="text-gray-600">Complete component library following atomic design</p>
+                            <div class="flex-1">
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2 text-gray-900">Design System Showcase</h3>
+                                <p class="text-gray-600 leading-relaxed">Complete component library following atomic design</p>
                             </div>
                         </div>
                         
-                        <div class="mb-4">
-                            <h4 class="font-semibold mb-2">Includes:</h4>
-                            <ul class="text-sm text-gray-600 space-y-1">
-                                <li>• Atoms: Colors, typography, buttons, icons, forms</li>
-                                <li>• Molecules: Cards, charts, navigation, filters</li>
-                                <li>• Organisms: Dashboards, tables, modals, wizards</li>
-                                <li>• Templates: Portfolio, grant performance, evaluation</li>
+                        <!-- Component list -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-3 text-gray-900">Includes:</h4>
+                            <ul class="text-sm text-gray-600 space-y-2 leading-relaxed">
+                                <li>• <strong>Atoms:</strong> Colors, typography, buttons, icons, forms</li>
+                                <li>• <strong>Molecules:</strong> Cards, charts, navigation, filters</li>
+                                <li>• <strong>Organisms:</strong> Dashboards, tables, modals, wizards</li>
+                                <li>• <strong>Templates:</strong> Portfolio, grant performance, evaluation</li>
                             </ul>
                         </div>
                         
+                        <!-- CTA Button -->
                         <a href="./design-system/" 
-                           class="block w-full bg-pink-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-pink-700 transition-colors">
+                           class="block w-full bg-pink-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-pink-700 transition-colors min-h-[44px] flex items-center justify-center">
                             Explore Design System →
                         </a>
                     </div>
@@ -195,25 +214,25 @@
         </section>
 
         <!-- Technical Details -->
-        <section class="mb-20">
-            <div class="bg-white rounded-lg shadow-lg p-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-6">Technical Implementation</h2>
+        <section class="py-12 lg:py-16">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:p-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 lg:mb-10">Technical Implementation</h2>
                 
-                <div class="grid md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                     <div>
-                        <h3 class="text-xl font-semibold mb-4">Technology Stack</h3>
-                        <ul class="space-y-2 text-gray-600">
-                            <li><strong>HTML5</strong> - Semantic markup with accessibility features</li>
-                            <li><strong>Tailwind CSS</strong> - Utility-first CSS with custom Botnar tokens</li>
-                            <li><strong>Alpine.js</strong> - Lightweight reactive framework</li>
-                            <li><strong>Chart.js v4.4.1</strong> - Data visualization with accessibility</li>
-                            <li><strong>PostCSS</strong> - CSS processing with autoprefixer</li>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-4 lg:mb-6 text-gray-900">Technology Stack</h3>
+                        <ul class="space-y-3 text-gray-600 leading-relaxed">
+                            <li><strong class="text-gray-900">HTML5</strong> - Semantic markup with accessibility features</li>
+                            <li><strong class="text-gray-900">Tailwind CSS</strong> - Utility-first CSS with custom Botnar tokens</li>
+                            <li><strong class="text-gray-900">Alpine.js</strong> - Lightweight reactive framework</li>
+                            <li><strong class="text-gray-900">Chart.js v4.4.1</strong> - Data visualization with accessibility</li>
+                            <li><strong class="text-gray-900">PostCSS</strong> - CSS processing with autoprefixer</li>
                         </ul>
                     </div>
                     
                     <div>
-                        <h3 class="text-xl font-semibold mb-4">Key Features</h3>
-                        <ul class="space-y-2 text-gray-600">
+                        <h3 class="text-lg sm:text-xl font-semibold mb-4 lg:mb-6 text-gray-900">Key Features</h3>
+                        <ul class="space-y-3 text-gray-600 leading-relaxed">
                             <li>✅ Complete atomic design system implementation</li>
                             <li>✅ Interactive data visualizations with Chart.js</li>
                             <li>✅ Enterprise authentication system</li>
@@ -227,25 +246,27 @@
         </section>
 
         <!-- Project Status -->
-        <section class="mb-20">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Project Status</h2>
-                <p class="text-xl text-gray-600">63.9% Complete - Phases 1-6 Implemented</p>
+        <section class="py-12 lg:py-16">
+            <!-- Section Header -->
+            <div class="text-center mb-12 lg:mb-16">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 lg:mb-6">Project Status</h2>
+                <p class="text-lg sm:text-xl text-gray-600 leading-relaxed px-4">63.9% Complete - Phases 1-6 Implemented</p>
             </div>
             
-            <div class="bg-white rounded-lg shadow-lg p-8">
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-green-600 mb-2">✅ Completed</div>
-                        <p class="text-gray-600">Phases 1-6: Foundation, Atoms, Molecules, Organisms, Templates, Pages</p>
+            <!-- Status cards -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:p-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <div class="text-center p-4 lg:p-6">
+                        <div class="text-xl sm:text-2xl font-bold text-green-600 mb-3">✅ Completed</div>
+                        <p class="text-gray-600 leading-relaxed">Phases 1-6: Foundation, Atoms, Molecules, Organisms, Templates, Pages</p>
                     </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-blue-600 mb-2">🔄 Next Phase</div>
-                        <p class="text-gray-600">Phase 7: Cross-browser testing, accessibility audit, performance testing</p>
+                    <div class="text-center p-4 lg:p-6">
+                        <div class="text-xl sm:text-2xl font-bold text-blue-600 mb-3">🔄 Next Phase</div>
+                        <p class="text-gray-600 leading-relaxed">Phase 7: Cross-browser testing, accessibility audit, performance testing</p>
                     </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-purple-600 mb-2">📋 Final Phase</div>
-                        <p class="text-gray-600">Phase 8: Production deployment and team training</p>
+                    <div class="text-center p-4 lg:p-6 sm:col-span-2 lg:col-span-1">
+                        <div class="text-xl sm:text-2xl font-bold text-purple-600 mb-3">📋 Final Phase</div>
+                        <p class="text-gray-600 leading-relaxed">Phase 8: Production deployment and team training</p>
                     </div>
                 </div>
             </div>
@@ -254,45 +275,52 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="md:col-span-2">
-                    <img src="./design-system/assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar" class="h-10 w-auto mb-4 filter brightness-0 invert">
-                    <p class="text-gray-400 mb-4">
-                        Design system and dashboard for Fondation Botnar's Strategic Learning and Evaluation function.
-                    </p>
-                    <p class="text-sm text-gray-500">
-                        Developed by Festa Design Studio • 2025
-                    </p>
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+            <div class="py-8 lg:py-12">
+                <!-- Footer content grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                    <!-- Brand section -->
+                    <div class="sm:col-span-2 lg:col-span-2">
+                        <img src="./design-system/assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar" class="h-8 sm:h-10 w-auto mb-4 lg:mb-6 filter brightness-0 invert">
+                        <p class="text-gray-400 mb-4 lg:mb-6 leading-relaxed text-sm sm:text-base">
+                            Design system and dashboard for Fondation Botnar's Strategic Learning and Evaluation function.
+                        </p>
+                        <p class="text-xs sm:text-sm text-gray-500">
+                            Developed by Festa Design Studio • 2025
+                        </p>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div>
+                        <h3 class="font-semibold mb-4 lg:mb-6 text-white">Quick Links</h3>
+                        <ul class="space-y-3 text-gray-400 text-sm">
+                            <li><a href="./design-system/pages/auth/login.html" class="hover:text-white transition-colors leading-relaxed">Dashboard Demo</a></li>
+                            <li><a href="./design-system/" class="hover:text-white transition-colors leading-relaxed">Design System</a></li>
+                            <li><a href="./README.md" class="hover:text-white transition-colors leading-relaxed">Documentation</a></li>
+                            <li><a href="https://github.com/Festa-Design-Studio/fondation-botnar-dashboard" class="hover:text-white transition-colors leading-relaxed">GitHub Repository</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Components -->
+                    <div>
+                        <h3 class="font-semibold mb-4 lg:mb-6 text-white">Components</h3>
+                        <ul class="space-y-3 text-gray-400 text-sm">
+                            <li><a href="./design-system/atoms/" class="hover:text-white transition-colors leading-relaxed">Atoms</a></li>
+                            <li><a href="./design-system/molecules/" class="hover:text-white transition-colors leading-relaxed">Molecules</a></li>
+                            <li><a href="./design-system/organisms/" class="hover:text-white transition-colors leading-relaxed">Organisms</a></li>
+                            <li><a href="./design-system/templates/" class="hover:text-white transition-colors leading-relaxed">Templates</a></li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <div>
-                    <h3 class="font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="./design-system/pages/auth/login.html" class="hover:text-white transition-colors">Dashboard Demo</a></li>
-                        <li><a href="./design-system/" class="hover:text-white transition-colors">Design System</a></li>
-                        <li><a href="./README.md" class="hover:text-white transition-colors">Documentation</a></li>
-                        <li><a href="https://github.com/Festa-Design-Studio/fondation-botnar-dashboard" class="hover:text-white transition-colors">GitHub Repository</a></li>
-                    </ul>
+                <!-- Footer bottom -->
+                <div class="border-t border-gray-800 mt-8 lg:mt-12 pt-6 lg:pt-8 text-center">
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                        © 2025 Fondation Botnar & Festa Design Studio. All rights reserved. 
+                        Built with accessibility, performance, and modern web standards.
+                    </p>
                 </div>
-                
-                <div>
-                    <h3 class="font-semibold mb-4">Components</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="./design-system/atoms/" class="hover:text-white transition-colors">Atoms</a></li>
-                        <li><a href="./design-system/molecules/" class="hover:text-white transition-colors">Molecules</a></li>
-                        <li><a href="./design-system/organisms/" class="hover:text-white transition-colors">Organisms</a></li>
-                        <li><a href="./design-system/templates/" class="hover:text-white transition-colors">Templates</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p class="text-gray-400">
-                    © 2025 Fondation Botnar & Festa Design Studio. All rights reserved. 
-                    Built with accessibility, performance, and modern web standards.
-                </p>
             </div>
         </div>
     </footer>
