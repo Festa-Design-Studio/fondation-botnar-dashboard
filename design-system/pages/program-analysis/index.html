@@ -967,6 +967,8 @@
                 theme: localStorage.getItem('theme') || 'light',
                 analysisType: 'performance',
                 timeRange: '3m',
+                programFilter: '',
+                regionFilter: '',
                 comparisonMetric: 'impact',
                 performanceMetrics: {
                     avgScore: 8.4,
@@ -1048,6 +1050,16 @@
                     this.refreshCharts();
                 },
                 
+                updateProgram() {
+                    this.showNotification(`Filtered by program: ${this.programFilter || 'All'}`);
+                    this.refreshCharts();
+                },
+                
+                updateRegion() {
+                    this.showNotification(`Filtered by region: ${this.regionFilter || 'All'}`);
+                    this.refreshCharts();
+                },
+                
                 refreshCharts() {
                     // Simulate chart data update
                     if (this.charts.programComparison) {
@@ -1065,6 +1077,15 @@
                     setTimeout(() => {
                         this.showNotification('Analysis report generated successfully!', 'success');
                     }, 2500);
+                },
+                
+                exportData() {
+                    this.showNotification('Exporting analysis data...', 'info');
+                    
+                    // Simulate data export
+                    setTimeout(() => {
+                        this.showNotification('Data exported successfully!', 'success');
+                    }, 1500);
                 },
                 
                 refreshInsights() {

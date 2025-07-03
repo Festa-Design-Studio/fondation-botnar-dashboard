@@ -1424,6 +1424,7 @@
           theme: localStorage.getItem("theme") || "light",
           selectedYear: "2025",
           currency: "EUR",
+          departmentFilter: "",
           chartPeriod: "monthly",
           allocationView: "amount",
           financialMetrics: {
@@ -1491,6 +1492,11 @@
           updateCurrency() {
             this.showNotification(`Currency changed to ${this.currency}`);
             // In a real app, this would recalculate all values
+          },
+          
+          updateDepartment() {
+            this.showNotification(`Filtered by department: ${this.departmentFilter || 'All'}`);
+            this.refreshCharts();
           },
 
           toggleAllocationView() {
