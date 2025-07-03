@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Wizards & Multi-step Flows - Organisms | Fondation Botnar Design System</title>
+    <meta name="description" content="Complex multi-step forms with validation, progress tracking, and conditional logic flows for comprehensive data collection and user onboarding">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="formWizardDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Breadcrumb Navigation -->
+                    <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+                        <a href="../../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Design System</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <a href="../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Organisms</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium">Form Wizards</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Form Wizards & Multi-step Flows</h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+                        Complex multi-step forms with validation, progress tracking, and conditional logic flows designed for comprehensive data collection and user onboarding in the Fondation Botnar dashboard ecosystem.
+                    </p>
+                    
+                    <!-- Component Status -->
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                            ✅ Production Ready
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                            🔧 Interactive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400">
+                            ♿ WCAG AA
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">
+                            📱 Responsive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">
+                            🔄 Multi-step
+                        </span>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button @click="showCode = !showCode" class="btn btn-primary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            <span x-text="showCode ? 'Hide Code' : 'View Code'"></span>
+                        </button>
+                        <button @click="resetWizard()" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Reset Wizard
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wizard Type Selector -->
+            <section class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Wizard Variants</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <template x-for="wizardType in wizardTypes" :key="wizardType.id">
+                        <button @click="selectWizardType(wizardType.id)" 
+                                class="p-4 rounded-lg border-2 text-left transition-all"
+                                :class="selectedWizardType === wizardType.id ? 
+                                    'border-botnar-pink-500 bg-botnar-pink-50 dark:bg-botnar-pink-900/20 dark:border-botnar-pink-400' : 
+                                    'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800'">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-3"
+                                     :class="wizardType.color">
+                                    <span x-html="wizardType.icon"></span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 dark:text-gray-100" x-text="wizardType.name"></h3>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400" x-text="wizardType.steps + ' steps'"></p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400" x-text="wizardType.description"></p>
+                        </button>
+                    </template>
+                </div>
+            </section>
+
+            <!-- Form Wizard Demo -->
+            <section class="mb-12">
+                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <!-- Wizard Header -->
+                    <div class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                <span x-text="getCurrentWizard().title"></span>
+                            </h3>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">
+                                Step <span x-text="currentStep"></span> of <span x-text="totalSteps"></span>
+                            </span>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="relative">
+                            <div class="flex items-center">
+                                <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-botnar-pink-500 h-2 rounded-full transition-all duration-300"
+                                         :style="`width: ${(currentStep / totalSteps) * 100}%`"></div>
+                                </div>
+                                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    <span x-text="Math.round((currentStep / totalSteps) * 100)"></span>%
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Step Navigation -->
+                        <div class="flex items-center justify-between mt-6">
+                            <template x-for="(step, index) in getWizardSteps()" :key="step.id">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all"
+                                             :class="getStepClasses(index + 1)">
+                                            <span x-show="(index + 1) < currentStep" class="text-white">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </span>
+                                            <span x-show="(index + 1) >= currentStep" class="text-sm font-medium" x-text="index + 1"></span>
+                                        </div>
+                                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                                            <span class="text-xs text-gray-600 dark:text-gray-400" x-text="step.title"></span>
+                                        </div>
+                                    </div>
+                                    <div x-show="index < getWizardSteps().length - 1" 
+                                         class="w-12 h-0.5 bg-gray-200 dark:bg-gray-700 mx-2"
+                                         :class="(index + 1) < currentStep ? 'bg-botnar-pink-500' : ''"></div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Wizard Content -->
+                    <div class="p-6">
+                        <!-- Step 1: Basic Information -->
+                        <div x-show="currentStep === 1" class="space-y-6">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Basic Information</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Let's start with some basic details about your program.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Program Name *</label>
+                                    <input x-model="formData.programName" 
+                                           type="text" 
+                                           class="form-input w-full"
+                                           placeholder="Enter program name"
+                                           :class="errors.programName ? 'border-red-500' : ''"
+                                           @blur="validateField('programName')">
+                                    <p x-show="errors.programName" class="mt-1 text-sm text-red-600" x-text="errors.programName"></p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Program Type *</label>
+                                    <select x-model="formData.programType" 
+                                            class="form-select w-full"
+                                            :class="errors.programType ? 'border-red-500' : ''"
+                                            @change="validateField('programType')">
+                                        <option value="">Select program type</option>
+                                        <option value="health">Health</option>
+                                        <option value="education">Education</option>
+                                        <option value="development">Development</option>
+                                        <option value="research">Research</option>
+                                    </select>
+                                    <p x-show="errors.programType" class="mt-1 text-sm text-red-600" x-text="errors.programType"></p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+                                <textarea x-model="formData.description" 
+                                          rows="4" 
+                                          class="form-textarea w-full"
+                                          placeholder="Describe your program objectives and approach"></textarea>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Start Date *</label>
+                                    <input x-model="formData.startDate" 
+                                           type="date" 
+                                           class="form-input w-full"
+                                           :class="errors.startDate ? 'border-red-500' : ''"
+                                           @change="validateField('startDate')">
+                                    <p x-show="errors.startDate" class="mt-1 text-sm text-red-600" x-text="errors.startDate"></p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">End Date</label>
+                                    <input x-model="formData.endDate" 
+                                           type="date" 
+                                           class="form-input w-full">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Geographic & Target -->
+                        <div x-show="currentStep === 2" class="space-y-6">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Geographic Scope & Target Audience</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Define where your program operates and who it serves.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Primary Region *</label>
+                                    <select x-model="formData.region" 
+                                            class="form-select w-full"
+                                            :class="errors.region ? 'border-red-500' : ''"
+                                            @change="validateField('region')">
+                                        <option value="">Select region</option>
+                                        <option value="africa">Africa</option>
+                                        <option value="asia">Asia</option>
+                                        <option value="europe">Europe</option>
+                                        <option value="latam">Latin America</option>
+                                        <option value="global">Global</option>
+                                    </select>
+                                    <p x-show="errors.region" class="mt-1 text-sm text-red-600" x-text="errors.region"></p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Countries</label>
+                                    <input x-model="formData.countries" 
+                                           type="text" 
+                                           class="form-input w-full"
+                                           placeholder="e.g., Kenya, Tanzania, Uganda">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Target Beneficiaries *</label>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <template x-for="beneficiary in beneficiaryTypes" :key="beneficiary.id">
+                                        <label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                                               :class="formData.targetBeneficiaries.includes(beneficiary.id) ? 'bg-botnar-pink-50 dark:bg-botnar-pink-900/20 border-botnar-pink-500' : ''">
+                                            <input type="checkbox" 
+                                                   :value="beneficiary.id"
+                                                   x-model="formData.targetBeneficiaries"
+                                                   class="form-checkbox text-botnar-pink-500 mr-3">
+                                            <div>
+                                                <div class="font-medium text-sm text-gray-900 dark:text-gray-100" x-text="beneficiary.name"></div>
+                                                <div class="text-xs text-gray-600 dark:text-gray-400" x-text="beneficiary.description"></div>
+                                            </div>
+                                        </label>
+                                    </template>
+                                </div>
+                                <p x-show="errors.targetBeneficiaries" class="mt-1 text-sm text-red-600" x-text="errors.targetBeneficiaries"></p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Expected Beneficiaries</label>
+                                    <input x-model="formData.expectedBeneficiaries" 
+                                           type="number" 
+                                           class="form-input w-full"
+                                           placeholder="Number of people">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Age Range</label>
+                                    <select x-model="formData.ageRange" class="form-select w-full">
+                                        <option value="">Select age range</option>
+                                        <option value="0-5">Early Childhood (0-5)</option>
+                                        <option value="6-12">School Age (6-12)</option>
+                                        <option value="13-17">Adolescent (13-17)</option>
+                                        <option value="18-25">Young Adult (18-25)</option>
+                                        <option value="26-64">Adult (26-64)</option>
+                                        <option value="65+">Senior (65+)</option>
+                                        <option value="all">All Ages</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Budget & Resources -->
+                        <div x-show="currentStep === 3" class="space-y-6">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Budget & Resources</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Provide details about funding and resource requirements.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Total Budget *</label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">€</span>
+                                        <input x-model="formData.totalBudget" 
+                                               type="number" 
+                                               class="form-input w-full pl-8"
+                                               placeholder="0.00"
+                                               :class="errors.totalBudget ? 'border-red-500' : ''"
+                                               @blur="validateField('totalBudget')">
+                                    </div>
+                                    <p x-show="errors.totalBudget" class="mt-1 text-sm text-red-600" x-text="errors.totalBudget"></p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Currency</label>
+                                    <select x-model="formData.currency" class="form-select w-full">
+                                        <option value="EUR">Euro (EUR)</option>
+                                        <option value="USD">US Dollar (USD)</option>
+                                        <option value="GBP">British Pound (GBP)</option>
+                                        <option value="CHF">Swiss Franc (CHF)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Budget Breakdown</label>
+                                <div class="space-y-4">
+                                    <template x-for="(category, index) in budgetCategories" :key="category.id">
+                                        <div class="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                            <div class="flex-1">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300" x-text="category.name"></label>
+                                                <p class="text-xs text-gray-600 dark:text-gray-400" x-text="category.description"></p>
+                                            </div>
+                                            <div class="w-32">
+                                                <div class="relative">
+                                                    <span class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">%</span>
+                                                    <input x-model="formData.budgetBreakdown[category.id]" 
+                                                           type="number" 
+                                                           class="form-input w-full pl-6 text-sm"
+                                                           placeholder="0"
+                                                           min="0" 
+                                                           max="100"
+                                                           @input="updateBudgetTotal()">
+                                                </div>
+                                            </div>
+                                            <div class="w-32 text-right">
+                                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                    €<span x-text="calculateCategoryAmount(category.id)"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="mt-4 p-4 bg-botnar-pink-50 dark:bg-botnar-pink-900/20 rounded-lg">
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-medium text-gray-900 dark:text-gray-100">Total Allocation:</span>
+                                        <span class="font-bold text-lg"
+                                              :class="budgetTotal === 100 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+                                            <span x-text="budgetTotal"></span>%
+                                        </span>
+                                    </div>
+                                    <p x-show="budgetTotal !== 100" class="text-sm text-red-600 dark:text-red-400 mt-1">
+                                        Budget allocation must equal 100%
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Funding Sources</label>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <template x-for="source in fundingSources" :key="source.id">
+                                        <label class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                                               :class="formData.fundingSources.includes(source.id) ? 'bg-botnar-pink-50 dark:bg-botnar-pink-900/20 border-botnar-pink-500' : ''">
+                                            <input type="checkbox" 
+                                                   :value="source.id"
+                                                   x-model="formData.fundingSources"
+                                                   class="form-checkbox text-botnar-pink-500 mr-3">
+                                            <span class="text-sm text-gray-900 dark:text-gray-100" x-text="source.name"></span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Implementation & Timeline -->
+                        <div x-show="currentStep === 4" class="space-y-6">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Implementation Plan & Timeline</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Outline your implementation approach and key milestones.</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Implementation Approach *</label>
+                                <div class="space-y-3">
+                                    <template x-for="approach in implementationApproaches" :key="approach.id">
+                                        <label class="flex items-start p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                                               :class="formData.implementationApproach === approach.id ? 'bg-botnar-pink-50 dark:bg-botnar-pink-900/20 border-botnar-pink-500' : ''">
+                                            <input type="radio" 
+                                                   :value="approach.id"
+                                                   x-model="formData.implementationApproach"
+                                                   class="form-radio text-botnar-pink-500 mt-1 mr-3">
+                                            <div>
+                                                <div class="font-medium text-sm text-gray-900 dark:text-gray-100" x-text="approach.name"></div>
+                                                <div class="text-xs text-gray-600 dark:text-gray-400" x-text="approach.description"></div>
+                                            </div>
+                                        </label>
+                                    </template>
+                                </div>
+                                <p x-show="errors.implementationApproach" class="mt-1 text-sm text-red-600" x-text="errors.implementationApproach"></p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Program Duration</label>
+                                    <select x-model="formData.duration" class="form-select w-full">
+                                        <option value="">Select duration</option>
+                                        <option value="6months">6 months</option>
+                                        <option value="1year">1 year</option>
+                                        <option value="2years">2 years</option>
+                                        <option value="3years">3 years</option>
+                                        <option value="5years">5 years</option>
+                                        <option value="ongoing">Ongoing</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Team Size</label>
+                                    <input x-model="formData.teamSize" 
+                                           type="number" 
+                                           class="form-input w-full"
+                                           placeholder="Number of team members">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Key Milestones</label>
+                                <div class="space-y-3">
+                                    <template x-for="(milestone, index) in formData.milestones" :key="index">
+                                        <div class="flex items-center space-x-3">
+                                            <input x-model="milestone.title" 
+                                                   type="text" 
+                                                   class="form-input flex-1"
+                                                   placeholder="Milestone description">
+                                            <input x-model="milestone.date" 
+                                                   type="date" 
+                                                   class="form-input w-40">
+                                            <button @click="removeMilestone(index)" 
+                                                    type="button"
+                                                    class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                                <button @click="addMilestone()" 
+                                        type="button"
+                                        class="mt-3 btn btn-secondary btn-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    Add Milestone
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Review & Submit -->
+                        <div x-show="currentStep === 5" class="space-y-6">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Review & Submit</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Please review all information before submitting your program proposal.</p>
+                            </div>
+                            
+                            <!-- Review Summary -->
+                            <div class="grid gap-6">
+                                <!-- Basic Information -->
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                                    <h5 class="font-semibold text-gray-900 dark:text-gray-100 mb-4">Basic Information</h5>
+                                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Program Name</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formData.programName || 'Not specified'"></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Program Type</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formData.programType || 'Not specified'"></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Start Date</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formData.startDate || 'Not specified'"></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">End Date</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formData.endDate || 'Not specified'"></dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                                
+                                <!-- Geographic & Target -->
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                                    <h5 class="font-semibold text-gray-900 dark:text-gray-100 mb-4">Geographic Scope & Target</h5>
+                                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Region</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formData.region || 'Not specified'"></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Expected Beneficiaries</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="(formData.expectedBeneficiaries || 'Not specified') + (formData.expectedBeneficiaries ? ' people' : '')"></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Target Beneficiaries</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="getTargetBeneficiariesText()"></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Age Range</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formData.ageRange || 'Not specified'"></dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                                
+                                <!-- Budget -->
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                                    <h5 class="font-semibold text-gray-900 dark:text-gray-100 mb-4">Budget & Resources</h5>
+                                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Total Budget</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formatBudget()"></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm text-gray-600 dark:text-gray-400">Funding Sources</dt>
+                                            <dd class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="getFundingSourcesText()"></dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+                            
+                            <!-- Terms and Conditions -->
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                                <label class="flex items-start">
+                                    <input x-model="formData.agreeToTerms" 
+                                           type="checkbox" 
+                                           class="form-checkbox text-botnar-pink-500 mt-1 mr-3">
+                                    <div class="text-sm">
+                                        <span class="text-gray-900 dark:text-gray-100">I agree to the </span>
+                                        <a href="#" class="text-botnar-pink-600 dark:text-botnar-pink-400 hover:underline">Terms and Conditions</a>
+                                        <span class="text-gray-900 dark:text-gray-100"> and </span>
+                                        <a href="#" class="text-botnar-pink-600 dark:text-botnar-pink-400 hover:underline">Privacy Policy</a>
+                                        <span class="text-gray-900 dark:text-gray-100">. I confirm that all information provided is accurate and complete.</span>
+                                    </div>
+                                </label>
+                                <p x-show="errors.agreeToTerms" class="mt-1 text-sm text-red-600" x-text="errors.agreeToTerms"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wizard Navigation -->
+                    <div class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <button @click="previousStep()" 
+                                    :disabled="currentStep === 1"
+                                    :class="currentStep === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-gray-700'"
+                                    class="btn btn-secondary">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                Previous
+                            </button>
+                            
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <span x-text="currentStep"></span> of <span x-text="totalSteps"></span>
+                            </div>
+                            
+                            <button x-show="currentStep < totalSteps" 
+                                    @click="nextStep()" 
+                                    class="btn btn-primary">
+                                Next
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                            
+                            <button x-show="currentStep === totalSteps" 
+                                    @click="submitForm()"
+                                    :disabled="!canSubmit()"
+                                    :class="!canSubmit() ? 'opacity-50 cursor-not-allowed' : ''"
+                                    class="btn btn-success">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Submit Program
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Code Preview -->
+            <section x-show="showCode" class="mb-12">
+                <div class="bg-gray-900 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Implementation Code</h3>
+                        <button @click="copyCode()" class="btn btn-sm bg-gray-800 text-white hover:bg-gray-700">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Copy Code
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript" x-text="getWizardCode()"></code></pre>
+                </div>
+            </section>
+
+            <!-- Documentation -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="grid gap-8">
+                    <!-- Wizard Features -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Form Wizard Features</h3>
+                        <div class="grid gap-4">
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Progressive Disclosure</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3">Break complex forms into manageable steps to reduce cognitive load.</p>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Step-by-step progression with clear navigation</li>
+                                    <li>• Visual progress indicators and completion status</li>
+                                    <li>• Contextual help and guidance for each step</li>
+                                    <li>• Save and resume capability for long forms</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Validation & Error Handling</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3">Real-time validation with clear error messaging and recovery guidance.</p>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Field-level validation with immediate feedback</li>
+                                    <li>• Step validation before progression</li>
+                                    <li>• Clear error messages with corrective guidance</li>
+                                    <li>• Prevention of data loss during navigation</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Conditional Logic & Branching</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3">Dynamic form flows that adapt based on user responses.</p>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Conditional field display based on previous answers</li>
+                                    <li>• Dynamic step progression and skipping</li>
+                                    <li>• Personalized form experiences</li>
+                                    <li>• Smart defaults and pre-population</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Guidelines -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Implementation Guidelines</h3>
+                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                            <div class="prose dark:prose-invert max-w-none">
+                                <h4>Step Design Principles</h4>
+                                <ul>
+                                    <li>Keep each step focused on a single topic or objective</li>
+                                    <li>Limit each step to 5-7 form fields to avoid overwhelming users</li>
+                                    <li>Use clear, descriptive titles and subtitles for each step</li>
+                                    <li>Provide contextual help and examples where needed</li>
+                                </ul>
+                                
+                                <h4>Validation Strategy</h4>
+                                <ul>
+                                    <li>Validate fields on blur for immediate feedback</li>
+                                    <li>Validate entire step before allowing progression</li>
+                                    <li>Show validation summary for the current step</li>
+                                    <li>Maintain validation state across step navigation</li>
+                                </ul>
+                                
+                                <h4>Accessibility Considerations</h4>
+                                <ul>
+                                    <li>Use proper ARIA labels and descriptions</li>
+                                    <li>Announce step changes to screen readers</li>
+                                    <li>Maintain logical tab order within each step</li>
+                                    <li>Provide keyboard shortcuts for navigation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" class="sr-only" aria-live="polite" aria-atomic="true">
+        <span x-text="announcement"></span>
+    </div>
+
+    <script>
+        function formWizardDemo() {
+            return {
+                theme: 'light',
+                showCode: false,
+                selectedWizardType: 'program',
+                currentStep: 1,
+                totalSteps: 5,
+                announcement: '',
+                budgetTotal: 0,
+                
+                // Wizard types
+                wizardTypes: [
+                    {
+                        id: 'program',
+                        name: 'Program Creation',
+                        steps: 5,
+                        title: 'Create New Program',
+                        description: 'Complete workflow for creating and submitting new program proposals.',
+                        icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>',
+                        color: 'bg-botnar-pink-500'
+                    },
+                    {
+                        id: 'evaluation',
+                        name: 'Impact Evaluation',
+                        steps: 4,
+                        title: 'Program Evaluation Setup',
+                        description: 'Multi-step evaluation framework configuration for impact assessment.',
+                        icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>',
+                        color: 'bg-botnar-blue-500'
+                    },
+                    {
+                        id: 'partnership',
+                        name: 'Partnership Setup',
+                        steps: 3,
+                        title: 'Partnership Application',
+                        description: 'Streamlined process for establishing new organizational partnerships.',
+                        icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>',
+                        color: 'bg-green-500'
+                    }
+                ],
+                
+                // Form data
+                formData: {
+                    programName: '',
+                    programType: '',
+                    description: '',
+                    startDate: '',
+                    endDate: '',
+                    region: '',
+                    countries: '',
+                    targetBeneficiaries: [],
+                    expectedBeneficiaries: '',
+                    ageRange: '',
+                    totalBudget: '',
+                    currency: 'EUR',
+                    budgetBreakdown: {
+                        personnel: 0,
+                        operations: 0,
+                        equipment: 0,
+                        training: 0,
+                        monitoring: 0,
+                        overhead: 0
+                    },
+                    fundingSources: [],
+                    implementationApproach: '',
+                    duration: '',
+                    teamSize: '',
+                    milestones: [
+                        { title: '', date: '' }
+                    ],
+                    agreeToTerms: false
+                },
+                
+                // Validation errors
+                errors: {},
+                
+                // Reference data
+                beneficiaryTypes: [
+                    { id: 'children', name: 'Children', description: '0-17 years' },
+                    { id: 'mothers', name: 'Mothers', description: 'Maternal health' },
+                    { id: 'families', name: 'Families', description: 'Family units' },
+                    { id: 'communities', name: 'Communities', description: 'Local communities' },
+                    { id: 'healthcare', name: 'Healthcare Workers', description: 'Medical professionals' },
+                    { id: 'educators', name: 'Educators', description: 'Teachers & trainers' },
+                    { id: 'adolescents', name: 'Adolescents', description: '10-19 years' },
+                    { id: 'vulnerable', name: 'Vulnerable Groups', description: 'At-risk populations' }
+                ],
+                
+                budgetCategories: [
+                    { id: 'personnel', name: 'Personnel', description: 'Salaries and staff costs' },
+                    { id: 'operations', name: 'Operations', description: 'Day-to-day operational expenses' },
+                    { id: 'equipment', name: 'Equipment', description: 'Equipment and technology' },
+                    { id: 'training', name: 'Training', description: 'Capacity building and training' },
+                    { id: 'monitoring', name: 'Monitoring & Evaluation', description: 'M&E activities and assessment' },
+                    { id: 'overhead', name: 'Administrative Overhead', description: 'Administrative and overhead costs' }
+                ],
+                
+                fundingSources: [
+                    { id: 'botnar', name: 'Fondation Botnar' },
+                    { id: 'government', name: 'Government Funding' },
+                    { id: 'corporate', name: 'Corporate Partnerships' },
+                    { id: 'other_foundations', name: 'Other Foundations' },
+                    { id: 'multilateral', name: 'Multilateral Organizations' },
+                    { id: 'private', name: 'Private Donations' }
+                ],
+                
+                implementationApproaches: [
+                    { id: 'direct', name: 'Direct Implementation', description: 'Direct program delivery by our organization' },
+                    { id: 'partnership', name: 'Partnership Model', description: 'Implementation through local partners' },
+                    { id: 'hybrid', name: 'Hybrid Approach', description: 'Combination of direct and partnership delivery' },
+                    { id: 'capacity', name: 'Capacity Building', description: 'Focus on building local organizational capacity' }
+                ],
+                
+                init() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                getCurrentWizard() {
+                    return this.wizardTypes.find(w => w.id === this.selectedWizardType) || this.wizardTypes[0];
+                },
+                
+                getWizardSteps() {
+                    const steps = [
+                        { id: 1, title: 'Basic Info' },
+                        { id: 2, title: 'Geographic & Target' },
+                        { id: 3, title: 'Budget' },
+                        { id: 4, title: 'Implementation' },
+                        { id: 5, title: 'Review' }
+                    ];
+                    return steps.slice(0, this.totalSteps);
+                },
+                
+                selectWizardType(typeId) {
+                    this.selectedWizardType = typeId;
+                    const wizard = this.getCurrentWizard();
+                    this.totalSteps = wizard.steps;
+                    this.resetWizard();
+                    this.announce(`Selected ${wizard.name} wizard`);
+                },
+                
+                getStepClasses(stepNumber) {
+                    if (stepNumber < this.currentStep) {
+                        return 'bg-botnar-pink-500 border-botnar-pink-500 text-white';
+                    } else if (stepNumber === this.currentStep) {
+                        return 'bg-white dark:bg-gray-800 border-botnar-pink-500 text-botnar-pink-600 dark:text-botnar-pink-400';
+                    } else {
+                        return 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-400';
+                    }
+                },
+                
+                validateField(fieldName) {
+                    this.errors[fieldName] = '';
+                    
+                    const validationRules = {
+                        programName: () => !this.formData.programName ? 'Program name is required' : '',
+                        programType: () => !this.formData.programType ? 'Program type is required' : '',
+                        startDate: () => !this.formData.startDate ? 'Start date is required' : '',
+                        region: () => !this.formData.region ? 'Region is required' : '',
+                        targetBeneficiaries: () => this.formData.targetBeneficiaries.length === 0 ? 'At least one target beneficiary is required' : '',
+                        totalBudget: () => !this.formData.totalBudget || this.formData.totalBudget <= 0 ? 'Valid budget amount is required' : '',
+                        implementationApproach: () => !this.formData.implementationApproach ? 'Implementation approach is required' : '',
+                        agreeToTerms: () => !this.formData.agreeToTerms ? 'You must agree to the terms and conditions' : ''
+                    };
+                    
+                    if (validationRules[fieldName]) {
+                        this.errors[fieldName] = validationRules[fieldName]();
+                    }
+                },
+                
+                validateStep(stepNumber) {
+                    const stepValidations = {
+                        1: ['programName', 'programType', 'startDate'],
+                        2: ['region', 'targetBeneficiaries'],
+                        3: ['totalBudget'],
+                        4: ['implementationApproach'],
+                        5: ['agreeToTerms']
+                    };
+                    
+                    const fieldsToValidate = stepValidations[stepNumber] || [];
+                    let isValid = true;
+                    
+                    fieldsToValidate.forEach(field => {
+                        this.validateField(field);
+                        if (this.errors[field]) {
+                            isValid = false;
+                        }
+                    });
+                    
+                    // Additional step-specific validations
+                    if (stepNumber === 3 && this.budgetTotal !== 100) {
+                        this.errors.budgetBreakdown = 'Budget allocation must equal 100%';
+                        isValid = false;
+                    }
+                    
+                    return isValid;
+                },
+                
+                nextStep() {
+                    if (this.validateStep(this.currentStep)) {
+                        if (this.currentStep < this.totalSteps) {
+                            this.currentStep++;
+                            this.announce(`Moved to step ${this.currentStep}: ${this.getWizardSteps()[this.currentStep - 1].title}`);
+                        }
+                    } else {
+                        this.announce('Please correct the errors before proceeding');
+                    }
+                },
+                
+                previousStep() {
+                    if (this.currentStep > 1) {
+                        this.currentStep--;
+                        this.announce(`Moved to step ${this.currentStep}: ${this.getWizardSteps()[this.currentStep - 1].title}`);
+                    }
+                },
+                
+                updateBudgetTotal() {
+                    this.budgetTotal = Object.values(this.formData.budgetBreakdown)
+                        .reduce((total, value) => total + (parseInt(value) || 0), 0);
+                },
+                
+                calculateCategoryAmount(categoryId) {
+                    const percentage = parseInt(this.formData.budgetBreakdown[categoryId]) || 0;
+                    const total = parseInt(this.formData.totalBudget) || 0;
+                    return Math.round((total * percentage) / 100).toLocaleString();
+                },
+                
+                addMilestone() {
+                    this.formData.milestones.push({ title: '', date: '' });
+                },
+                
+                removeMilestone(index) {
+                    this.formData.milestones.splice(index, 1);
+                },
+                
+                getTargetBeneficiariesText() {
+                    if (this.formData.targetBeneficiaries.length === 0) {
+                        return 'Not specified';
+                    }
+                    
+                    const names = this.formData.targetBeneficiaries.map(id => {
+                        const beneficiary = this.beneficiaryTypes.find(b => b.id === id);
+                        return beneficiary ? beneficiary.name : id;
+                    });
+                    
+                    return names.join(', ');
+                },
+                
+                getFundingSourcesText() {
+                    if (this.formData.fundingSources.length === 0) {
+                        return 'Not specified';
+                    }
+                    
+                    const names = this.formData.fundingSources.map(id => {
+                        const source = this.fundingSources.find(s => s.id === id);
+                        return source ? source.name : id;
+                    });
+                    
+                    return names.join(', ');
+                },
+                
+                formatBudget() {
+                    if (!this.formData.totalBudget) {
+                        return 'Not specified';
+                    }
+                    
+                    const amount = parseInt(this.formData.totalBudget).toLocaleString();
+                    return `${this.formData.currency} ${amount}`;
+                },
+                
+                canSubmit() {
+                    return this.validateStep(5) && this.budgetTotal === 100;
+                },
+                
+                submitForm() {
+                    if (this.canSubmit()) {
+                        this.announce('Program proposal submitted successfully');
+                        // Implement actual submission logic here
+                        console.log('Form data:', this.formData);
+                    } else {
+                        this.announce('Please complete all required fields before submitting');
+                    }
+                },
+                
+                resetWizard() {
+                    this.currentStep = 1;
+                    this.errors = {};
+                    this.budgetTotal = 0;
+                    this.formData = {
+                        programName: '',
+                        programType: '',
+                        description: '',
+                        startDate: '',
+                        endDate: '',
+                        region: '',
+                        countries: '',
+                        targetBeneficiaries: [],
+                        expectedBeneficiaries: '',
+                        ageRange: '',
+                        totalBudget: '',
+                        currency: 'EUR',
+                        budgetBreakdown: {
+                            personnel: 0,
+                            operations: 0,
+                            equipment: 0,
+                            training: 0,
+                            monitoring: 0,
+                            overhead: 0
+                        },
+                        fundingSources: [],
+                        implementationApproach: '',
+                        duration: '',
+                        teamSize: '',
+                        milestones: [
+                            { title: '', date: '' }
+                        ],
+                        agreeToTerms: false
+                    };
+                    this.announce('Wizard reset to initial state');
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                    this.announce('Switched to ' + this.theme + ' mode');
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                announce(message) {
+                    this.announcement = message;
+                    setTimeout(() => this.announcement = '', 1000);
+                },
+                
+                copyCode() {
+                    navigator.clipboard.writeText(this.getWizardCode());
+                    this.announce('Code copied to clipboard');
+                },
+                
+                getWizardCode() {
+                    return `// Form Wizard & Multi-step Flows - Alpine.js Implementation
+function formWizardDemo() {
+    return {
+        currentStep: 1,
+        totalSteps: 5,
+        formData: {
+            programName: '',
+            programType: '',
+            description: '',
+            // ... more fields
+        },
+        errors: {},
+        
+        // Step validation
+        validateStep(stepNumber) {
+            const stepValidations = {
+                1: ['programName', 'programType', 'startDate'],
+                2: ['region', 'targetBeneficiaries'],
+                3: ['totalBudget'],
+                4: ['implementationApproach'],
+                5: ['agreeToTerms']
+            };
+            
+            const fieldsToValidate = stepValidations[stepNumber] || [];
+            let isValid = true;
+            
+            fieldsToValidate.forEach(field => {
+                this.validateField(field);
+                if (this.errors[field]) {
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        },
+        
+        // Field validation
+        validateField(fieldName) {
+            this.errors[fieldName] = '';
+            
+            const validationRules = {
+                programName: () => !this.formData.programName ? 'Program name is required' : '',
+                programType: () => !this.formData.programType ? 'Program type is required' : '',
+                startDate: () => !this.formData.startDate ? 'Start date is required' : '',
+                // ... more validation rules
+            };
+            
+            if (validationRules[fieldName]) {
+                this.errors[fieldName] = validationRules[fieldName]();
+            }
+        },
+        
+        // Navigation
+        nextStep() {
+            if (this.validateStep(this.currentStep)) {
+                if (this.currentStep < this.totalSteps) {
+                    this.currentStep++;
+                    this.announce(\`Moved to step \${this.currentStep}\`);
+                }
+            } else {
+                this.announce('Please correct the errors before proceeding');
+            }
+        },
+        
+        previousStep() {
+            if (this.currentStep > 1) {
+                this.currentStep--;
+                this.announce(\`Moved to step \${this.currentStep}\`);
+            }
+        },
+        
+        // Progress calculation
+        getProgressPercentage() {
+            return (this.currentStep / this.totalSteps) * 100;
+        },
+        
+        // Step status styling
+        getStepClasses(stepNumber) {
+            if (stepNumber < this.currentStep) {
+                return 'bg-green-500 border-green-500 text-white'; // Completed
+            } else if (stepNumber === this.currentStep) {
+                return 'bg-white border-blue-500 text-blue-600'; // Current
+            } else {
+                return 'bg-white border-gray-300 text-gray-400'; // Future
+            }
+        },
+        
+        // Form submission
+        submitForm() {
+            if (this.validateStep(this.currentStep)) {
+                // Submit form data
+                console.log('Submitting:', this.formData);
+                this.announce('Form submitted successfully');
+            }
+        }
+    }
+}
+
+<!-- HTML Structure -->
+<div x-data="formWizardDemo()">
+    <!-- Progress Bar -->
+    <div class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium">Progress</span>
+            <span class="text-sm text-gray-600" x-text="currentStep + ' of ' + totalSteps"></span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                 :style="\`width: \${getProgressPercentage()}%\`"></div>
+        </div>
+    </div>
+    
+    <!-- Step Navigation -->
+    <div class="flex items-center justify-between mb-8">
+        <template x-for="(step, index) in totalSteps" :key="index">
+            <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center border-2"
+                     :class="getStepClasses(index + 1)">
+                    <span x-text="index + 1"></span>
+                </div>
+                <div x-show="index < totalSteps - 1" class="w-12 h-0.5 bg-gray-200 mx-2"></div>
+            </div>
+        </template>
+    </div>
+    
+    <!-- Step Content -->
+    <div x-show="currentStep === 1" class="space-y-6">
+        <h3 class="text-lg font-medium">Basic Information</h3>
+        <div>
+            <label class="block text-sm font-medium mb-2">Program Name *</label>
+            <input x-model="formData.programName" 
+                   type="text" 
+                   class="form-input w-full"
+                   :class="errors.programName ? 'border-red-500' : ''"
+                   @blur="validateField('programName')">
+            <p x-show="errors.programName" class="mt-1 text-sm text-red-600" x-text="errors.programName"></p>
+        </div>
+        <!-- More fields -->
+    </div>
+    
+    <!-- Navigation Buttons -->
+    <div class="flex justify-between mt-8">
+        <button @click="previousStep()" 
+                :disabled="currentStep === 1"
+                class="btn btn-secondary">
+            Previous
+        </button>
+        
+        <button x-show="currentStep < totalSteps" 
+                @click="nextStep()" 
+                class="btn btn-primary">
+            Next
+        </button>
+        
+        <button x-show="currentStep === totalSteps" 
+                @click="submitForm()"
+                class="btn btn-success">
+            Submit
+        </button>
+    </div>
+</div>
+
+/* CSS Utilities for Form Wizards */
+.wizard-container {
+    @apply max-w-4xl mx-auto;
+}
+
+.wizard-step {
+    @apply space-y-6;
+}
+
+.wizard-progress {
+    @apply w-full bg-gray-200 rounded-full h-2;
+}
+
+.wizard-progress-bar {
+    @apply bg-blue-500 h-2 rounded-full transition-all duration-300;
+}
+
+.wizard-step-indicator {
+    @apply w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all;
+}
+
+.wizard-step-completed {
+    @apply bg-green-500 border-green-500 text-white;
+}
+
+.wizard-step-current {
+    @apply bg-white border-blue-500 text-blue-600;
+}
+
+.wizard-step-future {
+    @apply bg-white border-gray-300 text-gray-400;
+}
+
+.wizard-navigation {
+    @apply flex justify-between items-center mt-8 pt-6 border-t border-gray-200;
+}`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

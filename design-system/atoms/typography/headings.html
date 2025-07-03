@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typography Headings - Fondation Botnar Design System</title>
+    <meta name="description" content="Heading typography components with responsive scaling and accessibility features">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="headingsDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Atoms
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Typography</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">Typography Headings</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-300">Semantic heading components with responsive scaling and accessibility features</p>
+            </div>
+
+            <!-- Viewport Controls -->
+            <div class="mb-8 flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Preview Size:</span>
+                <div class="flex gap-2">
+                    <button @click="viewport = 'mobile'" 
+                            :class="viewport === 'mobile' ? 'bg-botnar-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                            class="px-3 py-1 rounded text-sm">Mobile</button>
+                    <button @click="viewport = 'tablet'" 
+                            :class="viewport === 'tablet' ? 'bg-botnar-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                            class="px-3 py-1 rounded text-sm">Tablet</button>
+                    <button @click="viewport = 'desktop'" 
+                            :class="viewport === 'desktop' ? 'bg-botnar-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                            class="px-3 py-1 rounded text-sm">Desktop</button>
+                </div>
+            </div>
+
+            <!-- Heading Scale Overview -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Heading Scale</h2>
+                
+                <div class="space-y-8">
+                    <!-- H1 - Dashboard Title -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">H1 - Dashboard Title</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">2rem (32px) mobile → 2.5rem (40px) desktop | font-weight: 700</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900" :style="getViewportStyles()">
+                            <h1 class="text-dashboard-title">
+                                Strategic Learning Dashboard
+                            </h1>
+                        </div>
+                    </div>
+
+                    <!-- H2 - Section Title -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">H2 - Section Title</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">1.5rem (24px) mobile → 1.625rem (26px) desktop | font-weight: 600</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900" :style="getViewportStyles()">
+                            <h2 class="text-section-title">
+                                Grant Performance Overview
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- H3 - Widget Title -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">H3 - Widget Title</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">1.125rem (18px) mobile → 1.25rem (20px) desktop | font-weight: 600</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900" :style="getViewportStyles()">
+                            <h3 class="text-widget-title">
+                                Active Grants Distribution
+                            </h3>
+                        </div>
+                    </div>
+
+                    <!-- H4 - Subsection -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">H4 - Subsection</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">1rem (16px) mobile → 1.125rem (18px) desktop | font-weight: 600</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900" :style="getViewportStyles()">
+                            <h4 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100">
+                                Program Impact Metrics
+                            </h4>
+                        </div>
+                    </div>
+
+                    <!-- H5 - Card Title -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">H5 - Card Title</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">0.875rem (14px) mobile → 1rem (16px) desktop | font-weight: 600</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900" :style="getViewportStyles()">
+                            <h5 class="text-sm md:text-base font-semibold text-gray-900 dark:text-gray-100">
+                                Latest Grant Activity
+                            </h5>
+                        </div>
+                    </div>
+
+                    <!-- H6 - Label -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">H6 - Label</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">0.75rem (12px) mobile → 0.875rem (14px) desktop | font-weight: 600</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900" :style="getViewportStyles()">
+                            <h6 class="text-xs md:text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                Chart Legend
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Typography Hierarchy Demo -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Typography Hierarchy</h2>
+                
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8" :style="getViewportStyles()">
+                    <article class="prose prose-gray dark:prose-invert max-w-none">
+                        <h1 class="text-dashboard-title">Dashboard Analytics Report</h1>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">Quarterly performance overview for strategic learning initiatives</p>
+                        
+                        <h2 class="text-section-title">Grant Performance Summary</h2>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">Our grant portfolio has shown significant progress across all program areas, with particular strength in digital health initiatives.</p>
+                        
+                        <h3 class="text-widget-title">Regional Distribution</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">Grants are actively supporting communities across 15 countries, with focused investment in Sub-Saharan Africa and Southeast Asia.</p>
+                        
+                        <h4 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100">Impact Metrics</h4>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">Key performance indicators demonstrate measurable improvements in health outcomes and digital literacy.</p>
+                        
+                        <h5 class="text-sm md:text-base font-semibold text-gray-900 dark:text-gray-100">Data Quality Notes</h5>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">All metrics have been validated through third-party evaluation and community feedback mechanisms.</p>
+                        
+                        <h6 class="text-xs md:text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Source Attribution</h6>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Data compiled from partner reports and direct beneficiary surveys conducted Q4 2024.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Accessibility Features -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Accessibility Features</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Semantic Structure -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Semantic Structure</h3>
+                        <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <li>✅ Proper heading hierarchy (H1 → H6)</li>
+                            <li>✅ Descriptive heading text</li>
+                            <li>✅ Skip navigation links</li>
+                            <li>✅ Screen reader optimized</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Visual Accessibility -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Visual Accessibility</h3>
+                        <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <li>✅ WCAG AA contrast ratios</li>
+                            <li>✅ Responsive font scaling</li>
+                            <li>✅ Dark mode support</li>
+                            <li>✅ Focus indicators</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usage Guidelines -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="space-y-6">
+                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                        <h3 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">Best Practices</h3>
+                        <ul class="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                            <li>• Use H1 only once per page for the main page title</li>
+                            <li>• Maintain logical heading hierarchy (don't skip levels)</li>
+                            <li>• Use semantic HTML headings for screen readers</li>
+                            <li>• Keep headings concise and descriptive</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-900 dark:text-amber-100 mb-2">Avoid</h3>
+                        <ul class="text-sm text-amber-800 dark:text-amber-200 space-y-1">
+                            <li>• Using headings just for visual styling</li>
+                            <li>• Skipping heading levels (H1 → H3)</li>
+                            <li>• Multiple H1 elements on one page</li>
+                            <li>• Overly long or unclear heading text</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        function headingsDemo() {
+            return {
+                theme: 'light',
+                viewport: 'desktop',
+                
+                init() {
+                    // Initialize theme from localStorage
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                getViewportStyles() {
+                    const styles = {
+                        mobile: 'max-width: 375px',
+                        tablet: 'max-width: 768px',
+                        desktop: 'max-width: 100%'
+                    };
+                    return styles[this.viewport] || styles.desktop;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

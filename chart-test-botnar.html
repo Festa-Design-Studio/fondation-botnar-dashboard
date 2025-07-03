@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botnar Chart Configuration Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .chart-container { width: 400px; height: 400px; margin: 20px 0; border: 1px solid #ccc; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .debug { font-family: monospace; font-size: 12px; background: #f8f9fa; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Botnar Chart Configuration Test</h1>
+    
+    <div id="status" class="status">Initializing...</div>
+    
+    <div class="debug">
+        <h3>Loading Status:</h3>
+        <div>Chart.js: <span id="chartjs-status">Loading...</span></div>
+        <div>BotnarColors: <span id="colors-status">Loading...</span></div>
+        <div>BotnarChartDefaults: <span id="defaults-status">Loading...</span></div>
+        <div>BotnarBarChartConfig: <span id="barconfig-status">Loading...</span></div>
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="testChart"></canvas>
+    </div>
+    
+    <!-- Chart.js v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    <!-- Botnar Configuration -->
+    <script src="design-system/assets/js/chart-config-cdn.js"></script>
+    
+    <script>
+        function updateElementStatus(id, status, isError = false) {
+            const element = document.getElementById(id);
+            element.textContent = status;
+            element.style.color = isError ? '#dc3545' : '#28a745';
+        }
+        
+        function updateStatus(message, isError = false) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + (isError ? 'error' : 'success');
+            console.log(message);
+        }
+        
+        function checkDependencies() {
+            console.log('=== Dependency Check ===');
+            
+            // Check Chart.js
+            if (typeof Chart !== 'undefined') {
+                updateElementStatus('chartjs-status', `✅ Loaded (v${Chart.version || 'unknown'})`);
+                console.log('Chart.js:', Chart);
+            } else {
+                updateElementStatus('chartjs-status', '❌ Not loaded', true);
+            }
+            
+            // Check BotnarColors
+            if (typeof window.BotnarColors !== 'undefined') {
+                updateElementStatus('colors-status', '✅ Loaded');
+                console.log('BotnarColors:', window.BotnarColors);
+            } else {
+                updateElementStatus('colors-status', '❌ Not loaded', true);
+            }
+            
+            // Check BotnarChartDefaults
+            if (typeof window.BotnarChartDefaults !== 'undefined') {
+                updateElementStatus('defaults-status', '✅ Loaded');
+                console.log('BotnarChartDefaults:', window.BotnarChartDefaults);
+            } else {
+                updateElementStatus('defaults-status', '❌ Not loaded', true);
+            }
+            
+            // Check BotnarBarChartConfig
+            if (typeof window.BotnarBarChartConfig !== 'undefined') {
+                updateElementStatus('barconfig-status', '✅ Loaded');
+                console.log('BotnarBarChartConfig:', window.BotnarBarChartConfig);
+            } else {
+                updateElementStatus('barconfig-status', '❌ Not loaded', true);
+            }
+        }
+        
+        function testChart() {
+            updateStatus('Testing chart creation...');
+            
+            if (typeof Chart === 'undefined') {
+                updateStatus('ERROR: Chart.js not loaded!', true);
+                return;
+            }
+            
+            if (typeof window.BotnarBarChartConfig === 'undefined') {
+                updateStatus('ERROR: Botnar configuration not loaded!', true);
+                return;
+            }
+            
+            try {
+                const ctx = document.getElementById('testChart');
+                const config = window.BotnarBarChartConfig();
+                
+                // Add sample data
+                config.data = {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [65, 78, 84, 92],
+                        backgroundColor: window.BotnarColors.categorical.slice(0, 4),
+                        borderColor: window.BotnarColors.categorical.slice(0, 4),
+                        borderWidth: 2
+                    }]
+                };
+                
+                console.log('Creating chart with config:', config);
+                const chart = new Chart(ctx, config);
+                
+                updateStatus('Chart created successfully!');
+                console.log('Chart instance:', chart);
+                
+            } catch (error) {
+                updateStatus('ERROR creating chart: ' + error.message, true);
+                console.error('Full error:', error);
+                console.error('Stack trace:', error.stack);
+            }
+        }
+        
+        // Check dependencies immediately
+        function initialCheck() {
+            checkDependencies();
+            
+            // Wait a bit more for all scripts to load
+            setTimeout(() => {
+                checkDependencies();
+                
+                // Try to create chart if everything is loaded
+                if (typeof Chart !== 'undefined' && typeof window.BotnarBarChartConfig !== 'undefined') {
+                    testChart();
+                } else {
+                    updateStatus('Dependencies not fully loaded', true);
+                }
+            }, 1000);
+        }
+        
+        // Test when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initialCheck, 100);
+        });
+        
+        // Also test on window load
+        window.addEventListener('load', function() {
+            console.log('=== Window Load Event ===');
+            checkDependencies();
+        });
+    </script>
+</body>
+</html>

@@ -6,11 +6,13 @@
  */
 
 // Wait for Chart.js to be loaded from CDN
-document.addEventListener('DOMContentLoaded', function() {
+function initializeBotnarCharts() {
   if (typeof Chart === 'undefined') {
     console.error('Chart.js not loaded. Please include Chart.js CDN before this script.');
     return;
   }
+  
+  console.log('Initializing Botnar Charts with Chart.js version:', Chart.version);
 
   /**
    * Botnar Design System Colors
@@ -586,4 +588,34 @@ document.addEventListener('DOMContentLoaded', function() {
   window.BotnarChart = Chart;
 
   console.log('Botnar Chart.js configuration loaded successfully');
+}
+
+// Initialize when DOM is loaded and Chart.js is available
+document.addEventListener('DOMContentLoaded', function() {
+  // Try immediate initialization
+  if (typeof Chart !== 'undefined') {
+    initializeBotnarCharts();
+  } else {
+    // Wait for Chart.js to load
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds
+    const checkForChart = setInterval(() => {
+      attempts++;
+      if (typeof Chart !== 'undefined') {
+        clearInterval(checkForChart);
+        initializeBotnarCharts();
+      } else if (attempts >= maxAttempts) {
+        clearInterval(checkForChart);
+        console.error('Chart.js failed to load within timeout period');
+      }
+    }, 100);
+  }
+});
+
+// Also try on window load as fallback
+window.addEventListener('load', function() {
+  if (typeof Chart !== 'undefined' && typeof window.BotnarColors === 'undefined') {
+    console.log('Fallback initialization on window load');
+    initializeBotnarCharts();
+  }
 });

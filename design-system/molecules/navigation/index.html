@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Components - Fondation Botnar Design System</title>
+    <meta name="description" content="Navigation molecules combining atoms for comprehensive wayfinding and user flow">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    <!-- Navigation utilities CSS -->
+    <link rel="stylesheet" href="navigation-utilities.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Additional navigation styling for this showcase */
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .nav-link:hover {
+            color: #374151;
+            background-color: #f3f4f6;
+        }
+        
+        .nav-link.active {
+            color: #e91e63;
+            background-color: #fdf2f8;
+        }
+        
+        .dark .nav-link {
+            color: #9ca3af;
+        }
+        
+        .dark .nav-link:hover {
+            color: #f9fafb;
+            background-color: #374151;
+        }
+        
+        .dark .nav-link.active {
+            color: #f472b6;
+            background-color: #831843;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+        
+        .breadcrumb-item {
+            color: #6b7280;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item:hover {
+            color: #374151;
+        }
+        
+        .breadcrumb-item.active {
+            color: #111827;
+            font-weight: 500;
+        }
+        
+        .breadcrumb-separator {
+            margin: 0 0.5rem;
+            color: #d1d5db;
+        }
+        
+        .dark .breadcrumb-item {
+            color: #9ca3af;
+        }
+        
+        .dark .breadcrumb-item:hover {
+            color: #f9fafb;
+        }
+        
+        .dark .breadcrumb-item.active {
+            color: #f9fafb;
+        }
+        
+        .dark .breadcrumb-separator {
+            color: #4b5563;
+        }
+        
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .tab-link {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .tab-link:hover {
+            color: #374151;
+            border-bottom-color: #d1d5db;
+        }
+        
+        .tab-link.active {
+            color: #e91e63;
+            border-bottom-color: #e91e63;
+        }
+        
+        .dark .tab-nav {
+            border-bottom-color: #374151;
+        }
+        
+        .dark .tab-link {
+            color: #9ca3af;
+        }
+        
+        .dark .tab-link:hover {
+            color: #f9fafb;
+            border-bottom-color: #6b7280;
+        }
+        
+        .dark .tab-link.active {
+            color: #f472b6;
+            border-bottom-color: #f472b6;
+        }
+        
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .pagination-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            text-decoration: none;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .pagination-item:hover {
+            color: #374151;
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+        
+        .pagination-item.active {
+            color: #ffffff;
+            background-color: #e91e63;
+            border-color: #e91e63;
+        }
+        
+        .pagination-item:disabled {
+            color: #d1d5db;
+            background-color: #f9fafb;
+            border-color: #e5e7eb;
+            cursor: not-allowed;
+        }
+        
+        .dark .pagination-item {
+            color: #9ca3af;
+            border-color: #4b5563;
+            background-color: #1f2937;
+        }
+        
+        .dark .pagination-item:hover {
+            color: #f9fafb;
+            background-color: #374151;
+            border-color: #6b7280;
+        }
+        
+        .dark .pagination-item.active {
+            color: #ffffff;
+            background-color: #e91e63;
+            border-color: #e91e63;
+        }
+        
+        .dark .pagination-item:disabled {
+            color: #4b5563;
+            background-color: #111827;
+            border-color: #374151;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="navigationDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Molecules
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Navigation</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Navigation Components</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
+                    Navigation molecules that combine atomic elements for comprehensive wayfinding and user flow patterns
+                </p>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400">5</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Nav Types</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-blue-600 dark:text-botnar-blue-400">3</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Layout Options</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-success-700 dark:text-success-400">100%</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Responsive</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">WCAG</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">AA Accessible</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">Multi</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Device Support</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Customization -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Interactive Navigation Builder</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <!-- Controls -->
+                        <div class="lg:col-span-1">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Customize Navigation</h3>
+                            <div class="space-y-4">
+                                <!-- Navigation Type -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Navigation Type</label>
+                                    <select x-model="selectedNavType" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                        <template x-for="type in navTypes" :key="type.id">
+                                            <option :value="type.id" x-text="type.name"></option>
+                                        </template>
+                                    </select>
+                                </div>
+
+                                <!-- Navigation Style -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Style</label>
+                                    <select x-model="selectedStyle" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                        <option value="default">Default</option>
+                                        <option value="minimal">Minimal</option>
+                                        <option value="bordered">Bordered</option>
+                                    </select>
+                                </div>
+
+                                <!-- Show Elements -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Elements</label>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="show-icons" x-model="showIcons" class="w-4 h-4 text-botnar-pink-600 border-gray-300 rounded focus:ring-botnar-pink-500">
+                                            <label for="show-icons" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Icons</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="show-badges" x-model="showBadges" class="w-4 h-4 text-botnar-pink-600 border-gray-300 rounded focus:ring-botnar-pink-500">
+                                            <label for="show-badges" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Badges</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="show-search" x-model="showSearch" class="w-4 h-4 text-botnar-pink-600 border-gray-300 rounded focus:ring-botnar-pink-500">
+                                            <label for="show-search" class="ml-2 text-sm text-gray-700 dark:text-gray-300">Search</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview -->
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Preview</h3>
+                            <div class="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg min-h-[300px]">
+                                
+                                <!-- Header Navigation Preview -->
+                                <div x-show="selectedNavType === 'header'" x-transition>
+                                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                        <div class="flex items-center justify-between px-6 py-4">
+                                            <div class="flex items-center space-x-8">
+                                                <div class="text-lg font-semibold text-gray-900 dark:text-gray-100">Botnar</div>
+                                                <nav class="hidden md:flex space-x-6">
+                                                    <a href="#" class="nav-link active">
+                                                        <span x-show="showIcons" class="w-4 h-4 mr-2">
+                                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                                            </svg>
+                                                        </span>
+                                                        Dashboard
+                                                        <span x-show="showBadges" class="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">3</span>
+                                                    </a>
+                                                    <a href="#" class="nav-link">
+                                                        <span x-show="showIcons" class="w-4 h-4 mr-2">
+                                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                                            </svg>
+                                                        </span>
+                                                        Projects
+                                                    </a>
+                                                    <a href="#" class="nav-link">
+                                                        <span x-show="showIcons" class="w-4 h-4 mr-2">
+                                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                                            </svg>
+                                                        </span>
+                                                        Reports
+                                                    </a>
+                                                </nav>
+                                            </div>
+                                            <div class="flex items-center space-x-4">
+                                                <div x-show="showSearch" class="hidden md:block">
+                                                    <input type="text" placeholder="Search..." class="w-64 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                                </div>
+                                                <button class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sidebar Navigation Preview -->
+                                <div x-show="selectedNavType === 'sidebar'" x-transition>
+                                    <div class="flex bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                        <div class="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-4">
+                                            <div class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">Menu</div>
+                                            <nav class="space-y-2">
+                                                <a href="#" class="nav-link active">
+                                                    <span x-show="showIcons" class="w-4 h-4 mr-3">
+                                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                                        </svg>
+                                                    </span>
+                                                    Dashboard
+                                                    <span x-show="showBadges" class="ml-auto inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">3</span>
+                                                </a>
+                                                <a href="#" class="nav-link">
+                                                    <span x-show="showIcons" class="w-4 h-4 mr-3">
+                                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                                        </svg>
+                                                    </span>
+                                                    Projects
+                                                </a>
+                                                <a href="#" class="nav-link">
+                                                    <span x-show="showIcons" class="w-4 h-4 mr-3">
+                                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                                        </svg>
+                                                    </span>
+                                                    Reports
+                                                </a>
+                                            </nav>
+                                        </div>
+                                        <div class="flex-1 p-6">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">Main content area</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Breadcrumb Navigation Preview -->
+                                <div x-show="selectedNavType === 'breadcrumb'" x-transition>
+                                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                                        <nav class="breadcrumb">
+                                            <a href="#" class="breadcrumb-item">Home</a>
+                                            <span class="breadcrumb-separator">/</span>
+                                            <a href="#" class="breadcrumb-item">Projects</a>
+                                            <span class="breadcrumb-separator">/</span>
+                                            <a href="#" class="breadcrumb-item">Child Health Initiative</a>
+                                            <span class="breadcrumb-separator">/</span>
+                                            <span class="breadcrumb-item active">Dashboard</span>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Navigation Preview -->
+                                <div x-show="selectedNavType === 'tabs'" x-transition>
+                                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                        <nav class="tab-nav">
+                                            <a href="#" class="tab-link active">
+                                                <span x-show="showIcons" class="w-4 h-4 mr-2">
+                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                                    </svg>
+                                                </span>
+                                                Overview
+                                                <span x-show="showBadges" class="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">2</span>
+                                            </a>
+                                            <a href="#" class="tab-link">
+                                                <span x-show="showIcons" class="w-4 h-4 mr-2">
+                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                                    </svg>
+                                                </span>
+                                                Team
+                                            </a>
+                                            <a href="#" class="tab-link">
+                                                <span x-show="showIcons" class="w-4 h-4 mr-2">
+                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    </svg>
+                                                </span>
+                                                Settings
+                                            </a>
+                                        </nav>
+                                        <div class="p-6">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">Tab content area</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Pagination Navigation Preview -->
+                                <div x-show="selectedNavType === 'pagination'" x-transition>
+                                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 flex justify-center">
+                                        <nav class="pagination">
+                                            <button class="pagination-item" disabled>
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                                </svg>
+                                            </button>
+                                            <a href="#" class="pagination-item active">1</a>
+                                            <a href="#" class="pagination-item">2</a>
+                                            <a href="#" class="pagination-item">3</a>
+                                            <span class="pagination-item">...</span>
+                                            <a href="#" class="pagination-item">8</a>
+                                            <button class="pagination-item">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
+                                            </button>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Code Preview -->
+                            <div class="mt-4">
+                                <button @click="showCode = !showCode" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <span x-show="!showCode">Show Code</span>
+                                    <span x-show="showCode">Hide Code</span>
+                                </button>
+                                <div x-show="showCode" x-transition class="mt-3 p-4 bg-gray-800 rounded-lg overflow-x-auto">
+                                    <pre class="text-sm text-gray-300"><code x-text="generateNavHTML()"></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Types Showcase -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8">Navigation Types</h2>
+                
+                <div class="space-y-8">
+                    
+                    <!-- Header Navigation -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Header Navigation</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Primary navigation with branding, main menu items, and user actions</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 dark:bg-gray-900">
+                            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                <div class="flex items-center justify-between px-6 py-4">
+                                    <div class="flex items-center space-x-8">
+                                        <div class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400">Fondation Botnar</div>
+                                        <nav class="hidden md:flex space-x-6">
+                                            <a href="#" class="nav-link active">Dashboard</a>
+                                            <a href="#" class="nav-link">Projects</a>
+                                            <a href="#" class="nav-link">Reports</a>
+                                            <a href="#" class="nav-link">Team</a>
+                                        </nav>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <button class="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Navigation -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Sidebar Navigation</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Vertical navigation menu with hierarchical organization</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 dark:bg-gray-900">
+                            <div class="flex bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden" style="height: 280px;">
+                                <div class="w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-4">
+                                    <div class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">Dashboard</div>
+                                    <nav class="space-y-2">
+                                        <a href="#" class="nav-link active">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                            </svg>
+                                            Overview
+                                        </a>
+                                        <a href="#" class="nav-link">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                            </svg>
+                                            Projects
+                                            <span class="ml-auto inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">12</span>
+                                        </a>
+                                        <a href="#" class="nav-link">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                            Analytics
+                                        </a>
+                                        <a href="#" class="nav-link">
+                                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                            Settings
+                                        </a>
+                                    </nav>
+                                </div>
+                                <div class="flex-1 p-6 flex items-center justify-center">
+                                    <div class="text-center text-gray-500 dark:text-gray-400">
+                                        <div class="text-sm">Main Content Area</div>
+                                        <div class="text-xs mt-1">Sidebar provides consistent navigation</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Breadcrumb Navigation -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Breadcrumb Navigation</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Hierarchical navigation showing current location in site structure</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 dark:bg-gray-900">
+                            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                                <nav class="breadcrumb mb-4">
+                                    <a href="#" class="breadcrumb-item">Home</a>
+                                    <span class="breadcrumb-separator">/</span>
+                                    <a href="#" class="breadcrumb-item">Health Programs</a>
+                                    <span class="breadcrumb-separator">/</span>
+                                    <a href="#" class="breadcrumb-item">Child Nutrition</a>
+                                    <span class="breadcrumb-separator">/</span>
+                                    <span class="breadcrumb-item active">Annual Report 2024</span>
+                                </nav>
+                                <div class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Annual Report 2024</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">Comprehensive overview of child nutrition program outcomes</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Navigation -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Tab Navigation</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Content organization with tabbed interface for related sections</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 dark:bg-gray-900">
+                            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                <nav class="tab-nav">
+                                    <a href="#" class="tab-link active">Overview</a>
+                                    <a href="#" class="tab-link">Impact Metrics</a>
+                                    <a href="#" class="tab-link">Geographic Data</a>
+                                    <a href="#" class="tab-link">Partner Organizations</a>
+                                    <a href="#" class="tab-link">Resources</a>
+                                </nav>
+                                <div class="p-6">
+                                    <div class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Project Overview</div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400 space-y-2">
+                                        <p>This comprehensive health initiative focuses on improving child nutrition outcomes across developing regions.</p>
+                                        <p>Our multi-year program combines direct intervention, community education, and policy advocacy.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination Navigation -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Pagination Navigation</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Navigation through large datasets with page controls</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 dark:bg-gray-900">
+                            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                                        Showing <span class="font-medium text-gray-900 dark:text-gray-100">1-10</span> of 
+                                        <span class="font-medium text-gray-900 dark:text-gray-100">97</span> results
+                                    </div>
+                                    <nav class="pagination">
+                                        <button class="pagination-item" disabled>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                            </svg>
+                                        </button>
+                                        <a href="#" class="pagination-item active">1</a>
+                                        <a href="#" class="pagination-item">2</a>
+                                        <a href="#" class="pagination-item">3</a>
+                                        <a href="#" class="pagination-item">4</a>
+                                        <span class="pagination-item">...</span>
+                                        <a href="#" class="pagination-item">10</a>
+                                        <button class="pagination-item">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </nav>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                                        <span class="text-sm text-gray-900 dark:text-gray-100">Project Alpha - Child Health Initiative</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">Updated 2 hours ago</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                                        <span class="text-sm text-gray-900 dark:text-gray-100">Project Beta - Nutrition Education Program</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">Updated 4 hours ago</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                                        <span class="text-sm text-gray-900 dark:text-gray-100">Project Gamma - Community Health Centers</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">Updated 1 day ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Usage Guidelines -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Best Practices -->
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Best Practices
+                        </h3>
+                        <ul class="text-sm text-green-800 dark:text-green-200 space-y-2">
+                            <li>• Use consistent navigation patterns across pages</li>
+                            <li>• Provide clear visual hierarchy in navigation</li>
+                            <li>• Include active states for current page/section</li>
+                            <li>• Ensure navigation is keyboard accessible</li>
+                            <li>• Use descriptive labels for navigation items</li>
+                            <li>• Test navigation on mobile devices</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Common Mistakes -->
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-red-900 dark:text-red-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Common Mistakes
+                        </h3>
+                        <ul class="text-sm text-red-800 dark:text-red-200 space-y-2">
+                            <li>• Inconsistent navigation placement across pages</li>
+                            <li>• Missing focus indicators for keyboard users</li>
+                            <li>• Overcrowding navigation with too many items</li>
+                            <li>• Unclear or ambiguous navigation labels</li>
+                            <li>• Not testing navigation on mobile devices</li>
+                            <li>• Missing breadcrumbs in deep hierarchies</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+        <span x-text="announcement"></span>
+    </div>
+
+    <script>
+        function navigationDemo() {
+            return {
+                theme: 'light',
+                announcement: '',
+                showCode: false,
+                
+                selectedNavType: 'header',
+                selectedStyle: 'default',
+                showIcons: true,
+                showBadges: false,
+                showSearch: true,
+                
+                navTypes: [
+                    {
+                        id: 'header',
+                        name: 'Header Navigation',
+                        description: 'Primary navigation with branding and main menu'
+                    },
+                    {
+                        id: 'sidebar',
+                        name: 'Sidebar Navigation',
+                        description: 'Vertical navigation menu with hierarchical organization'
+                    },
+                    {
+                        id: 'breadcrumb',
+                        name: 'Breadcrumb Navigation',
+                        description: 'Hierarchical navigation showing current location'
+                    },
+                    {
+                        id: 'tabs',
+                        name: 'Tab Navigation',
+                        description: 'Content organization with tabbed interface'
+                    },
+                    {
+                        id: 'pagination',
+                        name: 'Pagination Navigation',
+                        description: 'Navigation through large datasets with page controls'
+                    }
+                ],
+                
+                init() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                generateNavHTML() {
+                    const currentType = this.navTypes.find(type => type.id === this.selectedNavType);
+                    let html = '';
+                    
+                    switch (this.selectedNavType) {
+                        case 'header':
+                            html = `<header class="bg-white border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center space-x-8">
+        <div class="text-lg font-semibold">Brand</div>
+        <nav class="hidden md:flex space-x-6">
+          <a href="#" class="nav-link active">Dashboard</a>
+          <a href="#" class="nav-link">Projects</a>
+          <a href="#" class="nav-link">Reports</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>`;
+                            break;
+                        case 'sidebar':
+                            html = `<div class="flex">
+  <div class="w-64 bg-gray-50 border-r border-gray-200 p-4">
+    <nav class="space-y-2">
+      <a href="#" class="nav-link active">Dashboard</a>
+      <a href="#" class="nav-link">Projects</a>
+      <a href="#" class="nav-link">Analytics</a>
+    </nav>
+  </div>
+  <div class="flex-1 p-6">
+    <!-- Main content -->
+  </div>
+</div>`;
+                            break;
+                        case 'breadcrumb':
+                            html = `<nav class="breadcrumb">
+  <a href="#" class="breadcrumb-item">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a href="#" class="breadcrumb-item">Projects</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-item active">Current Page</span>
+</nav>`;
+                            break;
+                        case 'tabs':
+                            html = `<div class="border border-gray-200 rounded-lg">
+  <nav class="tab-nav">
+    <a href="#" class="tab-link active">Overview</a>
+    <a href="#" class="tab-link">Details</a>
+    <a href="#" class="tab-link">Settings</a>
+  </nav>
+  <div class="p-6">
+    <!-- Tab content -->
+  </div>
+</div>`;
+                            break;
+                        case 'pagination':
+                            html = `<nav class="pagination">
+  <button class="pagination-item" disabled>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+  </button>
+  <a href="#" class="pagination-item active">1</a>
+  <a href="#" class="pagination-item">2</a>
+  <a href="#" class="pagination-item">3</a>
+  <button class="pagination-item">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+    </svg>
+  </button>
+</nav>`;
+                            break;
+                    }
+                    
+                    return html;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+/* Dashboard Layout Utilities - Fondation Botnar Design System */
+
+/* Dashboard Grid Layouts */
+.dashboard-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+/* KPI Card Layouts */
+.kpi-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@media (min-width: 1024px) {
+    .kpi-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Chart Container Utilities */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+.chart-container.chart-large {
+    height: 400px;
+}
+
+.chart-container.chart-small {
+    height: 200px;
+}
+
+.chart-container.chart-responsive {
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
+/* Dashboard Header Styles */
+.dashboard-header {
+    @apply bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-6;
+}
+
+.dashboard-header h2 {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2;
+}
+
+.dashboard-header p {
+    @apply text-gray-600 dark:text-gray-400;
+}
+
+/* Dashboard Section Spacing */
+.dashboard-section {
+    @apply mb-8;
+}
+
+.dashboard-section:last-child {
+    @apply mb-0;
+}
+
+/* Filter Bar Styles */
+.filter-bar {
+    @apply bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mb-6;
+}
+
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: end;
+}
+
+@media (max-width: 640px) {
+    .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* Data Table Enhancements */
+.dashboard-table {
+    @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.dashboard-table thead {
+    @apply bg-gray-50 dark:bg-gray-900;
+}
+
+.dashboard-table th {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider;
+}
+
+.dashboard-table tbody {
+    @apply bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.dashboard-table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100;
+}
+
+.dashboard-table tr:hover {
+    @apply bg-gray-50 dark:bg-gray-700 transition-colors;
+}
+
+/* Progress Bar Utilities */
+.progress-container {
+    @apply flex items-center;
+}
+
+.progress-bar {
+    @apply bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-2;
+    width: 4rem;
+}
+
+.progress-fill {
+    @apply bg-botnar-pink-500 h-2 rounded-full transition-all duration-300;
+}
+
+.progress-text {
+    @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+/* Status Badge Utilities */
+.status-badge {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full;
+}
+
+.status-badge.status-active {
+    @apply bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400;
+}
+
+.status-badge.status-completed {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400;
+}
+
+.status-badge.status-planned {
+    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400;
+}
+
+.status-badge.status-blocked {
+    @apply bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400;
+}
+
+/* KPI Card Styles */
+.kpi-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6;
+}
+
+.kpi-card .kpi-content {
+    @apply flex items-center justify-between;
+}
+
+.kpi-card .kpi-value {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100;
+}
+
+.kpi-card .kpi-label {
+    @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.kpi-card .kpi-change {
+    @apply text-xs flex items-center mt-1;
+}
+
+.kpi-card .kpi-change.trend-up {
+    @apply text-green-600 dark:text-green-400;
+}
+
+.kpi-card .kpi-change.trend-down {
+    @apply text-red-600 dark:text-red-400;
+}
+
+.kpi-card .kpi-change.trend-stable {
+    @apply text-gray-500 dark:text-gray-400;
+}
+
+.kpi-card .kpi-icon {
+    @apply w-12 h-12 rounded-lg flex items-center justify-center;
+}
+
+/* Layout Selector Styles */
+.layout-selector {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-4 mb-6;
+}
+
+.layout-option {
+    @apply p-4 rounded-lg border-2 text-left transition-all cursor-pointer;
+}
+
+.layout-option:not(.layout-active) {
+    @apply border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800;
+}
+
+.layout-option.layout-active {
+    @apply border-botnar-pink-500 bg-botnar-pink-50 dark:bg-botnar-pink-900/20 dark:border-botnar-pink-400;
+}
+
+.layout-option .layout-header {
+    @apply flex items-center mb-2;
+}
+
+.layout-option .layout-icon {
+    @apply w-8 h-8 rounded-lg flex items-center justify-center mr-3;
+}
+
+.layout-option .layout-name {
+    @apply font-semibold text-gray-900 dark:text-gray-100;
+}
+
+.layout-option .layout-description {
+    @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+/* Dashboard Actions */
+.dashboard-actions {
+    @apply flex items-center space-x-4;
+}
+
+.dashboard-actions .action-group {
+    @apply flex items-center space-x-2;
+}
+
+.dashboard-actions label {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+/* Insight Panels */
+.insight-panel {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6;
+}
+
+.insight-panel .insight-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4;
+}
+
+.insight-list {
+    @apply space-y-4;
+}
+
+.insight-item {
+    @apply flex items-start space-x-3;
+}
+
+.insight-item .insight-bullet {
+    @apply flex-shrink-0 w-2 h-2 rounded-full bg-botnar-pink-500 mt-2;
+}
+
+.insight-item .insight-text {
+    @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+/* Recommendation Panels */
+.recommendation-panel {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6;
+}
+
+.recommendation-panel .recommendation-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4;
+}
+
+.recommendation-list {
+    @apply space-y-4;
+}
+
+.recommendation-item {
+    @apply flex items-start space-x-3;
+}
+
+.recommendation-item .priority-badge {
+    @apply flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center;
+}
+
+.recommendation-item .priority-badge.priority-high {
+    @apply bg-red-100 dark:bg-red-900/20;
+}
+
+.recommendation-item .priority-badge.priority-medium {
+    @apply bg-yellow-100 dark:bg-yellow-900/20;
+}
+
+.recommendation-item .priority-badge.priority-low {
+    @apply bg-green-100 dark:bg-green-900/20;
+}
+
+.recommendation-item .priority-text {
+    @apply text-xs font-semibold;
+}
+
+.recommendation-item .priority-high .priority-text {
+    @apply text-red-600 dark:text-red-400;
+}
+
+.recommendation-item .priority-medium .priority-text {
+    @apply text-yellow-600 dark:text-yellow-400;
+}
+
+.recommendation-item .priority-low .priority-text {
+    @apply text-green-600 dark:text-green-400;
+}
+
+.recommendation-item .recommendation-text {
+    @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+/* Loading States */
+.dashboard-loading {
+    @apply animate-pulse;
+}
+
+.chart-skeleton {
+    @apply bg-gray-200 dark:bg-gray-700 rounded;
+    height: 300px;
+}
+
+.table-skeleton {
+    @apply space-y-3;
+}
+
+.table-skeleton .skeleton-row {
+    @apply bg-gray-200 dark:bg-gray-700 rounded h-4;
+}
+
+/* Error States */
+.dashboard-error {
+    @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center;
+}
+
+.dashboard-error .error-icon {
+    @apply w-12 h-12 text-red-500 dark:text-red-400 mx-auto mb-4;
+}
+
+.dashboard-error .error-title {
+    @apply text-lg font-semibold text-red-900 dark:text-red-100 mb-2;
+}
+
+.dashboard-error .error-message {
+    @apply text-red-700 dark:text-red-300;
+}
+
+/* Empty States */
+.dashboard-empty {
+    @apply bg-gray-50 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-12 text-center;
+}
+
+.dashboard-empty .empty-icon {
+    @apply w-16 h-16 text-gray-400 mx-auto mb-4;
+}
+
+.dashboard-empty .empty-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2;
+}
+
+.dashboard-empty .empty-message {
+    @apply text-gray-600 dark:text-gray-400 mb-6;
+}
+
+/* Animation Utilities */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-slide-in {
+    animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.dashboard-fade-in {
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* Print Styles */
+@media print {
+    .dashboard-actions,
+    .layout-selector,
+    .filter-bar {
+        display: none !important;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .chart-container {
+        height: auto !important;
+        page-break-inside: avoid;
+    }
+    
+    .kpi-card,
+    .insight-panel,
+    .recommendation-panel {
+        page-break-inside: avoid;
+        border: 1px solid #ccc !important;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .kpi-card,
+    .insight-panel,
+    .recommendation-panel {
+        border-width: 2px;
+    }
+    
+    .progress-fill {
+        background-color: #000 !important;
+    }
+    
+    .status-badge {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-slide-in,
+    .dashboard-fade-in,
+    .progress-fill {
+        animation: none !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Diagnostic Tool</title>
+    <style>
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            padding: 20px; 
+            background: #f8fafc;
+            color: #334155;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin: 20px 0; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 12px 16px; 
+            margin: 8px 0; 
+            border-radius: 8px; 
+            font-weight: 500;
+        }
+        .success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+        .warning { background: #fefce8; color: #ca8a04; border: 1px solid #fef08a; }
+        .info { background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe; }
+        .debug { 
+            font-family: 'Monaco', 'Menlo', monospace; 
+            font-size: 12px; 
+            background: #1e293b; 
+            color: #e2e8f0; 
+            padding: 16px; 
+            border-radius: 8px; 
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .chart-container { 
+            width: 100%; 
+            height: 300px; 
+            border: 2px dashed #e2e8f0; 
+            border-radius: 8px; 
+            position: relative;
+            background: #f8fafc;
+        }
+        .test-section { margin: 30px 0; }
+        h1, h2, h3 { color: #1e293b; }
+        .metrics { display: flex; gap: 20px; flex-wrap: wrap; }
+        .metric { background: #f1f5f9; padding: 12px; border-radius: 8px; text-align: center; min-width: 120px; }
+        .metric-value { font-size: 1.5em; font-weight: bold; color: #1e293b; }
+        .metric-label { font-size: 0.875em; color: #64748b; }
+        button { 
+            background: #3b82f6; 
+            color: white; 
+            border: none; 
+            padding: 10px 16px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 500;
+            margin: 5px;
+        }
+        button:hover { background: #2563eb; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Chart Diagnostic Tool</h1>
+        <p>Comprehensive testing and debugging for Fondation Botnar Chart Components</p>
+        
+        <!-- Status Overview -->
+        <div class="card">
+            <h2>📊 System Status</h2>
+            <div id="system-status">
+                <div class="status info">Initializing diagnostic checks...</div>
+            </div>
+            
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value" id="chart-version">—</div>
+                    <div class="metric-label">Chart.js Version</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="load-time">—</div>
+                    <div class="metric-label">Load Time (ms)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="dependencies-count">—</div>
+                    <div class="metric-label">Dependencies</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="test-status">—</div>
+                    <div class="metric-label">Test Status</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dependency Check -->
+        <div class="card">
+            <h2>📋 Dependency Check</h2>
+            <div id="dependency-status"></div>
+            <button onclick="recheckDependencies()">🔄 Recheck Dependencies</button>
+        </div>
+
+        <!-- Network Test -->
+        <div class="card">
+            <h2>🌐 Network & CDN Test</h2>
+            <div id="network-status"></div>
+            <button onclick="testNetworkResources()">🔄 Test Network Resources</button>
+        </div>
+
+        <!-- Chart Creation Tests -->
+        <div class="test-section">
+            <div class="card">
+                <h2>🎯 Chart Creation Tests</h2>
+                <div class="grid">
+                    <div>
+                        <h3>Simple Chart Test</h3>
+                        <div class="chart-container" id="simple-chart-container">
+                            <canvas id="simple-chart"></canvas>
+                        </div>
+                        <button onclick="createSimpleChart()">Create Simple Chart</button>
+                        <div id="simple-chart-status"></div>
+                    </div>
+                    
+                    <div>
+                        <h3>Botnar Bar Chart Test</h3>
+                        <div class="chart-container" id="botnar-bar-container">
+                            <canvas id="botnar-bar-chart"></canvas>
+                        </div>
+                        <button onclick="createBotnarBarChart()">Create Botnar Bar Chart</button>
+                        <div id="botnar-bar-status"></div>
+                    </div>
+                    
+                    <div>
+                        <h3>Botnar Line Chart Test</h3>
+                        <div class="chart-container" id="botnar-line-container">
+                            <canvas id="botnar-line-chart"></canvas>
+                        </div>
+                        <button onclick="createBotnarLineChart()">Create Botnar Line Chart</button>
+                        <div id="botnar-line-status"></div>
+                    </div>
+                    
+                    <div>
+                        <h3>Botnar Pie Chart Test</h3>
+                        <div class="chart-container" id="botnar-pie-container">
+                            <canvas id="botnar-pie-chart"></canvas>
+                        </div>
+                        <button onclick="createBotnarPieChart()">Create Botnar Pie Chart</button>
+                        <div id="botnar-pie-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Log -->
+        <div class="card">
+            <h2>📝 Console Log</h2>
+            <div class="debug" id="console-log" style="height: 200px; overflow-y: auto;"></div>
+            <button onclick="clearConsoleLog()">🗑️ Clear Log</button>
+        </div>
+
+        <!-- File Path Test -->
+        <div class="card">
+            <h2>📁 File Path Verification</h2>
+            <div id="file-path-status"></div>
+            <button onclick="testFilePaths()">🔄 Test File Paths</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    <script src="design-system/assets/js/chart-config-cdn.js"></script>
+
+    <script>
+        const startTime = performance.now();
+        let consoleMessages = [];
+        let charts = {};
+
+        // Override console methods to capture logs
+        const originalConsole = {
+            log: console.log,
+            error: console.error,
+            warn: console.warn,
+            info: console.info
+        };
+
+        function logMessage(type, ...args) {
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            
+            consoleMessages.push({ type, timestamp, message });
+            updateConsoleDisplay();
+            
+            // Call original console method
+            originalConsole[type](...args);
+        }
+
+        console.log = (...args) => logMessage('log', ...args);
+        console.error = (...args) => logMessage('error', ...args);
+        console.warn = (...args) => logMessage('warn', ...args);
+        console.info = (...args) => logMessage('info', ...args);
+
+        function updateConsoleDisplay() {
+            const consoleEl = document.getElementById('console-log');
+            consoleEl.innerHTML = consoleMessages.slice(-50).map(msg => 
+                `<div style="color: ${getConsoleColor(msg.type)};">[${msg.timestamp}] ${msg.type.toUpperCase()}: ${msg.message}</div>`
+            ).join('');
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        function getConsoleColor(type) {
+            switch(type) {
+                case 'error': return '#ef4444';
+                case 'warn': return '#f59e0b';
+                case 'info': return '#3b82f6';
+                default: return '#e2e8f0';
+            }
+        }
+
+        function clearConsoleLog() {
+            consoleMessages = [];
+            updateConsoleDisplay();
+        }
+
+        function updateStatus(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function checkDependencies() {
+            console.log('=== Dependency Check ===');
+            
+            const deps = {
+                'Chart.js': typeof Chart !== 'undefined',
+                'Chart.js Version': typeof Chart !== 'undefined' ? Chart.version : 'N/A',
+                'BotnarColors': typeof window.BotnarColors !== 'undefined',
+                'BotnarChartDefaults': typeof window.BotnarChartDefaults !== 'undefined',
+                'BotnarBarChartConfig': typeof window.BotnarBarChartConfig !== 'undefined',
+                'BotnarLineChartConfig': typeof window.BotnarLineChartConfig !== 'undefined',
+                'BotnarPieChartConfig': typeof window.BotnarPieChartConfig !== 'undefined',
+                'BotnarDoughnutChartConfig': typeof window.BotnarDoughnutChartConfig !== 'undefined'
+            };
+
+            let statusHTML = '';
+            let loadedCount = 0;
+            
+            Object.entries(deps).forEach(([name, loaded]) => {
+                if (name !== 'Chart.js Version') {
+                    const status = loaded ? 'success' : 'error';
+                    const icon = loaded ? '✅' : '❌';
+                    statusHTML += `<div class="status ${status}">${icon} ${name}: ${loaded ? 'Loaded' : 'Missing'}</div>`;
+                    if (loaded) loadedCount++;
+                } else {
+                    statusHTML += `<div class="status info">📊 ${name}: ${loaded}</div>`;
+                }
+            });
+
+            document.getElementById('dependency-status').innerHTML = statusHTML;
+            document.getElementById('dependencies-count').textContent = `${loadedCount}/7`;
+            document.getElementById('chart-version').textContent = deps['Chart.js Version'];
+            
+            return loadedCount === 7;
+        }
+
+        function recheckDependencies() {
+            checkDependencies();
+        }
+
+        function testNetworkResources() {
+            console.log('=== Network Resource Test ===');
+            updateStatus('network-status', 'Testing network resources...', 'info');
+            
+            const resources = [
+                'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js',
+                'design-system/assets/js/chart-config-cdn.js',
+                'dist/botnar-design-system.css'
+            ];
+            
+            let results = [];
+            let completed = 0;
+            
+            resources.forEach(url => {
+                fetch(url, { method: 'HEAD' })
+                    .then(response => {
+                        results.push({
+                            url,
+                            status: response.status,
+                            success: response.ok
+                        });
+                    })
+                    .catch(error => {
+                        results.push({
+                            url,
+                            status: 'Error',
+                            success: false,
+                            error: error.message
+                        });
+                    })
+                    .finally(() => {
+                        completed++;
+                        if (completed === resources.length) {
+                            displayNetworkResults(results);
+                        }
+                    });
+            });
+        }
+
+        function displayNetworkResults(results) {
+            let html = '';
+            results.forEach(result => {
+                const status = result.success ? 'success' : 'error';
+                const icon = result.success ? '✅' : '❌';
+                html += `<div class="status ${status}">${icon} ${result.url} - ${result.status}</div>`;
+            });
+            document.getElementById('network-status').innerHTML = html;
+        }
+
+        function testFilePaths() {
+            console.log('=== File Path Test ===');
+            
+            const paths = [
+                { path: 'design-system/assets/js/chart-config-cdn.js', description: 'Botnar Chart Config' },
+                { path: 'dist/botnar-design-system.css', description: 'Main CSS File' },
+                { path: 'design-system/molecules/charts/chart-utilities.css', description: 'Chart Utilities CSS' }
+            ];
+            
+            let html = '';
+            let completed = 0;
+            
+            paths.forEach(({ path, description }) => {
+                fetch(path, { method: 'HEAD' })
+                    .then(response => {
+                        const status = response.ok ? 'success' : 'error';
+                        const icon = response.ok ? '✅' : '❌';
+                        html += `<div class="status ${status}">${icon} ${description}: ${path} - ${response.status}</div>`;
+                    })
+                    .catch(error => {
+                        html += `<div class="status error">❌ ${description}: ${path} - Error: ${error.message}</div>`;
+                    })
+                    .finally(() => {
+                        completed++;
+                        if (completed === paths.length) {
+                            document.getElementById('file-path-status').innerHTML = html;
+                        }
+                    });
+            });
+        }
+
+        // Chart creation functions
+        function createSimpleChart() {
+            console.log('Creating simple chart...');
+            
+            if (typeof Chart === 'undefined') {
+                updateStatus('simple-chart-status', 'Error: Chart.js not available', 'error');
+                return;
+            }
+            
+            try {
+                if (charts.simple) charts.simple.destroy();
+                
+                const ctx = document.getElementById('simple-chart');
+                charts.simple = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['A', 'B', 'C', 'D'],
+                        datasets: [{
+                            label: 'Simple Test',
+                            data: [12, 19, 3, 5],
+                            backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+                updateStatus('simple-chart-status', 'Simple chart created successfully!', 'success');
+                console.log('Simple chart created successfully');
+                
+            } catch (error) {
+                updateStatus('simple-chart-status', `Error: ${error.message}`, 'error');
+                console.error('Error creating simple chart:', error);
+            }
+        }
+
+        function createBotnarBarChart() {
+            console.log('Creating Botnar bar chart...');
+            
+            if (typeof window.BotnarBarChartConfig === 'undefined') {
+                updateStatus('botnar-bar-status', 'Error: BotnarBarChartConfig not available', 'error');
+                return;
+            }
+            
+            try {
+                if (charts.botnarBar) charts.botnarBar.destroy();
+                
+                const ctx = document.getElementById('botnar-bar-chart');
+                const config = window.BotnarBarChartConfig();
+                
+                config.data = {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [65, 78, 84, 92],
+                        backgroundColor: window.BotnarColors.categorical.slice(0, 4),
+                        borderColor: window.BotnarColors.categorical.slice(0, 4),
+                        borderWidth: 2
+                    }]
+                };
+                
+                charts.botnarBar = new Chart(ctx, config);
+                updateStatus('botnar-bar-status', 'Botnar bar chart created successfully!', 'success');
+                console.log('Botnar bar chart created successfully');
+                
+            } catch (error) {
+                updateStatus('botnar-bar-status', `Error: ${error.message}`, 'error');
+                console.error('Error creating Botnar bar chart:', error);
+            }
+        }
+
+        function createBotnarLineChart() {
+            console.log('Creating Botnar line chart...');
+            
+            if (typeof window.BotnarLineChartConfig === 'undefined') {
+                updateStatus('botnar-line-status', 'Error: BotnarLineChartConfig not available', 'error');
+                return;
+            }
+            
+            try {
+                if (charts.botnarLine) charts.botnarLine.destroy();
+                
+                const ctx = document.getElementById('botnar-line-chart');
+                const config = window.BotnarLineChartConfig();
+                
+                config.data = {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [{
+                        label: 'Growth',
+                        data: [12, 19, 15, 25, 22],
+                        borderColor: window.BotnarColors.blue[600],
+                        backgroundColor: window.BotnarColors.blue[600] + '20',
+                        tension: 0.4
+                    }]
+                };
+                
+                charts.botnarLine = new Chart(ctx, config);
+                updateStatus('botnar-line-status', 'Botnar line chart created successfully!', 'success');
+                console.log('Botnar line chart created successfully');
+                
+            } catch (error) {
+                updateStatus('botnar-line-status', `Error: ${error.message}`, 'error');
+                console.error('Error creating Botnar line chart:', error);
+            }
+        }
+
+        function createBotnarPieChart() {
+            console.log('Creating Botnar pie chart...');
+            
+            if (typeof window.BotnarPieChartConfig === 'undefined') {
+                updateStatus('botnar-pie-status', 'Error: BotnarPieChartConfig not available', 'error');
+                return;
+            }
+            
+            try {
+                if (charts.botnarPie) charts.botnarPie.destroy();
+                
+                const ctx = document.getElementById('botnar-pie-chart');
+                const config = window.BotnarPieChartConfig();
+                
+                config.data = {
+                    labels: ['Health', 'Education', 'Nutrition'],
+                    datasets: [{
+                        data: [45, 30, 25],
+                        backgroundColor: [
+                            window.BotnarColors.pink[500],
+                            window.BotnarColors.blue[600],
+                            window.BotnarColors.success[600]
+                        ]
+                    }]
+                };
+                
+                charts.botnarPie = new Chart(ctx, config);
+                updateStatus('botnar-pie-status', 'Botnar pie chart created successfully!', 'success');
+                console.log('Botnar pie chart created successfully');
+                
+            } catch (error) {
+                updateStatus('botnar-pie-status', `Error: ${error.message}`, 'error');
+                console.error('Error creating Botnar pie chart:', error);
+            }
+        }
+
+        // Initialize diagnostic
+        function initializeDiagnostic() {
+            const endTime = performance.now();
+            const loadTime = Math.round(endTime - startTime);
+            
+            console.log('=== Diagnostic Tool Initialized ===');
+            console.log(`Load time: ${loadTime}ms`);
+            
+            document.getElementById('load-time').textContent = loadTime;
+            
+            // Check dependencies
+            const allLoaded = checkDependencies();
+            
+            // Update system status
+            const statusContainer = document.getElementById('system-status');
+            if (allLoaded) {
+                statusContainer.innerHTML = '<div class="status success">✅ All systems operational</div>';
+                document.getElementById('test-status').textContent = 'Ready';
+            } else {
+                statusContainer.innerHTML = '<div class="status error">❌ Some dependencies missing</div>';
+                document.getElementById('test-status').textContent = 'Issues';
+            }
+            
+            // Auto-run network test
+            testNetworkResources();
+            testFilePaths();
+            
+            console.log('Diagnostic tool ready for testing');
+        }
+
+        // Wait for everything to load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initializeDiagnostic, 100);
+        });
+
+        window.addEventListener('load', function() {
+            console.log('Window load event fired');
+            setTimeout(initializeDiagnostic, 200);
+        });
+    </script>
+</body>
+</html>

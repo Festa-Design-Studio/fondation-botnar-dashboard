@@ -1,0 +1,615 @@
+/* Form Wizard Utilities - Fondation Botnar Design System */
+
+/* Base Wizard Container */
+.wizard-container {
+    @apply max-w-4xl mx-auto;
+}
+
+.wizard-content {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+}
+
+/* Progress Indicator Styles */
+.wizard-progress {
+    @apply flex items-center justify-between mb-8 p-6 bg-gray-50 dark:bg-gray-900 rounded-t-lg;
+}
+
+.wizard-progress-step {
+    @apply flex items-center;
+}
+
+.wizard-step-indicator {
+    @apply flex items-center justify-center w-10 h-10 rounded-full font-medium text-sm transition-all duration-200;
+}
+
+.wizard-step-indicator.active {
+    @apply bg-botnar-pink-500 text-white;
+}
+
+.wizard-step-indicator.completed {
+    @apply bg-botnar-pink-500 text-white;
+}
+
+.wizard-step-indicator.pending {
+    @apply bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500;
+}
+
+.wizard-step-connector {
+    @apply h-1 flex-1 mx-4 transition-all duration-200;
+}
+
+.wizard-step-connector.completed {
+    @apply bg-botnar-pink-500;
+}
+
+.wizard-step-connector.pending {
+    @apply bg-gray-200 dark:bg-gray-700;
+}
+
+.wizard-step-label {
+    @apply mt-2 text-sm font-medium text-center;
+}
+
+.wizard-step-label.active {
+    @apply text-botnar-pink-600 dark:text-botnar-pink-400;
+}
+
+.wizard-step-label.completed {
+    @apply text-botnar-pink-600 dark:text-botnar-pink-400;
+}
+
+.wizard-step-label.pending {
+    @apply text-gray-500 dark:text-gray-400;
+}
+
+/* Step Content Styles */
+.wizard-step-content {
+    @apply p-8;
+}
+
+.wizard-step-header {
+    @apply mb-8;
+}
+
+.wizard-step-title {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2;
+}
+
+.wizard-step-subtitle {
+    @apply text-gray-600 dark:text-gray-400 text-lg;
+}
+
+.wizard-step-description {
+    @apply text-gray-500 dark:text-gray-500 mt-2;
+}
+
+/* Form Field Grouping */
+.wizard-form-section {
+    @apply mb-8;
+}
+
+.wizard-form-section-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700;
+}
+
+.wizard-form-group {
+    @apply mb-6;
+}
+
+.wizard-form-row {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.wizard-form-row-3 {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+/* Form Field Styles */
+.wizard-form-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2;
+}
+
+.wizard-form-label.required::after {
+    content: ' *';
+    @apply text-red-500;
+}
+
+.wizard-form-input {
+    @apply form-input w-full;
+}
+
+.wizard-form-textarea {
+    @apply form-textarea w-full min-h-[100px];
+}
+
+.wizard-form-select {
+    @apply form-select w-full;
+}
+
+.wizard-form-checkbox {
+    @apply form-checkbox text-botnar-pink-500;
+}
+
+.wizard-form-radio {
+    @apply form-radio text-botnar-pink-500;
+}
+
+/* Multi-select and Tag Input */
+.wizard-multi-select {
+    @apply relative;
+}
+
+.wizard-tag-input {
+    @apply flex flex-wrap gap-2 p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 min-h-[42px];
+}
+
+.wizard-tag {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-botnar-pink-100 text-botnar-pink-800 dark:bg-botnar-pink-900/20 dark:text-botnar-pink-400;
+}
+
+.wizard-tag-remove {
+    @apply ml-2 w-4 h-4 text-botnar-pink-500 hover:text-botnar-pink-700 cursor-pointer;
+}
+
+/* Date Range Picker */
+.wizard-date-range {
+    @apply flex items-center space-x-4;
+}
+
+.wizard-date-input {
+    @apply form-input flex-1;
+}
+
+.wizard-date-separator {
+    @apply text-gray-400 dark:text-gray-500 font-medium;
+}
+
+/* Dynamic List Controls */
+.wizard-dynamic-list {
+    @apply space-y-4;
+}
+
+.wizard-list-item {
+    @apply flex items-start space-x-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900;
+}
+
+.wizard-list-content {
+    @apply flex-1;
+}
+
+.wizard-list-actions {
+    @apply flex space-x-2;
+}
+
+.wizard-add-button {
+    @apply btn btn-secondary btn-sm;
+}
+
+.wizard-remove-button {
+    @apply btn btn-danger btn-sm;
+}
+
+/* Validation and Error States */
+.wizard-form-error {
+    @apply mt-2 text-sm text-red-600 dark:text-red-400;
+}
+
+.wizard-form-input.error {
+    @apply border-red-300 dark:border-red-600 focus:border-red-500 focus:ring-red-500;
+}
+
+.wizard-form-textarea.error {
+    @apply border-red-300 dark:border-red-600 focus:border-red-500 focus:ring-red-500;
+}
+
+.wizard-form-select.error {
+    @apply border-red-300 dark:border-red-600 focus:border-red-500 focus:ring-red-500;
+}
+
+.wizard-field-valid {
+    @apply border-green-300 dark:border-green-600;
+}
+
+.wizard-validation-icon {
+    @apply absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5;
+}
+
+.wizard-validation-icon.valid {
+    @apply text-green-500;
+}
+
+.wizard-validation-icon.invalid {
+    @apply text-red-500;
+}
+
+/* Step Navigation */
+.wizard-navigation {
+    @apply flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 rounded-b-lg;
+}
+
+.wizard-nav-left {
+    @apply flex items-center space-x-4;
+}
+
+.wizard-nav-right {
+    @apply flex items-center space-x-4;
+}
+
+.wizard-nav-button {
+    @apply btn;
+}
+
+.wizard-nav-button.primary {
+    @apply btn-primary;
+}
+
+.wizard-nav-button.secondary {
+    @apply btn-secondary;
+}
+
+.wizard-nav-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+/* Progress Summary */
+.wizard-progress-summary {
+    @apply bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6;
+}
+
+.wizard-progress-text {
+    @apply text-blue-800 dark:text-blue-200 text-sm font-medium;
+}
+
+.wizard-progress-bar {
+    @apply w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2 mt-2;
+}
+
+.wizard-progress-fill {
+    @apply bg-blue-500 h-2 rounded-full transition-all duration-300;
+}
+
+/* Auto-save Indicator */
+.wizard-autosave {
+    @apply flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400;
+}
+
+.wizard-autosave-icon {
+    @apply w-4 h-4;
+}
+
+.wizard-autosave.saving {
+    @apply text-yellow-600 dark:text-yellow-400;
+}
+
+.wizard-autosave.saved {
+    @apply text-green-600 dark:text-green-400;
+}
+
+.wizard-autosave.error {
+    @apply text-red-600 dark:text-red-400;
+}
+
+/* Conditional Content */
+.wizard-conditional {
+    @apply transition-all duration-200;
+}
+
+.wizard-conditional.hidden {
+    @apply opacity-0 max-h-0 overflow-hidden;
+}
+
+.wizard-conditional.visible {
+    @apply opacity-100 max-h-screen;
+}
+
+/* Help and Guidance */
+.wizard-help-section {
+    @apply bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6;
+}
+
+.wizard-help-title {
+    @apply text-blue-800 dark:text-blue-200 font-medium mb-2;
+}
+
+.wizard-help-content {
+    @apply text-blue-700 dark:text-blue-300 text-sm;
+}
+
+.wizard-help-toggle {
+    @apply text-blue-600 dark:text-blue-400 text-sm font-medium cursor-pointer hover:underline;
+}
+
+/* Review Step Styles */
+.wizard-review-section {
+    @apply mb-8 p-6 border border-gray-200 dark:border-gray-700 rounded-lg;
+}
+
+.wizard-review-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center justify-between;
+}
+
+.wizard-review-edit {
+    @apply text-botnar-pink-600 dark:text-botnar-pink-400 text-sm font-medium cursor-pointer hover:underline;
+}
+
+.wizard-review-content {
+    @apply space-y-3;
+}
+
+.wizard-review-item {
+    @apply flex justify-between items-start;
+}
+
+.wizard-review-label {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300 min-w-0 flex-1 mr-4;
+}
+
+.wizard-review-value {
+    @apply text-sm text-gray-900 dark:text-gray-100 font-medium text-right;
+}
+
+.wizard-review-empty {
+    @apply text-sm text-gray-500 dark:text-gray-400 italic;
+}
+
+/* Loading States */
+.wizard-loading {
+    @apply relative;
+}
+
+.wizard-loading::before {
+    content: '';
+    @apply absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-75 dark:bg-opacity-75 flex items-center justify-center z-10 rounded-lg;
+}
+
+.wizard-loading::after {
+    content: '';
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 border-4 border-botnar-pink-500 border-t-transparent rounded-full animate-spin z-20;
+}
+
+/* Success and Completion States */
+.wizard-success {
+    @apply text-center py-12;
+}
+
+.wizard-success-icon {
+    @apply w-16 h-16 text-green-500 mx-auto mb-4;
+}
+
+.wizard-success-title {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2;
+}
+
+.wizard-success-message {
+    @apply text-gray-600 dark:text-gray-400 mb-6;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 640px) {
+    .wizard-progress {
+        @apply flex-col space-y-4 p-4;
+    }
+    
+    .wizard-step-connector {
+        @apply h-8 w-1 mx-0 my-2;
+    }
+    
+    .wizard-step-content {
+        @apply p-4;
+    }
+    
+    .wizard-form-row,
+    .wizard-form-row-3 {
+        @apply grid-cols-1;
+    }
+    
+    .wizard-navigation {
+        @apply flex-col space-y-4 p-4;
+    }
+    
+    .wizard-nav-left,
+    .wizard-nav-right {
+        @apply w-full justify-center;
+    }
+    
+    .wizard-date-range {
+        @apply flex-col space-y-4 space-x-0;
+    }
+    
+    .wizard-list-item {
+        @apply flex-col space-y-4 space-x-0;
+    }
+    
+    .wizard-list-actions {
+        @apply w-full justify-end;
+    }
+    
+    .wizard-review-item {
+        @apply flex-col items-start space-y-2;
+    }
+    
+    .wizard-review-value {
+        @apply text-left;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .wizard-step-indicator {
+        @apply border-2;
+    }
+    
+    .wizard-step-indicator.active,
+    .wizard-step-indicator.completed {
+        @apply border-white;
+    }
+    
+    .wizard-step-indicator.pending {
+        @apply border-gray-400;
+    }
+    
+    .wizard-form-input,
+    .wizard-form-textarea,
+    .wizard-form-select {
+        @apply border-2;
+    }
+    
+    .wizard-tag {
+        @apply border border-current;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .wizard-step-indicator,
+    .wizard-step-connector,
+    .wizard-progress-fill,
+    .wizard-conditional {
+        transition: none !important;
+    }
+    
+    .wizard-loading::after {
+        animation: none !important;
+        @apply border-botnar-pink-500;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .wizard-navigation,
+    .wizard-autosave,
+    .wizard-help-toggle {
+        display: none !important;
+    }
+    
+    .wizard-content {
+        @apply shadow-none border-0;
+    }
+    
+    .wizard-step-content {
+        @apply p-0;
+    }
+    
+    .wizard-review-edit {
+        display: none !important;
+    }
+}
+
+/* Focus Visible Enhancement */
+.wizard-form-input:focus-visible,
+.wizard-form-textarea:focus-visible,
+.wizard-form-select:focus-visible,
+.wizard-nav-button:focus-visible {
+    @apply ring-2 ring-botnar-pink-500 ring-offset-2;
+}
+
+/* Custom Checkbox and Radio Styles */
+.wizard-checkbox-group {
+    @apply space-y-3;
+}
+
+.wizard-radio-group {
+    @apply space-y-3;
+}
+
+.wizard-checkbox-item,
+.wizard-radio-item {
+    @apply flex items-start space-x-3;
+}
+
+.wizard-checkbox-label,
+.wizard-radio-label {
+    @apply text-sm text-gray-700 dark:text-gray-300 font-medium;
+}
+
+.wizard-checkbox-description,
+.wizard-radio-description {
+    @apply text-sm text-gray-500 dark:text-gray-400 mt-1;
+}
+
+/* File Upload Styles */
+.wizard-file-upload {
+    @apply border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center transition-colors;
+}
+
+.wizard-file-upload.dragover {
+    @apply border-botnar-pink-500 bg-botnar-pink-50 dark:bg-botnar-pink-900/20;
+}
+
+.wizard-file-upload-icon {
+    @apply w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4;
+}
+
+.wizard-file-upload-text {
+    @apply text-gray-600 dark:text-gray-400 mb-2;
+}
+
+.wizard-file-upload-button {
+    @apply btn btn-secondary btn-sm;
+}
+
+.wizard-file-list {
+    @apply mt-4 space-y-2;
+}
+
+.wizard-file-item {
+    @apply flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg;
+}
+
+.wizard-file-info {
+    @apply flex items-center space-x-3;
+}
+
+.wizard-file-name {
+    @apply text-sm font-medium text-gray-900 dark:text-gray-100;
+}
+
+.wizard-file-size {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.wizard-file-remove {
+    @apply text-red-500 hover:text-red-700 cursor-pointer;
+}
+
+/* Utility Classes */
+.wizard-hidden {
+    @apply hidden;
+}
+
+.wizard-visible {
+    @apply block;
+}
+
+.wizard-fade-in {
+    @apply opacity-0 animate-fade-in;
+}
+
+.wizard-slide-up {
+    @apply transform translate-y-4 animate-slide-up;
+}
+
+/* Custom Animations */
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slide-up {
+    from { 
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.3s ease-out forwards;
+}

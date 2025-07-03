@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact Assessment - Fondation Botnar Dashboard</title>
+    <meta name="description" content="Program evaluation dashboard with impact metrics, outcome tracking, and comprehensive assessment tools for strategic decision-making">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Chart.js - Load first -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Botnar Chart Configuration - Load second -->
+    <script src="../../assets/js/chart-config-cdn.js"></script>
+    
+    <!-- Data Management & Performance -->
+    <script src="../data-manager.js"></script>
+    <script src="../loading-components.js"></script>
+    <script src="../error-handler.js"></script>
+    <script src="../performance-optimizer.js"></script>
+    <script src="../security-utils.js"></script>
+    <script src="../chart-initializer.js"></script>
+    
+    <!-- Alpine.js - Load after Chart.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .dashboard-nav {
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+        }
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #FF6B9D;
+        }
+        .impact-card {
+            transition: all 0.2s ease;
+        }
+        .impact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .outcome-badge {
+            position: relative;
+            overflow: hidden;
+        }
+        .outcome-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .outcome-badge:hover::before {
+            left: 100%;
+        }
+        
+        /* Mobile Content Fixes */
+        @media (max-width: 640px) {
+            .main-content header .px-6 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 1rem;
+            }
+            
+            .mobile-hide-sm {
+                display: none;
+            }
+            
+            main#main-content {
+                padding: 1rem;
+            }
+            
+            .impact-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem !important;
+            }
+            
+            h2 {
+                font-size: 1.25rem !important;
+            }
+            
+            .text-wrap {
+                word-break: break-word;
+                hyphens: auto;
+            }
+            
+            .chart-container {
+                min-height: 200px;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content header .px-6 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
+            main#main-content {
+                padding: 1.5rem;
+            }
+            
+            .btn-mobile-text {
+                display: none;
+            }
+            
+            .chart-container canvas {
+                max-height: 300px;
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .mobile-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease-in-out;
+            }
+            .mobile-backdrop.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .main-content {
+                margin-left: 0 !important;
+            }
+            
+            .grid-responsive {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .sidebar {
+                position: relative;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="impactAssessment()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <!-- Mobile Backdrop -->
+    <div class="mobile-backdrop" :class="{ 'show': sidebarOpen }" @click="sidebarOpen = false"></div>
+    
+    <div class="min-h-full flex">
+        <!-- Sidebar Navigation -->
+        <nav class="w-64 dashboard-nav text-white flex flex-col sidebar" :class="{ 'open': sidebarOpen }" aria-label="Main Navigation">
+            <!-- Logo and Header -->
+            <div class="p-6 border-b border-white/20">
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center justify-center">
+                        <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
+                    </div>
+                    <div>
+                        <p class="text-sm text-blue-200">Dashboard</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="flex-1 px-3 py-6 space-y-1">
+                <a href="../dashboard-home/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    </svg>
+                    Dashboard Home
+                </a>
+                
+                <a href="../grant-portfolio/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    Grant Portfolio
+                </a>
+                
+                <a href="../impact-assessment/index.html" class="nav-item active flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                    Impact Assessment
+                </a>
+                
+                <a href="../financial-reports/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                    </svg>
+                    Financial Reports
+                </a>
+                
+                <a href="../program-analysis/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    Program Analysis
+                </a>
+            </div>
+            
+            <!-- User Section -->
+            <div class="p-4 border-t border-white/20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">Strategic Team</p>
+                        <p class="text-xs text-blue-200">Admin Access</p>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <button @click="toggleTheme()" class="p-1 rounded hover:bg-white/10" title="Toggle Theme">
+                            <svg x-show="theme === 'light'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            </svg>
+                            <svg x-show="theme === 'dark'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                        </button>
+                        <button @click="logout()" class="p-1 rounded hover:bg-white/10 text-red-300 hover:text-red-200" title="Logout">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Top Header -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between header-content">
+                        <div class="flex items-center">
+                            <!-- Mobile Menu Button -->
+                            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden mr-4 p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-botnar-blue-500">
+                                <span class="sr-only">Open sidebar</span>
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Impact Assessment</h1>
+                                <p class="text-gray-600 dark:text-gray-300">Program evaluation and outcome tracking for strategic insights</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <!-- Period Selector -->
+                            <select x-model="selectedPeriod" @change="updatePeriod()" 
+                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm">
+                                <option value="current">Current Period</option>
+                                <option value="ytd">Year to Date</option>
+                                <option value="last_year">Last Year</option>
+                                <option value="all_time">All Time</option>
+                            </select>
+                            
+                            <!-- Comparison Toggle -->
+                            <label class="flex items-center">
+                                <input type="checkbox" x-model="comparisonMode" @change="toggleComparison()" 
+                                       class="rounded border-gray-300 text-botnar-blue-600 focus:ring-botnar-blue-500">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Compare</span>
+                            </label>
+                            
+                            <!-- Export Button -->
+                            <button @click="exportReport()" class="btn btn-primary text-sm">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Dashboard Content -->
+            <main id="main-content" class="flex-1 p-6 overflow-y-auto">
+                
+                <!-- Impact Overview KPIs -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Impact Overview</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Total Impact Score -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Impact Score</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="impactMetrics.totalScore">8.7</p>
+                                </div>
+                                <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center">
+                                <span class="text-sm text-green-600 dark:text-green-400 font-medium">+0.8</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">vs last period</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Lives Improved -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Lives Improved</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="formatNumber(impactMetrics.livesImproved)">2.8M</p>
+                                </div>
+                                <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center">
+                                <span class="text-sm text-blue-600 dark:text-blue-400 font-medium">+15%</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">vs target</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Sustainable Outcomes -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Sustainable Outcomes</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="impactMetrics.sustainableOutcomes">89%</p>
+                                </div>
+                                <div class="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center">
+                                <span class="text-sm text-purple-600 dark:text-purple-400 font-medium">+12%</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">vs baseline</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Innovation Index -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Innovation Index</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="impactMetrics.innovationIndex">7.2</p>
+                                </div>
+                                <div class="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364-.707l-.707.707M21 12h-1M17.66 18.364l-.707-.707M12 21v-1M6.34 18.364l.707-.707M3 12h1m2.343-5.707l.707.707"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center">
+                                <span class="text-sm text-orange-600 dark:text-orange-400 font-medium">+0.5</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">this quarter</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Impact Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Impact Trends Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Impact Trends</h3>
+                            <div class="flex items-center space-x-2">
+                                <button @click="chartView = 'impact'" 
+                                        :class="chartView === 'impact' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
+                                        class="px-3 py-1 rounded text-sm font-medium">Impact</button>
+                                <button @click="chartView = 'reach'" 
+                                        :class="chartView === 'reach' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
+                                        class="px-3 py-1 rounded text-sm font-medium">Reach</button>
+                                <button @click="chartView = 'outcomes'" 
+                                        :class="chartView === 'outcomes' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
+                                        class="px-3 py-1 rounded text-sm font-medium">Outcomes</button>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="impactTrendsChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Program Performance Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Program Performance</h3>
+                        <div class="h-64">
+                            <canvas id="programPerformanceChart"></canvas>
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                                <span class="text-gray-600 dark:text-gray-400">Digital Health: 9.2</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                                <span class="text-gray-600 dark:text-gray-400">Education: 8.8</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                                <span class="text-gray-600 dark:text-gray-400">Innovation: 7.5</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
+                                <span class="text-gray-600 dark:text-gray-400">Urban Development: 7.1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Outcome Areas and Key Findings -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                    <!-- Outcome Areas -->
+                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Key Outcome Areas</h3>
+                        <div class="space-y-4">
+                            <!-- Health Outcomes -->
+                            <div class="outcome-badge border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mr-3">
+                                            <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900 dark:text-gray-100">Health Outcomes</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Healthcare access and quality improvements</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-2xl font-bold text-green-600 dark:text-green-400">9.1</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Impact Score</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Child Mortality</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">-23%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Healthcare Access</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+45%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Quality of Care</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+38%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Education Outcomes -->
+                            <div class="outcome-badge border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mr-3">
+                                            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900 dark:text-gray-100">Education Outcomes</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Learning and skills development progress</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">8.8</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Impact Score</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Enrollment Rate</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+32%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Completion Rate</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+28%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Digital Literacy</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+56%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Innovation Outcomes -->
+                            <div class="outcome-badge border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mr-3">
+                                            <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900 dark:text-gray-100">Innovation Outcomes</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Technology adoption and innovation spread</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">7.5</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Impact Score</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Tech Adoption</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+67%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Innovation Rate</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+42%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 dark:text-gray-400">Scalability</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">+34%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Key Findings & Insights -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Key Findings</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-green-50 dark:bg-green-900/10 rounded-lg border-l-4 border-green-500">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-green-800 dark:text-green-300 mb-1">Exceeding Targets</h4>
+                                        <p class="text-sm text-green-700 dark:text-green-400">Digital health programs are achieving 115% of planned impact targets across all regions.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 bg-blue-50 dark:bg-blue-900/10 rounded-lg border-l-4 border-blue-500">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 text-blue-500 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-blue-800 dark:text-blue-300 mb-1">Accelerating Growth</h4>
+                                        <p class="text-sm text-blue-700 dark:text-blue-400">Education technology adoption rates have increased 67% faster than projected.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 bg-orange-50 dark:bg-orange-900/10 rounded-lg border-l-4 border-orange-500">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 text-orange-500 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.996-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-orange-800 dark:text-orange-300 mb-1">Areas for Focus</h4>
+                                        <p class="text-sm text-orange-700 dark:text-orange-400">Urban development programs require additional support to reach sustainability targets.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 bg-purple-50 dark:bg-purple-900/10 rounded-lg border-l-4 border-purple-500">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 text-purple-500 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364-.707l-.707.707M21 12h-1M17.66 18.364l-.707-.707M12 21v-1M6.34 18.364l.707-.707M3 12h1m2.343-5.707l.707.707"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-purple-800 dark:text-purple-300 mb-1">Innovation Impact</h4>
+                                        <p class="text-sm text-purple-700 dark:text-purple-400">AI-powered solutions are showing 3x higher impact scores than traditional approaches.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recommendations -->
+                        <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Recommendations</h4>
+                            <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                                <li class="flex items-start">
+                                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                                    Scale digital health models to additional regions
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                                    Increase AI integration across education programs
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                                    Develop partnerships for urban sustainability
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Items -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Action Items</h3>
+                        <button @click="addActionItem()" class="btn btn-outline text-sm">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            Add Action
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-botnar-blue-600 focus:ring-botnar-blue-500 mr-3">
+                                <div>
+                                    <p class="font-medium text-gray-900 dark:text-gray-100">Review urban development sustainability metrics</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Due: Next Friday • Assigned to: Impact Team</p>
+                                </div>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">
+                                High Priority
+                            </span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-botnar-blue-600 focus:ring-botnar-blue-500 mr-3">
+                                <div>
+                                    <p class="font-medium text-gray-900 dark:text-gray-100">Prepare digital health scaling proposal</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Due: End of month • Assigned to: Program Leads</p>
+                                </div>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+                                Medium Priority
+                            </span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" checked class="rounded border-gray-300 text-botnar-blue-600 focus:ring-botnar-blue-500 mr-3">
+                                <div>
+                                    <p class="font-medium text-gray-900 dark:text-gray-100 line-through">Complete Q4 impact assessment data collection</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Completed yesterday • Assigned to: Data Team</p>
+                                </div>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                                Completed
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function impactAssessment() {
+            return {
+                currentPage: 'impact-assessment',
+                theme: localStorage.getItem('theme') || 'light',
+                sidebarOpen: false,
+                selectedPeriod: 'current',
+                comparisonMode: false,
+                chartView: 'impact',
+                impactMetrics: {
+                    totalScore: 8.7,
+                    livesImproved: 2800000,
+                    sustainableOutcomes: '89%',
+                    innovationIndex: 7.2
+                },
+                performanceMetrics: {
+                    loadTime: 0,
+                    chartRenderTime: 0
+                },
+                charts: {
+                    impactTrends: null,
+                    programPerformance: null
+                },
+                
+                async init() {
+                    const startTime = performance.now();
+                    
+                    this.setTheme(this.theme);
+                    
+                    // Wait for Chart.js to be available, then initialize charts
+                    await this.waitForChartJS();
+                    this.$nextTick(() => {
+                        this.initCharts();
+                    });
+                    
+                    this.performanceMetrics.loadTime = performance.now() - startTime;
+                    console.log(`Impact Assessment loaded in ${this.performanceMetrics.loadTime.toFixed(2)}ms`);
+                },
+                
+                async waitForChartJS() {
+                    console.log('Waiting for Chart.js to load...');
+                    let attempts = 0;
+                    const maxAttempts = 50;
+                    
+                    while (typeof Chart === 'undefined' && attempts < maxAttempts) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        attempts++;
+                    }
+                    
+                    if (typeof Chart === 'undefined') {
+                        console.error('Chart.js failed to load after', maxAttempts * 100, 'ms');
+                        this.showNotification('Chart.js failed to load', 'error');
+                        return false;
+                    }
+                    
+                    console.log('Chart.js loaded successfully');
+                    return true;
+                },
+                
+                navigateTo(page) {
+                    this.currentPage = page;
+                    console.log(`Navigate to: ${page}`);
+                    this.showNotification(`Navigating to ${page.replace('-', ' ')}...`);
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.setTheme(this.theme);
+                    localStorage.setItem('theme', this.theme);
+                },
+                
+                setTheme(theme) {
+                    if (theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                updatePeriod() {
+                    this.showNotification(`Updated period to: ${this.selectedPeriod.replace('_', ' ')}`);
+                    // In a real app, this would trigger data refresh
+                    this.refreshCharts();
+                },
+                
+                toggleComparison() {
+                    if (this.comparisonMode) {
+                        this.showNotification('Comparison mode enabled - showing baseline vs current data');
+                    } else {
+                        this.showNotification('Comparison mode disabled');
+                    }
+                    this.refreshCharts();
+                },
+                
+                refreshCharts() {
+                    // Simulate chart data update
+                    if (this.charts.impactTrends) {
+                        this.charts.impactTrends.update();
+                    }
+                    if (this.charts.programPerformance) {
+                        this.charts.programPerformance.update();
+                    }
+                },
+                
+                exportReport() {
+                    this.showNotification('Generating impact assessment report...', 'info');
+                    
+                    // Simulate export process
+                    setTimeout(() => {
+                        this.showNotification('Impact assessment report exported successfully!', 'success');
+                    }, 2000);
+                },
+                
+                addActionItem() {
+                    this.showNotification('Opening new action item form...', 'info');
+                },
+                
+                formatNumber(value) {
+                    return new Intl.NumberFormat('en-US', {
+                        notation: 'compact',
+                        maximumFractionDigits: 1
+                    }).format(value);
+                },
+                
+                showNotification(message, type = 'info') {
+                    const notification = document.createElement('div');
+                    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${
+                        type === 'success' ? 'bg-green-500 text-white' :
+                        type === 'error' ? 'bg-red-500 text-white' :
+                        'bg-blue-500 text-white'
+                    }`;
+                    notification.textContent = message;
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+                },
+                
+                initCharts() {
+                    if (!window.chartInitializer) {
+                        console.error('Chart initializer not available');
+                        return;
+                    }
+
+                    // Define chart configurations
+                    const chartConfigs = {
+                        'impactTrendsChart': {
+                            type: 'line',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [{
+                                    label: 'Impact Score',
+                                    data: [7.2, 7.4, 7.8, 8.0, 8.1, 8.3, 8.5, 8.4, 8.6, 8.7, 8.8, 8.7],
+                                    borderColor: '#0066CC',
+                                    backgroundColor: 'rgba(0, 102, 204, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                }, {
+                                    label: 'Target',
+                                    data: [7.5, 7.5, 7.8, 8.0, 8.2, 8.3, 8.5, 8.6, 8.7, 8.8, 8.9, 9.0],
+                                    borderColor: '#FF6B9D',
+                                    borderDash: [5, 5],
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'top'
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: false,
+                                        min: 6,
+                                        max: 10
+                                    }
+                                }
+                            }
+                        },
+                        'programPerformanceChart': {
+                            type: 'radar',
+                            data: {
+                                labels: ['Digital Health', 'Education', 'Innovation', 'Urban Development', 'Sustainability', 'Reach'],
+                                datasets: [{
+                                    label: 'Current Performance',
+                                    data: [9.2, 8.8, 7.5, 7.1, 8.9, 8.6],
+                                    backgroundColor: 'rgba(0, 102, 204, 0.2)',
+                                    borderColor: '#0066CC',
+                                    borderWidth: 2
+                                }, {
+                                    label: 'Target',
+                                    data: [9.0, 8.5, 8.0, 8.0, 8.5, 8.0],
+                                    backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                                    borderColor: '#FF6B9D',
+                                    borderWidth: 2,
+                                    borderDash: [5, 5]
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    r: {
+                                        angleLines: {
+                                            display: true
+                                        },
+                                        suggestedMin: 0,
+                                        suggestedMax: 10
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    // Initialize charts with the new system
+                    window.chartInitializer.initializeCharts(chartConfigs);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

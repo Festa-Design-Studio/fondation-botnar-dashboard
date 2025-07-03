@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primary Buttons - Fondation Botnar Design System</title>
+    <meta name="description" content="Primary button components with variants, states, and accessibility features">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="primaryButtonsDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Atoms
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Primary Buttons</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Primary Buttons</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
+                    Primary action buttons with variants, states, and accessibility features
+                </p>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400">4</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Button Types</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-blue-600 dark:text-botnar-blue-400">3</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Sizes</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-success-700 dark:text-success-400">6</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">States</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">100%</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Accessible</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button Variants -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8">Button Variants</h2>
+                
+                <div class="space-y-8">
+                    
+                    <!-- Primary Button -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Primary Button</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Main call-to-action buttons for primary user actions</p>
+                        
+                        <div class="flex flex-wrap items-center gap-4 mb-6">
+                            <button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                                Save Changes
+                            </button>
+                            <button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Add Grant
+                            </button>
+                            <button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex items-center">
+                                Submit Application
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Code Example -->
+                        <div class="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code>&lt;button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"&gt;
+  Save Changes
+&lt;/button&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Button -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Secondary Button</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Secondary actions and alternative options</p>
+                        
+                        <div class="flex flex-wrap items-center gap-4 mb-6">
+                            <button class="bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                                Cancel
+                            </button>
+                            <button class="bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Export Data
+                            </button>
+                            <button class="bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex items-center">
+                                View Details
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Code Example -->
+                        <div class="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code>&lt;button class="bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"&gt;
+  Cancel
+&lt;/button&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Ghost Button -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Ghost Button</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Minimal buttons for tertiary actions and navigation</p>
+                        
+                        <div class="flex flex-wrap items-center gap-4 mb-6">
+                            <button class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                                Learn More
+                            </button>
+                            <button class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                Settings
+                            </button>
+                            <button class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex items-center">
+                                Back to Dashboard
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v6m8-6v6m-4-3v3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Code Example -->
+                        <div class="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code>&lt;button class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"&gt;
+  Learn More
+&lt;/button&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Danger Button -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Danger Button</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Destructive actions that require user confirmation</p>
+                        
+                        <div class="flex flex-wrap items-center gap-4 mb-6">
+                            <button class="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                                Delete Grant
+                            </button>
+                            <button class="bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-600 dark:border-red-400 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                                Remove Application
+                            </button>
+                            <button class="bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                                Reject
+                            </button>
+                        </div>
+                        
+                        <!-- Code Example -->
+                        <div class="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code>&lt;button class="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"&gt;
+  Delete Grant
+&lt;/button&gt;</code></pre>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Button Sizes -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Button Sizes</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <div class="space-y-6">
+                        
+                        <!-- Small Buttons -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Small (32px height)</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">Compact buttons for secondary actions and space-constrained interfaces</p>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 text-white px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-1">
+                                    Edit
+                                </button>
+                                <button class="bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400 px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-1">
+                                    View
+                                </button>
+                                <button class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1">
+                                    More
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Medium Buttons -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Medium (40px height)</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">Standard button size for most interface actions</p>
+                            <div class="flex flex-wrap items-center gap-4">
+                                <button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2">
+                                    Save Changes
+                                </button>
+                                <button class="bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400 px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2">
+                                    Cancel
+                                </button>
+                                <button class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Large Buttons -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Large (48px height)</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">Prominent buttons for primary actions and mobile interfaces</p>
+                            <div class="flex flex-wrap items-center gap-4">
+                                <button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2">
+                                    Submit Application
+                                </button>
+                                <button class="bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400 px-6 py-3 rounded-md text-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2">
+                                    Save Draft
+                                </button>
+                                <button class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-md text-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                    Go Back
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Button States -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Button States</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    
+                    <!-- Interactive States -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Interactive States</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Default</label>
+                                <button class="bg-botnar-pink-500 text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2">
+                                    Normal State
+                                </button>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hover</label>
+                                <button class="bg-botnar-pink-600 text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2">
+                                    Hover State
+                                </button>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Focus</label>
+                                <button class="bg-botnar-pink-500 text-white px-4 py-2.5 rounded-md font-medium focus:outline-none ring-2 ring-botnar-pink-500 ring-offset-2 dark:ring-offset-gray-800">
+                                    Focus State
+                                </button>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Active</label>
+                                <button class="bg-botnar-pink-700 text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2">
+                                    Active State
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special States -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Special States</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Disabled</label>
+                                <button disabled class="bg-gray-400 dark:bg-gray-600 text-white px-4 py-2.5 rounded-md font-medium opacity-50 cursor-not-allowed">
+                                    Disabled State
+                                </button>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Loading</label>
+                                <button class="bg-botnar-pink-500 text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 flex items-center" x-data="{ loading: true }">
+                                    <svg x-show="loading" class="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Saving...
+                                </button>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Success</label>
+                                <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Saved Successfully
+                                </button>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Warning</label>
+                                <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                    Review Required
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Interactive Demo -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Interactive Demo</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Button State Manager</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">Click buttons to see different states and interactions</p>
+                    
+                    <div x-data="buttonDemo()" class="space-y-6">
+                        
+                        <!-- Demo Controls -->
+                        <div class="flex flex-wrap gap-4">
+                            <button @click="simulateLoading()" 
+                                    :disabled="isLoading"
+                                    class="bg-botnar-pink-500 hover:bg-botnar-pink-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 flex items-center">
+                                <svg x-show="isLoading" class="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span x-text="isLoading ? 'Processing...' : 'Simulate Loading'"></span>
+                            </button>
+                            
+                            <button @click="showSuccess()" 
+                                    :class="successShown ? 'bg-green-600 hover:bg-green-700' : 'bg-transparent hover:bg-botnar-blue-50 dark:hover:bg-botnar-blue-900/20 text-botnar-blue-600 dark:text-botnar-blue-400 border border-botnar-blue-600 dark:border-botnar-blue-400'"
+                                    class="px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-2 flex items-center">
+                                <svg x-show="successShown" class="w-4 h-4 mr-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span x-text="successShown ? 'Success!' : 'Show Success'" :class="successShown ? 'text-white' : ''"></span>
+                            </button>
+                            
+                            <button @click="increment()" 
+                                    class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center">
+                                <span x-text="`Clicked ${clickCount} times`"></span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- State Display -->
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                            <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Current States:</h4>
+                            <div class="space-y-1 text-sm text-gray-700 dark:text-gray-300">
+                                <div>Loading: <span x-text="isLoading ? 'true' : 'false'" :class="isLoading ? 'text-yellow-600' : 'text-gray-500'"></span></div>
+                                <div>Success Shown: <span x-text="successShown ? 'true' : 'false'" :class="successShown ? 'text-green-600' : 'text-gray-500'"></span></div>
+                                <div>Click Count: <span x-text="clickCount" class="text-botnar-blue-600 dark:text-botnar-blue-400 font-medium"></span></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accessibility Features -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Accessibility Features</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- WCAG Compliance -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">WCAG Compliance</h3>
+                        <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Minimum 44px touch target size
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                WCAG AA contrast ratios (4.5:1)
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Focus ring indicators
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Keyboard navigation support
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Screen reader compatible
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Interactive Features -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Interactive Features</h3>
+                        <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-center">
+                                <span class="text-blue-500 mr-2">•</span>
+                                Smooth hover transitions
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-blue-500 mr-2">•</span>
+                                Loading state animations
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-blue-500 mr-2">•</span>
+                                Icon integration support
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-blue-500 mr-2">•</span>
+                                Disabled state handling
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-blue-500 mr-2">•</span>
+                                Dark mode variants
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        function primaryButtonsDemo() {
+            return {
+                theme: 'light',
+                
+                init() {
+                    // Initialize theme from localStorage
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            }
+        }
+
+        function buttonDemo() {
+            return {
+                isLoading: false,
+                successShown: false,
+                clickCount: 0,
+                
+                simulateLoading() {
+                    this.isLoading = true;
+                    setTimeout(() => {
+                        this.isLoading = false;
+                        this.showSuccess();
+                    }, 2000);
+                },
+                
+                showSuccess() {
+                    this.successShown = true;
+                    setTimeout(() => {
+                        this.successShown = false;
+                    }, 3000);
+                },
+                
+                increment() {
+                    this.clickCount++;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Library - Fondation Botnar Design System</title>
+    <meta name="description" content="Static icon library reference for the Fondation Botnar Design System">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .icon-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .icon-card:hover {
+            border-color: #e91e63;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .icon-display {
+            width: 2rem;
+            height: 2rem;
+            margin: 0 auto 1rem auto;
+            color: #6b7280;
+        }
+        
+        .icon-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .icon-usage {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-sm text-gray-600 hover:text-botnar-blue-600">
+                    ← Interactive Showcase
+                </a>
+                <span class="text-gray-400">•</span>
+                <span class="text-gray-700 font-medium">Static Icon Library</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        
+        <!-- Page Header -->
+        <div class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Icon Library Reference</h1>
+            <p class="text-xl text-gray-600 mb-6">
+                Complete reference of all available icons in the Fondation Botnar Design System
+            </p>
+        </div>
+
+        <!-- Navigation Icons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Navigation Icons</h2>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Home</div>
+                    <div class="icon-usage">Dashboard home navigation</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Menu</div>
+                    <div class="icon-usage">Menu toggle, navigation drawer</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Arrow Left</div>
+                    <div class="icon-usage">Back navigation, previous page</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Arrow Right</div>
+                    <div class="icon-usage">Forward navigation, next page</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Icons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Action Icons</h2>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Add</div>
+                    <div class="icon-usage">Add new items, create actions</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Edit</div>
+                    <div class="icon-usage">Edit content, modify data</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Delete</div>
+                    <div class="icon-usage">Delete items, remove content</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Save</div>
+                    <div class="icon-usage">Save data, download files</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data & Analytics Icons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Data & Analytics Icons</h2>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Chart Bar</div>
+                    <div class="icon-usage">Bar charts, data visualization</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Chart Line</div>
+                    <div class="icon-usage">Line charts, trend analysis</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0V6a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Table</div>
+                    <div class="icon-usage">Data tables, grid layouts</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Filter</div>
+                    <div class="icon-usage">Filter data, search refinement</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Communication Icons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Communication Icons</h2>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.07 2.82a3 3 0 00-4.24 0L2.82 5.83a3 3 0 000 4.24L9.88 17.12a3 3 0 004.24 0l3.01-3.01a3 3 0 000-4.24L10.07 2.82z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Bell</div>
+                    <div class="icon-usage">Notifications, alerts</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Mail</div>
+                    <div class="icon-usage">Email, messages</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Chat</div>
+                    <div class="icon-usage">Chat, discussions</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Share</div>
+                    <div class="icon-usage">Share content, social features</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Icons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Status Icons</h2>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Check</div>
+                    <div class="icon-usage">Success states, completed tasks</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">X</div>
+                    <div class="icon-usage">Close, cancel, error states</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.728-.833-2.498 0L4.416 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Warning</div>
+                    <div class="icon-usage">Warning messages, caution</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Info</div>
+                    <div class="icon-usage">Information, help tooltips</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Files & Media Icons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Files & Media Icons</h2>
+            <div class="icon-grid">
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Document</div>
+                    <div class="icon-usage">Documents, files</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Upload</div>
+                    <div class="icon-usage">File upload, import data</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Download</div>
+                    <div class="icon-usage">Download files, export data</div>
+                </div>
+                
+                <div class="icon-card">
+                    <div class="icon-display">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="icon-name">Image</div>
+                    <div class="icon-usage">Images, media content</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

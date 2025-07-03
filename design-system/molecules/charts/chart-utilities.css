@@ -1,0 +1,323 @@
+/**
+ * Chart Components - Utility CSS
+ * Fondation Botnar Design System
+ * 
+ * Chart-specific styling utilities for proper layout and responsive behavior
+ */
+
+/* Chart Container Utilities */
+.chart-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+/* Chart Size Classes */
+.chart-sm {
+    max-width: 200px;
+    height: 200px;
+}
+
+.chart-md {
+    max-width: 300px;
+    height: 300px;
+}
+
+.chart-lg {
+    max-width: 400px;
+    height: 400px;
+}
+
+.chart-xl {
+    max-width: 500px;
+    height: 500px;
+}
+
+/* Chart Responsive Layouts */
+@media (max-width: 768px) {
+    .chart-container {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .chart-sm,
+    .chart-md,
+    .chart-lg,
+    .chart-xl {
+        max-width: 100%;
+        height: 250px;
+    }
+}
+
+/* Chart Loading State */
+.chart-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background-color: #f9fafb;
+    border: 1px dashed #d1d5db;
+    border-radius: 0.5rem;
+}
+
+.dark .chart-loading {
+    background-color: #1f2937;
+    border-color: #4b5563;
+}
+
+/* Chart Error State */
+.chart-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    padding: 2rem;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    color: #dc2626;
+    text-align: center;
+}
+
+.dark .chart-error {
+    background-color: #450a0a;
+    border-color: #991b1b;
+    color: #f87171;
+}
+
+/* Chart Legend Custom Styles */
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.dark .chart-legend-item {
+    color: #9ca3af;
+}
+
+.chart-legend-color {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 0.125rem;
+    flex-shrink: 0;
+}
+
+/* Chart Tooltip Custom Styles */
+.chart-tooltip {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.dark .chart-tooltip {
+    background-color: rgba(31, 41, 55, 0.95);
+    border-color: #4b5563;
+    color: #f3f4f6;
+}
+
+/* Chart Grid and Axis Customization */
+.chart-grid-light {
+    stroke: #f3f4f6;
+    stroke-width: 1;
+}
+
+.chart-grid-dark {
+    stroke: #374151;
+    stroke-width: 1;
+}
+
+.chart-axis-light {
+    color: #6b7280;
+}
+
+.chart-axis-dark {
+    color: #9ca3af;
+}
+
+/* Chart Animation Classes */
+.chart-animate-in {
+    animation: chartFadeIn 0.75s ease-in-out;
+}
+
+.chart-animate-out {
+    animation: chartFadeOut 0.3s ease-in-out;
+}
+
+@keyframes chartFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes chartFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Chart Accessibility Improvements */
+.chart-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.chart-focus-visible:focus {
+    outline: 2px solid #e91e63;
+    outline-offset: 2px;
+}
+
+/* Chart Container with Controls */
+.chart-with-controls {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+    .chart-with-controls {
+        grid-template-columns: 300px 1fr;
+    }
+}
+
+/* Chart Controls Panel */
+.chart-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+}
+
+.dark .chart-controls {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+.chart-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.chart-control-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.dark .chart-control-label {
+    color: #f3f4f6;
+}
+
+/* Chart Dashboard Layout */
+.chart-dashboard-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.chart-dashboard-item {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark .chart-dashboard-item {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+.chart-dashboard-title {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.dark .chart-dashboard-title {
+    color: #f9fafb;
+}
+
+/* Chart Performance Optimization */
+.chart-container.lazy-load {
+    min-height: 200px;
+    background-image: linear-gradient(90deg, #f3f4f6 25%, #ffffff 50%, #f3f4f6 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.dark .chart-container.lazy-load {
+    background-image: linear-gradient(90deg, #374151 25%, #1f2937 50%, #374151 75%);
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Chart Print Styles */
+@media print {
+    .chart-container {
+        max-width: 100%;
+        height: auto;
+        break-inside: avoid;
+    }
+    
+    .chart-controls {
+        display: none;
+    }
+    
+    .chart-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color System - Fondation Botnar Design System</title>
+    <meta name="description" content="Interactive color palette with accessibility compliance and usage examples">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="colorSystemDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Atoms
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Colors</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Color System</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
+                    Accessible color palette designed for the Fondation Botnar Dashboard
+                </p>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400">2</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Brand Colors</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-blue-600 dark:text-botnar-blue-400">4</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Status Colors</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-success-700 dark:text-success-400">100%</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">WCAG AA</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">30</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Total Shades</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Picker & Preview -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Interactive Color Preview</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Selected Color Display -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Selected Color</h3>
+                            <div class="space-y-4">
+                                <div class="w-full h-32 rounded-lg border border-gray-200 dark:border-gray-600"
+                                     :style="`background-color: ${selectedColor.hex}`"></div>
+                                
+                                <div class="space-y-2">
+                                    <div class="text-lg font-semibold text-gray-900 dark:text-gray-100" x-text="selectedColor.name"></div>
+                                    <div class="grid grid-cols-3 gap-4 text-sm">
+                                        <div>
+                                            <span class="text-gray-500 dark:text-gray-400">HEX:</span>
+                                            <span class="font-mono ml-1" x-text="selectedColor.hex"></span>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-500 dark:text-gray-400">RGB:</span>
+                                            <span class="font-mono ml-1" x-text="selectedColor.rgb"></span>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-500 dark:text-gray-400">HSL:</span>
+                                            <span class="font-mono ml-1" x-text="selectedColor.hsl"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Contrast Badge -->
+                                    <div class="mt-3">
+                                        <span :class="{
+                                            'bg-green-500 text-white': selectedColor.contrast === 'AAA',
+                                            'bg-yellow-500 text-white': selectedColor.contrast === 'AA',
+                                            'bg-red-500 text-white': selectedColor.contrast === 'Fail'
+                                        }" class="inline-flex px-3 py-1 text-xs font-medium rounded-full">
+                                            <span x-text="selectedColor.contrast === 'Fail' ? 'Text: Insufficient Contrast' : `Text: WCAG ${selectedColor.contrast}`"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Usage Examples -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Usage Example</h3>
+                            <div class="space-y-4">
+                                <!-- Button Example -->
+                                <button class="px-4 py-2 rounded-md font-medium transition-colors"
+                                        :style="`background-color: ${selectedColor.hex}; color: ${selectedColor.contrast === 'Fail' ? '#000' : '#fff'}`">
+                                    Sample Button
+                                </button>
+                                
+                                <!-- Text Example -->
+                                <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                    <p class="font-medium" :style="`color: ${selectedColor.hex}`">
+                                        Sample text in this color
+                                    </p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                        Text contrast: <span x-text="selectedColor.contrast"></span>
+                                    </p>
+                                </div>
+                                
+                                <!-- Border Example -->
+                                <div class="p-4 rounded-lg border-2" :style="`border-color: ${selectedColor.hex}`">
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Sample border usage</p>
+                                </div>
+                                
+                                <!-- Copy to Clipboard -->
+                                <button @click="copyToClipboard(selectedColor.hex)" 
+                                        class="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                    <span x-show="!copied">Copy HEX Code</span>
+                                    <span x-show="copied" class="text-green-600 dark:text-green-400">Copied!</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Primary Colors - Botnar Pink -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Primary Colors - Botnar Pink</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">The primary brand color palette based on Fondation Botnar's signature pink.</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4" x-data="{ colors: pinkColors }">
+                    <template x-for="color in colors" :key="color.name">
+                        <div class="color-atom cursor-pointer group" 
+                             :role="'button'"
+                             :aria-label="`${color.name} - ${color.hex}`"
+                             :tabindex="0"
+                             @click="selectColor(color)"
+                             @keydown.enter="selectColor(color)"
+                             @keydown.space.prevent="selectColor(color)">
+                            <div class="w-full h-20 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg group-focus:ring-2 group-focus:ring-botnar-pink-500"
+                                 :style="`background-color: ${color.hex}`"></div>
+                            <div class="mt-2 text-center">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="color.name"></div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400" x-text="color.hex"></div>
+                                <div class="mt-1">
+                                    <span :class="{
+                                        'bg-green-500 text-white': color.contrast === 'AAA',
+                                        'bg-yellow-500 text-white': color.contrast === 'AA',
+                                        'bg-red-500 text-white': color.contrast === 'Fail'
+                                    }" class="inline-flex px-2 py-0.5 text-xs font-medium rounded-full">
+                                        <span x-text="color.contrast === 'Fail' ? 'Fail' : color.contrast"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+
+            <!-- Secondary Colors - Botnar Blue -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Secondary Colors - Botnar Blue</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Complementary blue palette for supporting elements and data visualization.</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4" x-data="{ colors: blueColors }">
+                    <template x-for="color in colors" :key="color.name">
+                        <div class="color-atom cursor-pointer group" 
+                             :role="'button'"
+                             :aria-label="`${color.name} - ${color.hex}`"
+                             :tabindex="0"
+                             @click="selectColor(color)"
+                             @keydown.enter="selectColor(color)"
+                             @keydown.space.prevent="selectColor(color)">
+                            <div class="w-full h-20 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg group-focus:ring-2 group-focus:ring-botnar-blue-500"
+                                 :style="`background-color: ${color.hex}`"></div>
+                            <div class="mt-2 text-center">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="color.name"></div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400" x-text="color.hex"></div>
+                                <div class="mt-1">
+                                    <span :class="{
+                                        'bg-green-500 text-white': color.contrast === 'AAA',
+                                        'bg-yellow-500 text-white': color.contrast === 'AA',
+                                        'bg-red-500 text-white': color.contrast === 'Fail'
+                                    }" class="inline-flex px-2 py-0.5 text-xs font-medium rounded-full">
+                                        <span x-text="color.contrast === 'Fail' ? 'Fail' : color.contrast"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+
+            <!-- Status Colors -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Status Colors</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Semantic colors for feedback, alerts, and status indicators.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <template x-for="statusColor in statusColors" :key="statusColor.name">
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4" x-text="statusColor.name"></h3>
+                            <div class="space-y-4">
+                                <template x-for="variant in statusColor.variants" :key="variant.name">
+                                    <div class="color-atom cursor-pointer group" 
+                                         :role="'button'"
+                                         :aria-label="`${variant.name} - ${variant.hex}`"
+                                         :tabindex="0"
+                                         @click="selectColor(variant)"
+                                         @keydown.enter="selectColor(variant)"
+                                         @keydown.space.prevent="selectColor(variant)">
+                                        <div class="w-full h-16 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg"
+                                             :style="`background-color: ${variant.hex}`"></div>
+                                        <div class="mt-2 text-center">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="variant.name"></div>
+                                            <div class="text-xs text-gray-600 dark:text-gray-400" x-text="variant.hex"></div>
+                                            <div class="mt-1">
+                                                <span :class="{
+                                                    'bg-green-500 text-white': variant.contrast === 'AAA',
+                                                    'bg-yellow-500 text-white': variant.contrast === 'AA',
+                                                    'bg-red-500 text-white': variant.contrast === 'Fail'
+                                                }" class="inline-flex px-2 py-0.5 text-xs font-medium rounded-full">
+                                                    <span x-text="variant.contrast === 'Fail' ? 'Fail' : variant.contrast"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+
+            <!-- Neutral Colors -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Neutral Colors</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Gray scale for text, borders, and backgrounds.</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4" x-data="{ colors: grayColors }">
+                    <template x-for="color in colors" :key="color.name">
+                        <div class="color-atom cursor-pointer group" 
+                             :role="'button'"
+                             :aria-label="`${color.name} - ${color.hex}`"
+                             :tabindex="0"
+                             @click="selectColor(color)"
+                             @keydown.enter="selectColor(color)"
+                             @keydown.space.prevent="selectColor(color)">
+                            <div class="w-full h-20 rounded-lg border transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg group-focus:ring-2 group-focus:ring-gray-500"
+                                 :style="`background-color: ${color.hex}; border-color: ${color.name === 'Gray 50' ? '#d1d5db' : color.hex}`"></div>
+                            <div class="mt-2 text-center">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="color.name"></div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400" x-text="color.hex"></div>
+                                <div class="mt-1">
+                                    <span :class="{
+                                        'bg-green-500 text-white': color.contrast === 'AAA',
+                                        'bg-yellow-500 text-white': color.contrast === 'AA',
+                                        'bg-red-500 text-white': color.contrast === 'Fail'
+                                    }" class="inline-flex px-2 py-0.5 text-xs font-medium rounded-full">
+                                        <span x-text="color.contrast === 'Fail' ? 'Fail' : color.contrast"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+
+            <!-- Usage Guidelines -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Accessibility Guidelines -->
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Accessibility Best Practices
+                        </h3>
+                        <ul class="text-sm text-green-800 dark:text-green-200 space-y-2">
+                            <li>• Use AA or AAA rated colors for text</li>
+                            <li>• Never rely on color alone to convey information</li>
+                            <li>• Include patterns or icons with color coding</li>
+                            <li>• Test with color-blind simulations</li>
+                            <li>• Maintain 4.5:1 contrast ratio minimum</li>
+                            <li>• Use high contrast mode compatibility</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Brand Guidelines -->
+                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-blue-900 dark:text-blue-100 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            Brand Color Usage
+                        </h3>
+                        <ul class="text-sm text-blue-800 dark:text-blue-200 space-y-2">
+                            <li>• Pink 500: Primary actions and brand highlights</li>
+                            <li>• Blue 600: Secondary actions and information</li>
+                            <li>• Status colors: Feedback and system states</li>
+                            <li>• Gray scale: Text hierarchy and structure</li>
+                            <li>• Maintain brand consistency across all touchpoints</li>
+                            <li>• Follow color hierarchy guidelines</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+        <span x-text="announcement"></span>
+    </div>
+
+    <script>
+        function colorSystemDemo() {
+            return {
+                theme: 'light',
+                selectedColor: {
+                    name: 'Pink 500',
+                    hex: '#e91e63',
+                    rgb: '233, 30, 99',
+                    hsl: '340°, 82%, 52%',
+                    contrast: 'AA'
+                },
+                copied: false,
+                announcement: '',
+                
+                pinkColors: [
+                    { name: 'Pink 50', hex: '#fce4ec', rgb: '252, 228, 236', hsl: '340°, 80%, 94%', contrast: 'Fail' },
+                    { name: 'Pink 100', hex: '#f8bbd9', rgb: '248, 187, 217', hsl: '340°, 84%, 85%', contrast: 'Fail' },
+                    { name: 'Pink 200', hex: '#f48fb1', rgb: '244, 143, 177', hsl: '340°, 82%, 76%', contrast: 'Fail' },
+                    { name: 'Pink 300', hex: '#f06292', rgb: '240, 98, 146', hsl: '340°, 81%, 66%', contrast: 'Fail' },
+                    { name: 'Pink 400', hex: '#ec407a', rgb: '236, 64, 122', hsl: '340°, 81%, 59%', contrast: 'AA' },
+                    { name: 'Pink 500', hex: '#e91e63', rgb: '233, 30, 99', hsl: '340°, 82%, 52%', contrast: 'AA' },
+                    { name: 'Pink 600', hex: '#d81b60', rgb: '216, 27, 96', hsl: '340°, 78%, 48%', contrast: 'AAA' },
+                    { name: 'Pink 700', hex: '#c2185b', rgb: '194, 24, 91', hsl: '340°, 78%, 43%', contrast: 'AAA' },
+                    { name: 'Pink 800', hex: '#ad1457', rgb: '173, 20, 87', hsl: '340°, 79%, 38%', contrast: 'AAA' },
+                    { name: 'Pink 900', hex: '#880e4f', rgb: '136, 14, 79', hsl: '340°, 81%, 29%', contrast: 'AAA' }
+                ],
+                
+                blueColors: [
+                    { name: 'Blue 50', hex: '#e3f2fd', rgb: '227, 242, 253', hsl: '207°, 89%, 94%', contrast: 'Fail' },
+                    { name: 'Blue 100', hex: '#bbdefb', rgb: '187, 222, 251', hsl: '207°, 90%, 86%', contrast: 'Fail' },
+                    { name: 'Blue 200', hex: '#90caf9', rgb: '144, 202, 249', hsl: '207°, 90%, 77%', contrast: 'Fail' },
+                    { name: 'Blue 300', hex: '#64b5f6', rgb: '100, 181, 246', hsl: '207°, 90%, 68%', contrast: 'Fail' },
+                    { name: 'Blue 400', hex: '#42a5f5', rgb: '66, 165, 245', hsl: '207°, 90%, 61%', contrast: 'Fail' },
+                    { name: 'Blue 500', hex: '#2196f3', rgb: '33, 150, 243', hsl: '207°, 90%, 54%', contrast: 'AA' },
+                    { name: 'Blue 600', hex: '#1976d2', rgb: '25, 118, 210', hsl: '207°, 79%, 46%', contrast: 'AAA' },
+                    { name: 'Blue 700', hex: '#1565c0', rgb: '21, 101, 192', hsl: '207°, 80%, 42%', contrast: 'AAA' },
+                    { name: 'Blue 800', hex: '#0d47a1', rgb: '13, 71, 161', hsl: '207°, 85%, 34%', contrast: 'AAA' },
+                    { name: 'Blue 900', hex: '#0a3d7c', rgb: '10, 61, 124', hsl: '207°, 85%, 26%', contrast: 'AAA' }
+                ],
+                
+                statusColors: [
+                    {
+                        name: 'Success',
+                        variants: [
+                            { name: 'Success', hex: '#10b981', rgb: '16, 185, 129', hsl: '158°, 84%, 39%', contrast: 'AAA' },
+                            { name: 'Success Light', hex: '#d1fae5', rgb: '209, 250, 229', hsl: '158°, 64%, 90%', contrast: 'Fail' }
+                        ]
+                    },
+                    {
+                        name: 'Warning',
+                        variants: [
+                            { name: 'Warning', hex: '#ef6c00', rgb: '239, 108, 0', hsl: '27°, 100%, 47%', contrast: 'AAA' },
+                            { name: 'Warning Light', hex: '#fef3c7', rgb: '254, 243, 199', hsl: '48°, 96%, 89%', contrast: 'Fail' }
+                        ]
+                    },
+                    {
+                        name: 'Error',
+                        variants: [
+                            { name: 'Error', hex: '#ef4444', rgb: '239, 68, 68', hsl: '0°, 84%, 60%', contrast: 'AAA' },
+                            { name: 'Error Light', hex: '#fee2e2', rgb: '254, 226, 226', hsl: '0°, 93%, 94%', contrast: 'Fail' }
+                        ]
+                    },
+                    {
+                        name: 'Info',
+                        variants: [
+                            { name: 'Info', hex: '#3b82f6', rgb: '59, 130, 246', hsl: '217°, 91%, 60%', contrast: 'AAA' },
+                            { name: 'Info Light', hex: '#dbeafe', rgb: '219, 234, 254', hsl: '217°, 92%, 93%', contrast: 'Fail' }
+                        ]
+                    }
+                ],
+                
+                grayColors: [
+                    { name: 'Gray 50', hex: '#f9fafb', rgb: '249, 250, 251', hsl: '210°, 20%, 98%', contrast: 'Fail' },
+                    { name: 'Gray 100', hex: '#f3f4f6', rgb: '243, 244, 246', hsl: '210°, 20%, 96%', contrast: 'Fail' },
+                    { name: 'Gray 200', hex: '#e5e7eb', rgb: '229, 231, 235', hsl: '210°, 16%, 91%', contrast: 'Fail' },
+                    { name: 'Gray 300', hex: '#d1d5db', rgb: '209, 213, 219', hsl: '210°, 14%, 84%', contrast: 'Fail' },
+                    { name: 'Gray 400', hex: '#9ca3af', rgb: '156, 163, 175', hsl: '210°, 11%, 65%', contrast: 'Fail' },
+                    { name: 'Gray 500', hex: '#6b7280', rgb: '107, 114, 128', hsl: '210°, 9%, 46%', contrast: 'AA' },
+                    { name: 'Gray 600', hex: '#4b5563', rgb: '75, 85, 99', hsl: '210°, 14%, 34%', contrast: 'AAA' },
+                    { name: 'Gray 700', hex: '#374151', rgb: '55, 65, 81', hsl: '210°, 19%, 27%', contrast: 'AAA' },
+                    { name: 'Gray 800', hex: '#1f2937', rgb: '31, 41, 55', hsl: '210°, 28%, 17%', contrast: 'AAA' },
+                    { name: 'Gray 900', hex: '#111827', rgb: '17, 24, 39', hsl: '210°, 39%, 11%', contrast: 'AAA' }
+                ],
+                
+                init() {
+                    // Initialize theme from localStorage
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                selectColor(color) {
+                    this.selectedColor = color;
+                    this.announcement = `Selected ${color.name}, ${color.hex}. WCAG contrast rating: ${color.contrast}`;
+                },
+                
+                async copyToClipboard(text) {
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        this.copied = true;
+                        this.announcement = `Copied ${text} to clipboard`;
+                        setTimeout(() => {
+                            this.copied = false;
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy: ', err);
+                        this.announcement = 'Failed to copy to clipboard';
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

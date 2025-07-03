@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chart Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .chart-container { width: 400px; height: 400px; margin: 20px 0; border: 1px solid #ccc; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Simple Chart.js Test</h1>
+    
+    <div id="status" class="status">Initializing...</div>
+    
+    <div class="chart-container">
+        <canvas id="testChart"></canvas>
+    </div>
+    
+    <!-- Chart.js v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <script>
+        function updateStatus(message, isError = false) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + (isError ? 'error' : 'success');
+            console.log(message);
+        }
+        
+        function testChart() {
+            updateStatus('Testing Chart.js availability...');
+            
+            if (typeof Chart === 'undefined') {
+                updateStatus('ERROR: Chart.js not loaded!', true);
+                return;
+            }
+            
+            updateStatus('Chart.js loaded successfully. Version: ' + Chart.version);
+            
+            try {
+                const ctx = document.getElementById('testChart');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Red', 'Blue', 'Yellow', 'Green'],
+                        datasets: [{
+                            label: 'Test Data',
+                            data: [12, 19, 3, 5],
+                            backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+                updateStatus('Chart created successfully!');
+            } catch (error) {
+                updateStatus('ERROR creating chart: ' + error.message, true);
+                console.error('Full error:', error);
+            }
+        }
+        
+        // Test when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testChart, 100);
+        });
+    </script>
+</body>
+</html>

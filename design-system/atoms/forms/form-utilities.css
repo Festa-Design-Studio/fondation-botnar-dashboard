@@ -1,0 +1,626 @@
+/**
+ * Fondation Botnar Design System - Form Utilities
+ * 
+ * This file contains utility classes for form elements in the Botnar design system.
+ * All form elements are designed to be accessible and consistent with WCAG guidelines.
+ */
+
+/* ==========================================================================
+   Base Form Styles
+   ========================================================================== */
+
+/* Form group wrapper */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Form labels */
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151; /* gray-700 */
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+/* Required field indicator */
+.form-label .required {
+    color: #ef4444; /* red-500 */
+    margin-left: 0.25rem;
+}
+
+/* ==========================================================================
+   Input Fields
+   ========================================================================== */
+
+/* Base input styles */
+.form-input,
+.form-select,
+.form-textarea {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #111827; /* gray-900 */
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #e91e63; /* botnar-pink-500 */
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: #9ca3af; /* gray-400 */
+}
+
+/* Input sizes */
+.form-input-sm,
+.form-select-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.form-input-lg,
+.form-select-lg {
+    padding: 1rem 1.25rem;
+    font-size: 1.125rem;
+}
+
+/* ==========================================================================
+   Input States
+   ========================================================================== */
+
+/* Success state */
+.form-input-success,
+.form-select-success,
+.form-textarea-success {
+    border-color: #10b981; /* green-500 */
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-input-success:focus,
+.form-select-success:focus,
+.form-textarea-success:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* Error state */
+.form-input-error,
+.form-select-error,
+.form-textarea-error {
+    border-color: #ef4444; /* red-500 */
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-input-error:focus,
+.form-select-error:focus,
+.form-textarea-error:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* Warning state */
+.form-input-warning,
+.form-select-warning,
+.form-textarea-warning {
+    border-color: #ef6c00; /* orange-600 */
+    box-shadow: 0 0 0 3px rgba(239, 108, 0, 0.1);
+}
+
+.form-input-warning:focus,
+.form-select-warning:focus,
+.form-textarea-warning:focus {
+    border-color: #ef6c00;
+    box-shadow: 0 0 0 3px rgba(239, 108, 0, 0.2);
+}
+
+/* Disabled state */
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+    background-color: #f9fafb; /* gray-50 */
+    color: #9ca3af; /* gray-400 */
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Read-only state */
+.form-input[readonly],
+.form-textarea[readonly] {
+    background-color: #f9fafb; /* gray-50 */
+    color: #6b7280; /* gray-500 */
+}
+
+/* ==========================================================================
+   Select Elements
+   ========================================================================== */
+
+.form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5rem 1.5rem;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.form-select:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23e91e63' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+/* Multiple select */
+.form-select[multiple] {
+    background-image: none;
+    padding-right: 1rem;
+}
+
+/* ==========================================================================
+   Textarea Elements
+   ========================================================================== */
+
+.form-textarea {
+    resize: vertical;
+    min-height: 4rem;
+}
+
+.form-textarea-no-resize {
+    resize: none;
+}
+
+/* ==========================================================================
+   Checkbox and Radio Elements
+   ========================================================================== */
+
+/* Checkbox group */
+.form-checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.form-checkbox {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.125rem;
+    color: #e91e63; /* botnar-pink-500 */
+    background-color: #ffffff;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.form-checkbox:focus {
+    outline: none;
+    border-color: #e91e63;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+.form-checkbox:checked {
+    background-color: #e91e63;
+    border-color: #e91e63;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+}
+
+.form-checkbox:disabled {
+    background-color: #f9fafb; /* gray-50 */
+    border-color: #d1d5db; /* gray-300 */
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.form-checkbox-label {
+    font-size: 0.875rem;
+    color: #374151; /* gray-700 */
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+/* Radio group */
+.form-radio-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.form-radio {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.125rem;
+    color: #e91e63; /* botnar-pink-500 */
+    background-color: #ffffff;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 50%;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.form-radio:focus {
+    outline: none;
+    border-color: #e91e63;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+.form-radio:checked {
+    background-color: #e91e63;
+    border-color: #e91e63;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+}
+
+.form-radio:disabled {
+    background-color: #f9fafb; /* gray-50 */
+    border-color: #d1d5db; /* gray-300 */
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.form-radio-label {
+    font-size: 0.875rem;
+    color: #374151; /* gray-700 */
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   Helper Text and Messages
+   ========================================================================== */
+
+/* Help text */
+.form-help {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280; /* gray-500 */
+    line-height: 1.4;
+}
+
+/* Success message */
+.form-success {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #10b981; /* green-500 */
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-success::before {
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310b981'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'/%3e%3c/svg%3e");
+    background-size: contain;
+    flex-shrink: 0;
+}
+
+/* Error message */
+.form-error {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #ef4444; /* red-500 */
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-error::before {
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef4444'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12'/%3e%3c/svg%3e");
+    background-size: contain;
+    flex-shrink: 0;
+}
+
+/* Warning message */
+.form-warning {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #ef6c00; /* orange-600 */
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-warning::before {
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef6c00'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.728-.833-2.498 0L4.416 16.5c-.77.833.192 2.5 1.732 2.5z'/%3e%3c/svg%3e");
+    background-size: contain;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Form Layout Utilities
+   ========================================================================== */
+
+/* Inline form groups */
+.form-inline {
+    display: flex;
+    align-items: end;
+    gap: 1rem;
+}
+
+.form-inline .form-group {
+    margin-bottom: 0;
+}
+
+/* Form grid */
+.form-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.form-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+    .form-grid-2,
+    .form-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Input groups */
+.input-group {
+    display: flex;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.input-group .form-input {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.input-group .form-input:first-child {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+.input-group .form-input:last-child {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+.input-group-addon {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    background-color: #f9fafb; /* gray-50 */
+    border: 1px solid #d1d5db; /* gray-300 */
+    color: #6b7280; /* gray-500 */
+}
+
+.input-group-addon:first-child {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+    border-right: 0;
+}
+
+.input-group-addon:last-child {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+    border-left: 0;
+}
+
+/* ==========================================================================
+   Button Styles (Form Context)
+   ========================================================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #e91e63; /* botnar-pink-500 */
+    color: #ffffff;
+    border-color: #e91e63;
+}
+
+.btn-primary:hover {
+    background-color: #d81b60; /* botnar-pink-600 */
+    border-color: #d81b60;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.25);
+}
+
+.btn-secondary {
+    background-color: #ffffff;
+    color: #374151; /* gray-700 */
+    border-color: #d1d5db; /* gray-300 */
+}
+
+.btn-secondary:hover {
+    background-color: #f9fafb; /* gray-50 */
+    color: #111827; /* gray-900 */
+}
+
+.btn-secondary:focus {
+    box-shadow: 0 0 0 3px rgba(209, 213, 219, 0.5);
+}
+
+/* ==========================================================================
+   Dark Mode Support
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    .form-label {
+        color: #d1d5db; /* gray-300 */
+    }
+    
+    .form-input,
+    .form-select,
+    .form-textarea {
+        background-color: #374151; /* gray-700 */
+        border-color: #4b5563; /* gray-600 */
+        color: #f9fafb; /* gray-50 */
+    }
+    
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+        border-color: #e91e63;
+        box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.25);
+    }
+    
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+        color: #9ca3af; /* gray-400 */
+    }
+    
+    .form-input:disabled,
+    .form-select:disabled,
+    .form-textarea:disabled {
+        background-color: #1f2937; /* gray-800 */
+        color: #6b7280; /* gray-500 */
+    }
+    
+    .form-checkbox,
+    .form-radio {
+        background-color: #374151; /* gray-700 */
+        border-color: #4b5563; /* gray-600 */
+    }
+    
+    .form-checkbox-label,
+    .form-radio-label {
+        color: #d1d5db; /* gray-300 */
+    }
+    
+    .form-help {
+        color: #9ca3af; /* gray-400 */
+    }
+    
+    .input-group-addon {
+        background-color: #1f2937; /* gray-800 */
+        border-color: #4b5563; /* gray-600 */
+        color: #9ca3af; /* gray-400 */
+    }
+}
+
+/* Manual dark mode classes */
+.dark .form-label {
+    color: #d1d5db; /* gray-300 */
+}
+
+.dark .form-input,
+.dark .form-select,
+.dark .form-textarea {
+    background-color: #374151; /* gray-700 */
+    border-color: #4b5563; /* gray-600 */
+    color: #f9fafb; /* gray-50 */
+}
+
+.dark .form-input:focus,
+.dark .form-select:focus,
+.dark .form-textarea:focus {
+    border-color: #e91e63;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.25);
+}
+
+.dark .form-input::placeholder,
+.dark .form-textarea::placeholder {
+    color: #9ca3af; /* gray-400 */
+}
+
+.dark .form-input:disabled,
+.dark .form-select:disabled,
+.dark .form-textarea:disabled {
+    background-color: #1f2937; /* gray-800 */
+    color: #6b7280; /* gray-500 */
+}
+
+.dark .form-checkbox,
+.dark .form-radio {
+    background-color: #374151; /* gray-700 */
+    border-color: #4b5563; /* gray-600 */
+}
+
+.dark .form-checkbox-label,
+.dark .form-radio-label {
+    color: #d1d5db; /* gray-300 */
+}
+
+.dark .form-help {
+    color: #9ca3af; /* gray-400 */
+}
+
+.dark .input-group-addon {
+    background-color: #1f2937; /* gray-800 */
+    border-color: #4b5563; /* gray-600 */
+    color: #9ca3af; /* gray-400 */
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+    .form-input,
+    .form-select,
+    .form-textarea {
+        border: 1px solid #000;
+        background: transparent;
+        color: #000;
+    }
+    
+    .form-checkbox,
+    .form-radio {
+        border: 1px solid #000;
+        background: transparent;
+    }
+    
+    .btn {
+        border: 1px solid #000;
+        background: transparent;
+        color: #000;
+    }
+}

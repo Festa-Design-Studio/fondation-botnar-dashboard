@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color System - Fondation Botnar Design System</title>
+    <meta name="description" content="Interactive color palette with accessibility compliance and usage examples">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="colorSystemDemo()">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center space-x-4">
+                <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
+                <span class="text-gray-400">•</span>
+                <span class="text-gray-700 font-medium">Color System</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Primary Colors Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Primary Colors - Botnar Pink</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4">
+                <!-- Pink 50 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 50 - Very Light Pink">
+                    <div class="color-swatch bg-botnar-pink-50 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 50</div>
+                        <div class="text-gray-600">#fce4ec</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 100 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 100 - Light Pink">
+                    <div class="color-swatch bg-botnar-pink-100 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 100</div>
+                        <div class="text-gray-600">#f8bbd9</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 200 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 200 - Medium Light Pink">
+                    <div class="color-swatch bg-botnar-pink-200 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 200</div>
+                        <div class="text-gray-600">#f48fb1</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 300 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 300 - Medium Pink">
+                    <div class="color-swatch bg-botnar-pink-300 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 300</div>
+                        <div class="text-gray-600">#f06292</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 400 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 400 - Medium Dark Pink">
+                    <div class="color-swatch bg-botnar-pink-400 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 400</div>
+                        <div class="text-gray-600">#ec407a</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aa">Text: AA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 500 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 500 - Primary Brand Pink">
+                    <div class="color-swatch bg-botnar-pink-500 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 500</div>
+                        <div class="text-gray-600">#e91e63</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aa">Text: AA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 600 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 600 - Dark Pink">
+                    <div class="color-swatch bg-botnar-pink-600 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 600</div>
+                        <div class="text-gray-600">#d81b60</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 700 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 700 - Darker Pink">
+                    <div class="color-swatch bg-botnar-pink-700 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 700</div>
+                        <div class="text-gray-600">#c2185b</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 800 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 800 - Very Dark Pink">
+                    <div class="color-swatch bg-botnar-pink-800 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 800</div>
+                        <div class="text-gray-600">#ad1457</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pink 900 -->
+                <div class="color-atom" role="img" aria-label="Botnar Pink 900 - Darkest Pink">
+                    <div class="color-swatch bg-botnar-pink-900 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Pink 900</div>
+                        <div class="text-gray-600">#880e4f</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secondary Colors Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Secondary Colors - Botnar Blue</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4">
+                <!-- Blue 50 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 50 - Very Light Blue">
+                    <div class="color-swatch bg-botnar-blue-50 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 50</div>
+                        <div class="text-gray-600">#e3f2fd</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 100 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 100 - Light Blue">
+                    <div class="color-swatch bg-botnar-blue-100 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 100</div>
+                        <div class="text-gray-600">#bbdefb</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 200 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 200 - Medium Light Blue">
+                    <div class="color-swatch bg-botnar-blue-200 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 200</div>
+                        <div class="text-gray-600">#90caf9</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 300 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 300 - Medium Blue">
+                    <div class="color-swatch bg-botnar-blue-300 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 300</div>
+                        <div class="text-gray-600">#64b5f6</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 400 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 400 - Medium Dark Blue">
+                    <div class="color-swatch bg-botnar-blue-400 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 400</div>
+                        <div class="text-gray-600">#42a5f5</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 500 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 500 - Primary Blue">
+                    <div class="color-swatch bg-botnar-blue-500 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 500</div>
+                        <div class="text-gray-600">#2196f3</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aa">Text: AA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 600 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 600 - Dark Blue">
+                    <div class="color-swatch bg-botnar-blue-600 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 600</div>
+                        <div class="text-gray-600">#1976d2</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 700 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 700 - Darker Blue">
+                    <div class="color-swatch bg-botnar-blue-700 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 700</div>
+                        <div class="text-gray-600">#1565c0</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 800 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 800 - Very Dark Blue">
+                    <div class="color-swatch bg-botnar-blue-800 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 800</div>
+                        <div class="text-gray-600">#0d47a1</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blue 900 -->
+                <div class="color-atom" role="img" aria-label="Botnar Blue 900 - Darkest Blue">
+                    <div class="color-swatch bg-botnar-blue-900 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Blue 900</div>
+                        <div class="text-gray-600">#0a3d7c</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Colors Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Status Colors</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Success -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Success</h3>
+                    <div class="space-y-4">
+                        <div class="color-atom" role="img" aria-label="Success Color - Green">
+                            <div class="color-swatch mb-3" style="background-color: #10b981;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Success</div>
+                                <div class="text-gray-600">#10b981</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="color-atom" role="img" aria-label="Success Light Background">
+                            <div class="color-swatch mb-3" style="background-color: #d1fae5;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Success Light</div>
+                                <div class="text-gray-600">#d1fae5</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-fail">Text: Fail</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Warning</h3>
+                    <div class="space-y-4">
+                        <div class="color-atom" role="img" aria-label="Warning Color - Orange">
+                            <div class="color-swatch mb-3" style="background-color: #ef6c00;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Warning</div>
+                                <div class="text-gray-600">#ef6c00</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="color-atom" role="img" aria-label="Warning Light Background">
+                            <div class="color-swatch mb-3" style="background-color: #fef3c7;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Warning Light</div>
+                                <div class="text-gray-600">#fef3c7</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-fail">Text: Fail</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Error</h3>
+                    <div class="space-y-4">
+                        <div class="color-atom" role="img" aria-label="Error Color - Red">
+                            <div class="color-swatch mb-3" style="background-color: #ef4444;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Error</div>
+                                <div class="text-gray-600">#ef4444</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="color-atom" role="img" aria-label="Error Light Background">
+                            <div class="color-swatch mb-3" style="background-color: #fee2e2;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Error Light</div>
+                                <div class="text-gray-600">#fee2e2</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-fail">Text: Fail</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Info</h3>
+                    <div class="space-y-4">
+                        <div class="color-atom" role="img" aria-label="Info Color - Blue">
+                            <div class="color-swatch mb-3" style="background-color: #3b82f6;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Info</div>
+                                <div class="text-gray-600">#3b82f6</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="color-atom" role="img" aria-label="Info Light Background">
+                            <div class="color-swatch mb-3" style="background-color: #dbeafe;"></div>
+                            <div class="color-info text-center">
+                                <div class="font-medium text-gray-900">Info Light</div>
+                                <div class="text-gray-600">#dbeafe</div>
+                                <div class="mt-1">
+                                    <span class="contrast-badge contrast-fail">Text: Fail</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Neutral Colors Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Neutral Colors</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4">
+                <!-- Gray 50 -->
+                <div class="color-atom" role="img" aria-label="Gray 50 - Very Light Gray">
+                    <div class="color-swatch bg-gray-50 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 50</div>
+                        <div class="text-gray-600">#f9fafb</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 100 -->
+                <div class="color-atom" role="img" aria-label="Gray 100 - Light Gray">
+                    <div class="color-swatch bg-gray-100 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 100</div>
+                        <div class="text-gray-600">#f3f4f6</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 200 -->
+                <div class="color-atom" role="img" aria-label="Gray 200 - Medium Light Gray">
+                    <div class="color-swatch bg-gray-200 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 200</div>
+                        <div class="text-gray-600">#e5e7eb</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 300 -->
+                <div class="color-atom" role="img" aria-label="Gray 300 - Medium Gray">
+                    <div class="color-swatch bg-gray-300 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 300</div>
+                        <div class="text-gray-600">#d1d5db</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 400 -->
+                <div class="color-atom" role="img" aria-label="Gray 400 - Medium Dark Gray">
+                    <div class="color-swatch bg-gray-400 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 400</div>
+                        <div class="text-gray-600">#9ca3af</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-fail">Text: Fail</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 500 -->
+                <div class="color-atom" role="img" aria-label="Gray 500 - Dark Gray">
+                    <div class="color-swatch bg-gray-500 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 500</div>
+                        <div class="text-gray-600">#6b7280</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aa">Text: AA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 600 -->
+                <div class="color-atom" role="img" aria-label="Gray 600 - Darker Gray">
+                    <div class="color-swatch bg-gray-600 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 600</div>
+                        <div class="text-gray-600">#4b5563</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 700 -->
+                <div class="color-atom" role="img" aria-label="Gray 700 - Very Dark Gray">
+                    <div class="color-swatch bg-gray-700 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 700</div>
+                        <div class="text-gray-600">#374151</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 800 -->
+                <div class="color-atom" role="img" aria-label="Gray 800 - Near Black">
+                    <div class="color-swatch bg-gray-800 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 800</div>
+                        <div class="text-gray-600">#1f2937</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gray 900 -->
+                <div class="color-atom" role="img" aria-label="Gray 900 - Black">
+                    <div class="color-swatch bg-gray-900 mb-3"></div>
+                    <div class="color-info text-center">
+                        <div class="font-medium text-gray-900">Gray 900</div>
+                        <div class="text-gray-600">#111827</div>
+                        <div class="mt-1">
+                            <span class="contrast-badge contrast-aaa">Text: AAA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Screen reader information -->
+    <div class="sr-only" aria-live="polite" id="sr-info">
+        Color contrast ratings: AA means 4.5:1 ratio for normal text, AAA means 7:1 ratio for enhanced accessibility. 
+        Fail means insufficient contrast for text on that background color.
+    </div>
+</body>
+</html>

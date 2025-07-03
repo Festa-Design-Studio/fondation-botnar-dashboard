@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant Portfolio - Fondation Botnar Dashboard</title>
+    <meta name="description" content="Comprehensive grant portfolio management interface for Fondation Botnar's global initiatives and funding programs">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Chart.js - Load first -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Botnar Chart Configuration - Load second -->
+    <script src="../../assets/js/chart-config-cdn.js"></script>
+    
+    <!-- Data Management & Performance -->
+    <script src="../data-manager.js"></script>
+    <script src="../loading-components.js"></script>
+    <script src="../error-handler.js"></script>
+    <script src="../performance-optimizer.js"></script>
+    <script src="../security-utils.js"></script>
+    <script src="../chart-initializer.js"></script>
+    
+    <!-- Alpine.js - Load after Chart.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .dashboard-nav {
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+        }
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #FF6B9D;
+        }
+        .grant-card {
+            transition: all 0.2s ease;
+        }
+        .grant-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Responsive Sidebar Styles */
+        @media (max-width: 1023px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .mobile-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease-in-out;
+            }
+            .mobile-backdrop.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .sidebar {
+                position: relative;
+                transform: none;
+            }
+        }
+        
+        /* Mobile Content Fixes */
+        @media (max-width: 640px) {
+            .main-content header .px-6 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 1rem;
+            }
+            
+            .mobile-hide-sm {
+                display: none;
+            }
+            
+            main#main-content {
+                padding: 1rem;
+            }
+            
+            .grants-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem !important;
+            }
+            
+            h2 {
+                font-size: 1.25rem !important;
+            }
+            
+            .text-wrap {
+                word-break: break-word;
+                hyphens: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content header .px-6 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
+            main#main-content {
+                padding: 1.5rem;
+            }
+            
+            .btn-mobile-text {
+                display: none;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            .grid-responsive {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="grantPortfolio()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <!-- Mobile Backdrop -->
+    <div class="mobile-backdrop" :class="{ 'show': sidebarOpen }" @click="sidebarOpen = false"></div>
+    
+    <div class="min-h-full flex">
+        <!-- Sidebar Navigation -->
+        <nav class="w-64 dashboard-nav text-white flex flex-col sidebar" :class="{ 'open': sidebarOpen }" aria-label="Main Navigation">
+            <!-- Logo and Header -->
+            <div class="p-6 border-b border-white/20">
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center justify-center">
+                        <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
+                    </div>
+                    <div>
+                        <p class="text-sm text-blue-200">Dashboard</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="flex-1 px-3 py-6 space-y-1">
+                <a href="../dashboard-home/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                    </svg>
+                    Dashboard Home
+                </a>
+                
+                <a href="../grant-portfolio/index.html" class="nav-item active flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    Grant Portfolio
+                </a>
+                
+                <a href="../impact-assessment/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                    Impact Assessment
+                </a>
+                
+                <a href="../financial-reports/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                    </svg>
+                    Financial Reports
+                </a>
+                
+                <a href="../program-analysis/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    Program Analysis
+                </a>
+            </div>
+            
+            <!-- User Section -->
+            <div class="p-4 border-t border-white/20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">Strategic Team</p>
+                        <p class="text-xs text-blue-200">Admin Access</p>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <button @click="toggleTheme()" class="p-1 rounded hover:bg-white/10" title="Toggle Theme">
+                            <svg x-show="theme === 'light'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            </svg>
+                            <svg x-show="theme === 'dark'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                        </button>
+                        <button @click="logout()" class="p-1 rounded hover:bg-white/10 text-red-300 hover:text-red-200" title="Logout">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col main-content">
+            <!-- Top Header -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between header-content">
+                        <div class="flex items-center">
+                            <!-- Mobile Menu Button -->
+                            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden mr-4 p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-botnar-blue-500">
+                                <span class="sr-only">Open sidebar</span>
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Grant Portfolio</h1>
+                                <p class="text-gray-600 dark:text-gray-300">Manage and track grant programs and initiatives</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button @click="openCreateModal()" class="btn btn-primary">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                                New Grant
+                            </button>
+                            <button @click="exportData()" class="btn btn-outline text-sm">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Filters and Search -->
+            <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Search -->
+                    <div class="flex-1">
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <input type="text" 
+                                   x-model="searchQuery" 
+                                   @input="filterGrants()"
+                                   placeholder="Search grants..." 
+                                   class="pl-10 pr-4 py-2 w-full border rounded-md dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                    </div>
+                    
+                    <!-- Status Filter -->
+                    <select x-model="statusFilter" @change="filterGrants()" 
+                            class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="under_review">Under Review</option>
+                    </select>
+                    
+                    <!-- Region Filter -->
+                    <select x-model="regionFilter" @change="filterGrants()" 
+                            class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                        <option value="">All Regions</option>
+                        <option value="africa">Africa</option>
+                        <option value="asia">Asia</option>
+                        <option value="latin_america">Latin America</option>
+                        <option value="europe">Europe</option>
+                    </select>
+                    
+                    <!-- Program Type Filter -->
+                    <select x-model="programFilter" @change="filterGrants()" 
+                            class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                        <option value="">All Programs</option>
+                        <option value="health">Digital Health</option>
+                        <option value="education">Education</option>
+                        <option value="innovation">Innovation</option>
+                        <option value="urban">Urban Development</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Main Dashboard Content -->
+            <main id="main-content" class="flex-1 p-6 overflow-y-auto">
+                
+                <!-- Portfolio Summary -->
+                <div class="mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Grants</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="portfolioStats.totalGrants"></p>
+                                </div>
+                                <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Value</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="formatCurrency(portfolioStats.activeValue)"></p>
+                                </div>
+                                <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Avg Duration</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="portfolioStats.avgDuration"></p>
+                                </div>
+                                <div class="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Success Rate</p>
+                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="portfolioStats.successRate"></p>
+                                </div>
+                                <div class="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-full">
+                                    <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grants Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Digital Health Initiative Kenya -->
+                    <div class="grant-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <!-- Grant Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Digital Health Initiative Kenya</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Kenya Health Partners</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                                    ACTIVE
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Grant Details -->
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Amount:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">€2.3M</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Region:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Africa</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Program:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Digital Health</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">36 months</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-sm mb-2">
+                                <span class="text-gray-600 dark:text-gray-400">Progress</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">65%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <button class="text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 text-sm font-medium">
+                                View Details
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education Technology Program -->
+                    <div class="grant-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <!-- Grant Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Education Technology Program</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">EduTech Solutions India</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                                    ACTIVE
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Grant Details -->
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Amount:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">€1.8M</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Region:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Asia</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Program:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Education</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">24 months</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-sm mb-2">
+                                <span class="text-gray-600 dark:text-gray-400">Progress</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">42%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 42%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <button class="text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 text-sm font-medium">
+                                View Details
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Urban Innovation Lab São Paulo -->
+                    <div class="grant-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <!-- Grant Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Urban Innovation Lab São Paulo</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Urban Labs Brazil</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+                                    PENDING
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Grant Details -->
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Amount:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">€3.2M</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Region:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Latin America</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Program:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Urban Development</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">48 months</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <button class="text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 text-sm font-medium">
+                                View Details
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Youth Mental Health Initiative -->
+                    <div class="grant-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <!-- Grant Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Youth Mental Health Initiative</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Mental Health Africa</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400">
+                                    UNDER REVIEW
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Grant Details -->
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Amount:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">€1.5M</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Region:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Africa</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Program:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Digital Health</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">30 months</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <button class="text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 text-sm font-medium">
+                                View Details
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI for Education Platform -->
+                    <div class="grant-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <!-- Grant Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">AI for Education Platform</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">AI Learning Systems</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                                    ACTIVE
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Grant Details -->
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Amount:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">€2.7M</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Region:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Asia</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Program:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Innovation</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">42 months</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-sm mb-2">
+                                <span class="text-gray-600 dark:text-gray-400">Progress</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">28%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 28%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <button class="text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 text-sm font-medium">
+                                View Details
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Community Health Workers Training -->
+                    <div class="grant-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <!-- Grant Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Community Health Workers Training</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Global Health Collective</p>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                                    COMPLETED
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Grant Details -->
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Amount:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">€950K</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Region:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Africa</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Program:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">Digital Health</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">18 months</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <button class="text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 text-sm font-medium">
+                                View Details
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Empty State -->
+                <div x-show="filteredGrants.length === 0" class="text-center py-12">
+                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No grants found</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Try adjusting your filters or create a new grant.</p>
+                    <button @click="openCreateModal()" class="btn btn-primary">
+                        Create New Grant
+                    </button>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function grantPortfolio() {
+            return {
+                currentPage: 'grant-portfolio',
+                theme: localStorage.getItem('theme') || 'light',
+                sidebarOpen: false,
+                searchQuery: '',
+                statusFilter: '',
+                regionFilter: '',
+                programFilter: '',
+                portfolioStats: null,
+                grants: [],
+                loadingStates: {
+                    stats: true,
+                    grants: true
+                },
+                errors: {},
+                dataManager: null,
+                performanceMetrics: {
+                    loadTime: 0,
+                    filterTime: 0
+                },
+                originalGrants: [
+                    {
+                        id: 1,
+                        title: 'Digital Health Initiative Kenya',
+                        organization: 'Kenya Health Partners',
+                        amount: 2300000,
+                        region: 'africa',
+                        program: 'Digital Health',
+                        status: 'active',
+                        duration: '36 months',
+                        progress: 65
+                    },
+                    {
+                        id: 2,
+                        title: 'Education Technology Program',
+                        organization: 'EduTech Solutions India',
+                        amount: 1800000,
+                        region: 'asia',
+                        program: 'Education',
+                        status: 'active',
+                        duration: '24 months',
+                        progress: 42
+                    },
+                    {
+                        id: 3,
+                        title: 'Urban Innovation Lab São Paulo',
+                        organization: 'Urban Labs Brazil',
+                        amount: 3200000,
+                        region: 'latin_america',
+                        program: 'Urban Development',
+                        status: 'pending',
+                        duration: '48 months',
+                        progress: 0
+                    },
+                    {
+                        id: 4,
+                        title: 'Youth Mental Health Initiative',
+                        organization: 'Mental Health Africa',
+                        amount: 1500000,
+                        region: 'africa',
+                        program: 'Digital Health',
+                        status: 'under_review',
+                        duration: '30 months',
+                        progress: 0
+                    },
+                    {
+                        id: 5,
+                        title: 'AI for Education Platform',
+                        organization: 'AI Learning Systems',
+                        amount: 2700000,
+                        region: 'asia',
+                        program: 'Innovation',
+                        status: 'active',
+                        duration: '42 months',
+                        progress: 28
+                    },
+                    {
+                        id: 6,
+                        title: 'Community Health Workers Training',
+                        organization: 'Global Health Collective',
+                        amount: 950000,
+                        region: 'africa',
+                        program: 'Digital Health',
+                        status: 'completed',
+                        duration: '18 months',
+                        progress: 100
+                    }
+                ],
+                filteredGrants: [],
+                
+                async init() {
+                    const startTime = performance.now();
+                    
+                    this.setTheme(this.theme);
+                    this.dataManager = window.dataManager;
+                    
+                    // Show loading skeletons
+                    this.showLoadingStates();
+                    
+                    // Subscribe to data events
+                    this.subscribeToDataEvents();
+                    
+                    // Load initial data
+                    await this.loadInitialData();
+                    
+                    this.performanceMetrics.loadTime = performance.now() - startTime;
+                    console.log(`Grant Portfolio loaded in ${this.performanceMetrics.loadTime.toFixed(2)}ms`);
+                },
+                
+                showLoadingStates() {
+                    // Show grant card skeletons
+                    window.loadingManager.showSkeleton('grants-container', 'grantCard', 6);
+                },
+                
+                subscribeToDataEvents() {
+                    if (this.dataManager) {
+                        this.dataManager.subscribe((event) => {
+                            if (event.type === 'loading') {
+                                const endpoint = event.endpoint.split('/').pop();
+                                if (endpoint === 'grants') {
+                                    this.loadingStates.grants = event.state;
+                                }
+                            } else if (event.type === 'error') {
+                                this.handleDataError(event);
+                            } else if (event.type === 'data') {
+                                this.handleDataUpdate(event);
+                            }
+                        });
+                    }
+                },
+                
+                async loadInitialData() {
+                    try {
+                        // Load portfolio stats
+                        this.portfolioStats = {
+                            totalGrants: 127,
+                            activeValue: 38500000,
+                            avgDuration: '24 months',
+                            successRate: '92%'
+                        };
+                        this.loadingStates.stats = false;
+                        
+                        // Load grants data
+                        this.grants = await this.dataManager.getGrants();
+                        this.loadingStates.grants = false;
+                        this.filterGrants();
+                        this.renderGrants();
+                        
+                    } catch (error) {
+                        window.errorHandler.handleError(error, 'portfolio-init');
+                    }
+                },
+                
+                renderGrants() {
+                    const container = document.getElementById('grants-container');
+                    if (!container || !this.filteredGrants.length) {
+                        if (container) {
+                            window.loadingManager.showEmpty('grants-container', 
+                                'No grants found', 
+                                'Try adjusting your filters or create a new grant.',
+                                '<button onclick="window.location.reload()" class="btn btn-primary">Refresh</button>'
+                            );
+                        }
+                        return;
+                    }
+                    
+                    container.innerHTML = this.filteredGrants.map(grant => `
+                        <div class="grant-card bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">${grant.title}</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">${grant.organization}</p>
+                                </div>
+                                <div class="ml-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${this.getStatusClasses(grant.status)}">
+                                        ${grant.status.replace('_', ' ').toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-600 dark:text-gray-400">Amount:</span>
+                                    <span class="font-medium text-gray-900 dark:text-gray-100">${this.formatCurrency(grant.amount)}</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-600 dark:text-gray-400">Region:</span>
+                                    <span class="font-medium text-gray-900 dark:text-gray-100">${grant.region.replace('_', ' ')}</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-600 dark:text-gray-400">Program:</span>
+                                    <span class="font-medium text-gray-900 dark:text-gray-100">${grant.program}</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-600 dark:text-gray-400">Duration:</span>
+                                    <span class="font-medium text-gray-900 dark:text-gray-100">${grant.duration}</span>
+                                </div>
+                            </div>
+                            
+                            ${grant.status === 'active' ? `
+                                <div class="mb-4">
+                                    <div class="flex items-center justify-between text-sm mb-2">
+                                        <span class="text-gray-600 dark:text-gray-400">Progress</span>
+                                        <span class="font-medium text-gray-900 dark:text-gray-100">${grant.progress}%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: ${grant.progress}%"></div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <button onclick="alert('Viewing grant: ${grant.title}')" class="text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 text-sm font-medium">
+                                    View Details
+                                </button>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="alert('Editing grant: ${grant.title}')" class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
+                                    </button>
+                                    <button onclick="alert('Grant menu: ${grant.title}')" class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                },
+                
+                getStatusClasses(status) {
+                    switch (status) {
+                        case 'active':
+                            return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
+                        case 'pending':
+                            return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
+                        case 'completed':
+                            return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400';
+                        case 'under_review':
+                            return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+                        default:
+                            return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+                    }
+                },
+                
+                handleDataError(event) {
+                    this.errors[event.endpoint] = event.state;
+                    
+                    if (event.endpoint.includes('grants')) {
+                        window.loadingManager.showError('grants-container', 'Failed to load grants', () => this.retryLoadGrants());
+                    }
+                },
+                
+                handleDataUpdate(event) {
+                    if (event.endpoint.includes('grants')) {
+                        this.grants = event.data;
+                        this.filterGrants();
+                        this.renderGrants();
+                    }
+                },
+                
+                async retryLoadGrants() {
+                    try {
+                        this.loadingStates.grants = true;
+                        window.loadingManager.showSkeleton('grants-container', 'grantCard', 6);
+                        this.grants = await this.dataManager.getGrants();
+                        this.loadingStates.grants = false;
+                        this.filterGrants();
+                        this.renderGrants();
+                    } catch (error) {
+                        window.errorHandler.handleAPIError(error, 'grants-retry');
+                    }
+                },
+                
+                navigateTo(page) {
+                    this.currentPage = page;
+                    // Close sidebar on mobile after navigation
+                    this.sidebarOpen = false;
+                    console.log(`Navigate to: ${page}`);
+                    this.showNotification(`Navigating to ${page.replace('-', ' ')}...`);
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.setTheme(this.theme);
+                    localStorage.setItem('theme', this.theme);
+                },
+                
+                setTheme(theme) {
+                    if (theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                filterGrants() {
+                    const startTime = performance.now();
+                    
+                    this.filteredGrants = this.grants.filter(grant => {
+                        const matchesSearch = !this.searchQuery || 
+                            grant.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            grant.organization.toLowerCase().includes(this.searchQuery.toLowerCase());
+                        
+                        const matchesStatus = !this.statusFilter || grant.status === this.statusFilter;
+                        const matchesRegion = !this.regionFilter || grant.region === this.regionFilter;
+                        const matchesProgram = !this.programFilter || grant.program.toLowerCase().includes(this.programFilter.toLowerCase());
+                        
+                        return matchesSearch && matchesStatus && matchesRegion && matchesProgram;
+                    });
+                    
+                    this.performanceMetrics.filterTime = performance.now() - startTime;
+                    
+                    // Re-render grants after filtering
+                    if (!this.loadingStates.grants) {
+                        this.renderGrants();
+                    }
+                },
+                
+                formatCurrency(value) {
+                    return new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'EUR',
+                        notation: 'compact',
+                        maximumFractionDigits: 1
+                    }).format(value);
+                },
+                
+                openCreateModal() {
+                    this.showNotification('Opening new grant creation form...', 'info');
+                },
+                
+                viewGrant(grant) {
+                    this.showNotification(`Viewing details for: ${grant.title}`, 'info');
+                },
+                
+                editGrant(grant) {
+                    this.showNotification(`Editing grant: ${grant.title}`, 'info');
+                },
+                
+                showGrantMenu(grant) {
+                    this.showNotification(`Opening menu for: ${grant.title}`, 'info');
+                },
+                
+                exportData() {
+                    this.showNotification('Exporting portfolio data...', 'info');
+                    setTimeout(() => {
+                        this.showNotification('Portfolio data exported successfully!', 'success');
+                    }, 2000);
+                },
+                
+                showNotification(message, type = 'info') {
+                    const notification = document.createElement('div');
+                    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${
+                        type === 'success' ? 'bg-green-500 text-white' :
+                        type === 'error' ? 'bg-red-500 text-white' :
+                        'bg-blue-500 text-white'
+                    }`;
+                    notification.textContent = message;
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

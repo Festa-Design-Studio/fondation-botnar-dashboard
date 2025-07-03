@@ -5,32 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart.js Integration Test - Fondation Botnar Dashboard</title>
     
-    <!-- Tailwind CSS CDN for testing -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'botnar-pink': {
-                            50: '#fce4ec', 100: '#f8bbd9', 200: '#f48fb1',
-                            300: '#f06292', 400: '#ec407a', 500: '#e91e63',
-                            600: '#d81b60', 700: '#c2185b', 800: '#ad1457', 900: '#880e4f'
-                        },
-                        'botnar-blue': {
-                            50: '#e3f2fd', 100: '#bbdefb', 200: '#90caf9',
-                            300: '#64b5f6', 400: '#42a5f5', 500: '#2196f3',
-                            600: '#1976d2', 700: '#1565c0', 800: '#0d47a1', 900: '#0a3d7c'
-                        }
-                    },
-                    spacing: {
-                        'card-padding': '1.5rem',
-                        'section-gap': '1.5rem'
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../dist/botnar-design-system.css">
     
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>

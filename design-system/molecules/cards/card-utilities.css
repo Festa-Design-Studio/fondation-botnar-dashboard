@@ -1,0 +1,712 @@
+/**
+ * Fondation Botnar Design System - Card Utilities
+ * 
+ * This file contains utility classes for card components in the Botnar design system.
+ * Cards are molecular components that combine atomic elements for content display.
+ */
+
+/* ==========================================================================
+   Base Card Styles
+   ========================================================================== */
+
+/* Base card container */
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Card spacing - default medium */
+.card > * + * {
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   Card Variants
+   ========================================================================== */
+
+/* Default card - subtle background */
+.card {
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Bordered card */
+.card-bordered {
+    border: 1px solid #e5e7eb; /* gray-200 */
+    box-shadow: none;
+}
+
+/* Elevated card */
+.card-elevated {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Interactive card */
+.card-interactive {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card-interactive:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #e91e63; /* botnar-pink-500 */
+    ring-offset: 2px;
+}
+
+.card-interactive:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   Card Sizes
+   ========================================================================== */
+
+/* Small card */
+.card-sm {
+    padding: 1rem;
+}
+
+.card-sm .card-header,
+.card-sm .card-content,
+.card-sm .card-actions,
+.card-sm .card-footer {
+    padding: 0;
+}
+
+.card-sm .card-header + .card-content,
+.card-sm .card-content + .card-actions,
+.card-sm .card-actions + .card-footer {
+    margin-top: 0.75rem;
+}
+
+/* Medium card (default) */
+.card-md,
+.card {
+    /* Default spacing handled by individual sections */
+}
+
+/* Large card */
+.card-lg {
+    padding: 2rem;
+}
+
+.card-lg .card-header,
+.card-lg .card-content,
+.card-lg .card-actions,
+.card-lg .card-footer {
+    padding: 0;
+}
+
+.card-lg .card-header + .card-content,
+.card-lg .card-content + .card-actions,
+.card-lg .card-actions + .card-footer {
+    margin-top: 2rem;
+}
+
+/* ==========================================================================
+   Card Sections
+   ========================================================================== */
+
+/* Card header */
+.card-header {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.card-header + .card-image {
+    margin-top: 1.5rem;
+}
+
+.card-header + .card-content {
+    margin-top: 1.5rem;
+}
+
+/* Card image */
+.card-image {
+    padding: 0 1.5rem;
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.375rem;
+}
+
+.card-image + .card-content {
+    margin-top: 1.5rem;
+}
+
+/* Full-width card image */
+.card-image-full {
+    padding: 0;
+    margin: 0;
+}
+
+.card-image-full img {
+    border-radius: 0;
+}
+
+.card-image-full + .card-header,
+.card-image-full + .card-content {
+    margin-top: 0;
+}
+
+/* Card content */
+.card-content {
+    padding: 0 1.5rem;
+    flex: 1;
+}
+
+.card-content + .card-actions {
+    margin-top: 1.5rem;
+}
+
+.card-content + .card-footer {
+    margin-top: 1.5rem;
+}
+
+/* Card actions */
+.card-actions {
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.card-actions + .card-footer {
+    margin-top: 1.5rem;
+}
+
+/* Card footer */
+.card-footer {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border-top: 1px solid #f3f4f6; /* gray-100 */
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+/* ==========================================================================
+   Card Content Elements
+   ========================================================================== */
+
+/* Card titles */
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #111827; /* gray-900 */
+    margin: 0;
+}
+
+.card-title-lg {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.card-title-sm {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Card subtitles */
+.card-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280; /* gray-500 */
+    margin: 0.25rem 0 0 0;
+    line-height: 1.4;
+}
+
+/* Card text */
+.card-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #374151; /* gray-700 */
+    margin: 0;
+}
+
+.card-text + .card-text {
+    margin-top: 0.75rem;
+}
+
+/* Card links */
+.card-link {
+    color: #e91e63; /* botnar-pink-500 */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.card-link:hover {
+    color: #d81b60; /* botnar-pink-600 */
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Specialized Card Types
+   ========================================================================== */
+
+/* Metric card */
+.card-metric {
+    text-align: left;
+}
+
+.card-metric .card-content {
+    padding: 1.5rem;
+}
+
+.card-metric-value {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #111827; /* gray-900 */
+}
+
+.card-metric-label {
+    font-size: 0.875rem;
+    color: #6b7280; /* gray-500 */
+    margin-bottom: 0.5rem;
+}
+
+.card-metric-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.card-metric-change-positive {
+    color: #10b981; /* green-500 */
+}
+
+.card-metric-change-negative {
+    color: #ef4444; /* red-500 */
+}
+
+.card-metric-change-neutral {
+    color: #6b7280; /* gray-500 */
+}
+
+/* Status card */
+.card-status {
+    border-left: 4px solid transparent;
+}
+
+.card-status-success {
+    border-left-color: #10b981; /* green-500 */
+    background-color: #f0fdf4; /* green-50 */
+}
+
+.card-status-warning {
+    border-left-color: #ef6c00; /* orange-600 */
+    background-color: #fffbeb; /* yellow-50 */
+}
+
+.card-status-error {
+    border-left-color: #ef4444; /* red-500 */
+    background-color: #fef2f2; /* red-50 */
+}
+
+.card-status-info {
+    border-left-color: #3b82f6; /* blue-500 */
+    background-color: #eff6ff; /* blue-50 */
+}
+
+/* Profile card */
+.card-profile {
+    text-align: center;
+}
+
+.card-profile .card-image {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.card-profile-avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.card-profile-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827; /* gray-900 */
+    margin: 0;
+}
+
+.card-profile-role {
+    font-size: 0.875rem;
+    color: #6b7280; /* gray-500 */
+    margin: 0.25rem 0 0 0;
+}
+
+/* Article card */
+.card-article .card-image {
+    padding: 0;
+    margin: 0;
+}
+
+.card-article .card-image img {
+    border-radius: 0;
+    height: 12rem;
+    object-fit: cover;
+}
+
+.card-article .card-content {
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   Card Layouts
+   ========================================================================== */
+
+/* Horizontal card */
+.card-horizontal {
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.card-horizontal .card-image {
+    flex: 0 0 auto;
+    width: 8rem;
+    padding: 0;
+    margin: 0;
+}
+
+.card-horizontal .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.card-horizontal .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.card-horizontal .card-header,
+.card-horizontal .card-content,
+.card-horizontal .card-actions,
+.card-horizontal .card-footer {
+    padding: 0;
+    margin: 0;
+}
+
+.card-horizontal .card-header + .card-content {
+    margin-top: 0.75rem;
+}
+
+.card-horizontal .card-content + .card-actions {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+/* ==========================================================================
+   Card Groups and Layouts
+   ========================================================================== */
+
+/* Card grid */
+.card-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.card-grid-1 {
+    grid-template-columns: 1fr;
+}
+
+.card-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.card-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 768px) {
+    .card-grid-2,
+    .card-grid-3,
+    .card-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .card-grid-3,
+    .card-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Card deck - equal height cards */
+.card-deck {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.card-deck .card {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .card-deck {
+        flex-direction: column;
+    }
+}
+
+/* Card masonry */
+.card-masonry {
+    column-count: 3;
+    column-gap: 1.5rem;
+}
+
+.card-masonry .card {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .card-masonry {
+        column-count: 1;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .card-masonry {
+        column-count: 2;
+    }
+}
+
+/* ==========================================================================
+   Dark Mode Support
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    .card {
+        background-color: #1f2937; /* gray-800 */
+        border-color: #374151; /* gray-700 */
+    }
+    
+    .card-bordered {
+        border-color: #374151; /* gray-700 */
+    }
+    
+    .card-title {
+        color: #f9fafb; /* gray-50 */
+    }
+    
+    .card-subtitle {
+        color: #9ca3af; /* gray-400 */
+    }
+    
+    .card-text {
+        color: #d1d5db; /* gray-300 */
+    }
+    
+    .card-footer {
+        border-top-color: #374151; /* gray-700 */
+    }
+    
+    .card-status-success {
+        background-color: #065f46; /* green-800 */
+        border-left-color: #10b981; /* green-500 */
+    }
+    
+    .card-status-warning {
+        background-color: #92400e; /* yellow-800 */
+        border-left-color: #ef6c00; /* orange-600 */
+    }
+    
+    .card-status-error {
+        background-color: #991b1b; /* red-800 */
+        border-left-color: #ef4444; /* red-500 */
+    }
+    
+    .card-status-info {
+        background-color: #1e3a8a; /* blue-800 */
+        border-left-color: #3b82f6; /* blue-500 */
+    }
+}
+
+/* Manual dark mode classes */
+.dark .card {
+    background-color: #1f2937; /* gray-800 */
+    border-color: #374151; /* gray-700 */
+}
+
+.dark .card-bordered {
+    border-color: #374151; /* gray-700 */
+}
+
+.dark .card-title {
+    color: #f9fafb; /* gray-50 */
+}
+
+.dark .card-subtitle {
+    color: #9ca3af; /* gray-400 */
+}
+
+.dark .card-text {
+    color: #d1d5db; /* gray-300 */
+}
+
+.dark .card-footer {
+    border-top-color: #374151; /* gray-700 */
+}
+
+.dark .card-status-success {
+    background-color: #065f46; /* green-800 */
+    border-left-color: #10b981; /* green-500 */
+}
+
+.dark .card-status-warning {
+    background-color: #92400e; /* yellow-800 */
+    border-left-color: #ef6c00; /* orange-600 */
+}
+
+.dark .card-status-error {
+    background-color: #991b1b; /* red-800 */
+    border-left-color: #ef4444; /* red-500 */
+}
+
+.dark .card-status-info {
+    background-color: #1e3a8a; /* blue-800 */
+    border-left-color: #3b82f6; /* blue-500 */
+}
+
+/* ==========================================================================
+   Animation Utilities
+   ========================================================================== */
+
+/* Card entrance animations */
+@keyframes card-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-fade-in {
+    animation: card-fade-in 0.3s ease-out;
+}
+
+/* Card loading state */
+.card-loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    animation: card-loading 1.5s infinite;
+}
+
+@keyframes card-loading {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* ==========================================================================
+   Accessibility Enhancements
+   ========================================================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .card {
+        border: 2px solid;
+    }
+    
+    .card-interactive:focus {
+        outline: 3px solid;
+        outline-offset: 2px;
+    }
+    
+    .card-status {
+        border-left-width: 6px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .card-interactive {
+        transition: none;
+    }
+    
+    .card-interactive:hover {
+        transform: none;
+    }
+    
+    .card-fade-in {
+        animation: none;
+    }
+    
+    .card-loading::after {
+        animation: none;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+.card-interactive:focus-visible {
+    outline: 2px solid #e91e63;
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+    .card {
+        border: 1px solid #000;
+        background: transparent;
+        box-shadow: none;
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+    
+    .card-interactive:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .card-elevated {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}

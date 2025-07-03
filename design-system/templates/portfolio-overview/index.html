@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Overview Template - Templates | Fondation Botnar Design System</title>
+    <meta name="description" content="Complete portfolio dashboard template combining all organism components into a cohesive data visualization layout for strategic overview">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="portfolioTemplate()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Breadcrumb Navigation -->
+                    <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+                        <a href="../../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Design System</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <a href="../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Templates</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium">Portfolio Overview</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Portfolio Overview Template</h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+                        A comprehensive portfolio dashboard template that combines all organism components into a cohesive layout for strategic overview of Fondation Botnar's global initiatives and impact metrics.
+                    </p>
+                    
+                    <!-- Component Status -->
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                            ✅ Production Ready
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                            🔧 Interactive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400">
+                            ♿ WCAG AA
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">
+                            📱 Responsive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">
+                            🏗️ Template
+                        </span>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button @click="showCode = !showCode" class="btn btn-primary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            <span x-text="showCode ? 'Hide Code' : 'View Code'"></span>
+                        </button>
+                        <button @click="previewMode = !previewMode" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            <span x-text="previewMode ? 'Edit Mode' : 'Preview Mode'"></span>
+                        </button>
+                        <button @click="exportTemplate()" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Export Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template Preview -->
+            <div x-show="!showCode" class="space-y-8">
+                
+                <!-- Portfolio Dashboard Header -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                        <div class="mb-4 lg:mb-0">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Global Portfolio Overview</h2>
+                            <p class="text-gray-600 dark:text-gray-400">Strategic insights across all initiatives and regions</p>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <!-- Time Period Selector -->
+                            <div class="relative">
+                                <label for="time-period" class="sr-only">Select time period</label>
+                                <select id="time-period" 
+                                        x-model="selectedPeriod" 
+                                        @change="updateDashboard()"
+                                        class="form-select">
+                                    <option value="6m">Last 6 months</option>
+                                    <option value="1y">Last year</option>
+                                    <option value="2y">Last 2 years</option>
+                                    <option value="all">All time</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Export Options -->
+                            <div class="relative" x-data="{ open: false }">
+                                <button @click="open = !open" 
+                                        class="btn btn-secondary flex items-center"
+                                        :aria-expanded="open">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Export Report
+                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                
+                                <div x-show="open" 
+                                     @click.away="open = false"
+                                     x-transition
+                                     class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10">
+                                    <div class="py-1">
+                                        <button @click="exportAs('pdf')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Export as PDF</button>
+                                        <button @click="exportAs('excel')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Export as Excel</button>
+                                        <button @click="exportAs('csv')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Export as CSV</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Dashboard Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Total Portfolio Value -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="formatCurrency(portfolioData.totalValue)"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Total Portfolio Value</div>
+                                <div class="flex items-center">
+                                    <span class="text-sm text-green-600 dark:text-green-400 font-medium">
+                                        +<span x-text="portfolioData.totalValueTrend"></span>%
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-500 ml-1">vs last year</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">💰</div>
+                        </div>
+                    </div>
+
+                    <!-- Active Grants -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="portfolioData.activeGrants.toLocaleString()"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Active Grants</div>
+                                <div class="flex items-center">
+                                    <span class="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                                        +<span x-text="portfolioData.activeGrantsTrend"></span>
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-500 ml-1">new this quarter</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">📊</div>
+                        </div>
+                    </div>
+
+                    <!-- Countries Reached -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="portfolioData.countriesReached"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Countries Reached</div>
+                                <div class="flex items-center">
+                                    <span class="text-sm text-purple-600 dark:text-purple-400 font-medium">
+                                        +<span x-text="portfolioData.countriesReachedTrend"></span>
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-500 ml-1">new regions</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">🌍</div>
+                        </div>
+                    </div>
+
+                    <!-- Beneficiaries Impacted -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="formatNumber(portfolioData.beneficiariesImpacted)"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Beneficiaries Impacted</div>
+                                <div class="flex items-center">
+                                    <span class="text-sm text-green-600 dark:text-green-400 font-medium">
+                                        +<span x-text="portfolioData.beneficiariesImpactedTrend"></span>%
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-500 ml-1">growth</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">👥</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Portfolio Distribution Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Portfolio Distribution</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Investment allocation by focus area</p>
+                                </div>
+                                <button @click="exportChart('portfolio-distribution')" 
+                                        class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="relative">
+                                <canvas x-ref="portfolioChart" class="w-full h-80" aria-label="Portfolio distribution chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Growth Trends Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Growth Trends</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Portfolio growth over time</p>
+                                </div>
+                                <button @click="exportChart('growth-trends')" 
+                                        class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="relative">
+                                <canvas x-ref="growthChart" class="w-full h-80" aria-label="Growth trends chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regional Impact and Performance Tables -->
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    
+                    <!-- Regional Impact Table -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Regional Impact</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Impact metrics by geographic region</p>
+                                </div>
+                                <button @click="showRegionalDetails = !showRegionalDetails" 
+                                        class="text-sm text-botnar-blue-600 dark:text-botnar-blue-400 hover:underline">
+                                    <span x-text="showRegionalDetails ? 'Hide Details' : 'View Details'"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Region</th>
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Grants</th>
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Investment</th>
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Impact Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        <template x-for="region in regionalData" :key="region.name">
+                                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                                <td class="py-3">
+                                                    <div class="flex items-center">
+                                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="region.name"></span>
+                                                    </div>
+                                                </td>
+                                                <td class="py-3">
+                                                    <span class="text-sm text-gray-700 dark:text-gray-300" x-text="region.grants"></span>
+                                                </td>
+                                                <td class="py-3">
+                                                    <span class="text-sm text-gray-700 dark:text-gray-300" x-text="formatCurrency(region.investment)"></span>
+                                                </td>
+                                                <td class="py-3">
+                                                    <div class="flex items-center">
+                                                        <div class="w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-2">
+                                                            <div class="bg-botnar-pink-500 h-2 rounded-full" :style="`width: ${region.impactScore}%`"></div>
+                                                        </div>
+                                                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300" x-text="region.impactScore + '%'"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Performing Grants -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Top Performing Grants</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Highest impact initiatives</p>
+                                </div>
+                                <button @click="viewAllGrants()" 
+                                        class="text-sm text-botnar-blue-600 dark:text-botnar-blue-400 hover:underline">
+                                    View All
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <template x-for="grant in topGrants" :key="grant.id">
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                                        <div class="flex-1">
+                                            <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1" x-text="grant.title"></h4>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" x-text="grant.organization"></p>
+                                            <div class="flex items-center space-x-4 text-xs text-gray-600 dark:text-gray-400">
+                                                <span x-text="formatCurrency(grant.amount)"></span>
+                                                <span x-text="grant.country"></span>
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
+                                                      :class="grant.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'"
+                                                      x-text="grant.status"></span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-lg font-bold text-botnar-pink-600 dark:text-botnar-pink-400" x-text="grant.impactScore + '%'"></div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-500">Impact Score</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions and Insights -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Quick Actions -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button @click="navigateTo('new-grant')" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Create New Grant</span>
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                            <button @click="navigateTo('review-pending')" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Review Pending Applications</span>
+                                <span class="text-xs bg-botnar-pink-100 text-botnar-pink-800 dark:bg-botnar-pink-900/20 dark:text-botnar-pink-400 px-2 py-1 rounded-full">8</span>
+                            </button>
+                            <button @click="navigateTo('generate-report')" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Generate Impact Report</span>
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Recent Activity</h3>
+                        <div class="space-y-4">
+                            <template x-for="activity in recentActivity" :key="activity.id">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-2 h-2 rounded-full mt-2" :class="activity.type === 'grant' ? 'bg-green-500' : activity.type === 'report' ? 'bg-blue-500' : 'bg-yellow-500'"></div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm text-gray-900 dark:text-gray-100" x-text="activity.description"></p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-500" x-text="activity.time"></p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Key Insights -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Key Insights</h3>
+                        <div class="space-y-4">
+                            <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                                <p class="text-sm text-blue-800 dark:text-blue-200 font-medium">Portfolio Growth</p>
+                                <p class="text-xs text-blue-600 dark:text-blue-300 mt-1">15% increase in grant approvals this quarter compared to last year</p>
+                            </div>
+                            <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                                <p class="text-sm text-green-800 dark:text-green-200 font-medium">Impact Efficiency</p>
+                                <p class="text-xs text-green-600 dark:text-green-300 mt-1">Cost per beneficiary decreased by 8% while maintaining quality outcomes</p>
+                            </div>
+                            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                                <p class="text-sm text-yellow-800 dark:text-yellow-200 font-medium">Geographic Expansion</p>
+                                <p class="text-xs text-yellow-600 dark:text-yellow-300 mt-1">3 new countries added to portfolio with promising initial results</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code View -->
+            <div x-show="showCode" x-transition class="space-y-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Template HTML Structure</h3>
+                        <button @click="copyToClipboard('template-html')" 
+                                class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1 rounded">
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="bg-gray-50 dark:bg-gray-900 rounded border p-4 overflow-x-auto text-sm"><code id="template-html" class="language-html">&lt;!-- Portfolio Overview Template Structure --&gt;
+&lt;div class="portfolio-dashboard" x-data="portfolioTemplate()"&gt;
+    &lt;!-- Dashboard Header --&gt;
+    &lt;div class="dashboard-header"&gt;
+        &lt;h2&gt;Global Portfolio Overview&lt;/h2&gt;
+        &lt;div class="controls"&gt;
+            &lt;select x-model="selectedPeriod"&gt;
+                &lt;option value="6m"&gt;Last 6 months&lt;/option&gt;
+                &lt;option value="1y"&gt;Last year&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- KPI Grid --&gt;
+    &lt;div class="kpi-grid"&gt;
+        &lt;div class="kpi-card"&gt;
+            &lt;div class="kpi-value" x-text="formatCurrency(portfolioData.totalValue)"&gt;&lt;/div&gt;
+            &lt;div class="kpi-label"&gt;Total Portfolio Value&lt;/div&gt;
+            &lt;div class="kpi-trend"&gt;+12%&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- Additional KPI cards... --&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Charts Grid --&gt;
+    &lt;div class="charts-grid"&gt;
+        &lt;div class="chart-container"&gt;
+            &lt;canvas x-ref="portfolioChart"&gt;&lt;/canvas&gt;
+        &lt;/div&gt;
+        &lt;div class="chart-container"&gt;
+            &lt;canvas x-ref="growthChart"&gt;&lt;/canvas&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Data Tables --&gt;
+    &lt;div class="tables-grid"&gt;
+        &lt;div class="regional-impact-table"&gt;
+            &lt;!-- Table implementation --&gt;
+        &lt;/div&gt;
+        &lt;div class="top-grants-list"&gt;
+            &lt;!-- Grant cards implementation --&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Alpine.js Component Logic</h3>
+                        <button @click="copyToClipboard('template-js')" 
+                                class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1 rounded">
+                            Copy JavaScript
+                        </button>
+                    </div>
+                    <pre class="bg-gray-50 dark:bg-gray-900 rounded border p-4 overflow-x-auto text-sm"><code id="template-js" class="language-javascript">function portfolioTemplate() {
+    return {
+        // Template state
+        theme: 'light',
+        showCode: false,
+        previewMode: false,
+        selectedPeriod: '1y',
+        showRegionalDetails: false,
+
+        // Portfolio data
+        portfolioData: {
+            totalValue: 24500000,
+            totalValueTrend: 12,
+            activeGrants: 156,
+            activeGrantsTrend: 23,
+            countriesReached: 18,
+            countriesReachedTrend: 3,
+            beneficiariesImpacted: 2400000,
+            beneficiariesImpactedTrend: 18
+        },
+
+        // Regional data
+        regionalData: [
+            { name: 'Sub-Saharan Africa', grants: 45, investment: 8500000, impactScore: 92 },
+            { name: 'South Asia', grants: 38, investment: 7200000, impactScore: 88 },
+            { name: 'Latin America', grants: 42, investment: 6800000, impactScore: 85 },
+            { name: 'Southeast Asia', grants: 31, investment: 2000000, impactScore: 78 }
+        ],
+
+        // Top performing grants
+        topGrants: [
+            {
+                id: 1,
+                title: 'Urban Health Initiative Romania',
+                organization: 'Health Partners International',
+                amount: 850000,
+                country: 'Romania',
+                status: 'Active',
+                impactScore: 94
+            },
+            // Additional grants...
+        ],
+
+        // Recent activity
+        recentActivity: [
+            { id: 1, type: 'grant', description: 'New grant approved for Ghana Health Initiative', time: '2 hours ago' },
+            { id: 2, type: 'report', description: 'Q3 impact report generated', time: '5 hours ago' },
+            // Additional activities...
+        ],
+
+        // Charts
+        portfolioChart: null,
+        growthChart: null,
+
+        // Initialization
+        init() {
+            this.initTheme();
+            this.initCharts();
+            this.loadDashboardData();
+        },
+
+        // Chart initialization
+        initCharts() {
+            this.$nextTick(() => {
+                this.initPortfolioChart();
+                this.initGrowthChart();
+            });
+        },
+
+        // Portfolio distribution chart
+        initPortfolioChart() {
+            const ctx = this.$refs.portfolioChart.getContext('2d');
+            this.portfolioChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Health Systems', 'Education', 'Climate Action', 'Digital Innovation'],
+                    datasets: [{
+                        data: [35, 28, 22, 15],
+                        backgroundColor: ['#e91e63', '#2196f3', '#4caf50', '#ff9800']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        },
+
+        // Methods
+        updateDashboard() {
+            // Update dashboard based on selected period
+        },
+
+        exportAs(format) {
+            console.log('Exporting as', format);
+        },
+
+        formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'CHF',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        },
+
+        formatNumber(number) {
+            if (number >= 1000000) {
+                return (number / 1000000).toFixed(1) + 'M';
+            } else if (number >= 1000) {
+                return (number / 1000).toFixed(0) + 'K';
+            }
+            return number.toString();
+        }
+    };
+}</code></pre>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Template Script -->
+    <script>
+        function portfolioTemplate() {
+            return {
+                // Template state
+                theme: 'light',
+                showCode: false,
+                previewMode: false,
+                selectedPeriod: '1y',
+                showRegionalDetails: false,
+
+                // Portfolio data
+                portfolioData: {
+                    totalValue: 24500000,
+                    totalValueTrend: 12,
+                    activeGrants: 156,
+                    activeGrantsTrend: 23,
+                    countriesReached: 18,
+                    countriesReachedTrend: 3,
+                    beneficiariesImpacted: 2400000,
+                    beneficiariesImpactedTrend: 18
+                },
+
+                // Regional data
+                regionalData: [
+                    { name: 'Sub-Saharan Africa', grants: 45, investment: 8500000, impactScore: 92 },
+                    { name: 'South Asia', grants: 38, investment: 7200000, impactScore: 88 },
+                    { name: 'Latin America', grants: 42, investment: 6800000, impactScore: 85 },
+                    { name: 'Southeast Asia', grants: 31, investment: 2000000, impactScore: 78 }
+                ],
+
+                // Top performing grants
+                topGrants: [
+                    {
+                        id: 1,
+                        title: 'Urban Health Initiative Romania',
+                        organization: 'Health Partners International',
+                        amount: 850000,
+                        country: 'Romania',
+                        status: 'Active',
+                        impactScore: 94
+                    },
+                    {
+                        id: 2,
+                        title: 'Digital Education Platform Ghana',
+                        organization: 'Education Innovation Lab',
+                        amount: 650000,
+                        country: 'Ghana',
+                        status: 'Active',
+                        impactScore: 91
+                    },
+                    {
+                        id: 3,
+                        title: 'Climate Resilience Colombia',
+                        organization: 'Environmental Solutions Inc',
+                        amount: 720000,
+                        country: 'Colombia',
+                        status: 'Active',
+                        impactScore: 89
+                    },
+                    {
+                        id: 4,
+                        title: 'Youth Mental Health Tanzania',
+                        organization: 'Mental Health Africa',
+                        amount: 480000,
+                        country: 'Tanzania',
+                        status: 'Pending',
+                        impactScore: 87
+                    }
+                ],
+
+                // Recent activity
+                recentActivity: [
+                    { id: 1, type: 'grant', description: 'New grant approved for Ghana Health Initiative', time: '2 hours ago' },
+                    { id: 2, type: 'report', description: 'Q3 impact report generated', time: '5 hours ago' },
+                    { id: 3, type: 'review', description: 'Colombia partnership evaluation completed', time: '1 day ago' },
+                    { id: 4, type: 'grant', description: 'Tanzania youth program milestone achieved', time: '2 days ago' },
+                    { id: 5, type: 'report', description: 'Monthly portfolio review published', time: '3 days ago' }
+                ],
+
+                // Charts
+                portfolioChart: null,
+                growthChart: null,
+
+                // Initialization
+                init() {
+                    this.initTheme();
+                    this.$nextTick(() => {
+                        this.initCharts();
+                    });
+                    this.loadDashboardData();
+                },
+
+                // Theme management
+                initTheme() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+
+                // Chart initialization
+                initCharts() {
+                    if (this.$refs.portfolioChart && this.$refs.growthChart) {
+                        this.initPortfolioChart();
+                        this.initGrowthChart();
+                    }
+                },
+
+                // Portfolio distribution chart
+                initPortfolioChart() {
+                    const ctx = this.$refs.portfolioChart.getContext('2d');
+                    this.portfolioChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Health Systems', 'Education', 'Climate Action', 'Digital Innovation'],
+                            datasets: [{
+                                data: [35, 28, 22, 15],
+                                backgroundColor: [
+                                    '#e91e63', // Botnar Pink
+                                    '#2196f3', // Botnar Blue
+                                    '#4caf50', // Success Green
+                                    '#ff9800'  // Warning Orange
+                                ],
+                                borderWidth: 2,
+                                borderColor: '#ffffff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 20,
+                                        usePointStyle: true
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Growth trends chart
+                initGrowthChart() {
+                    const ctx = this.$refs.growthChart.getContext('2d');
+                    this.growthChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                            datasets: [
+                                {
+                                    label: 'Total Investment',
+                                    data: [18.5, 19.2, 20.1, 21.3, 22.1, 22.8, 23.2, 23.9, 24.1, 24.3, 24.4, 24.5],
+                                    borderColor: '#e91e63',
+                                    backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                },
+                                {
+                                    label: 'Active Grants',
+                                    data: [120, 125, 132, 138, 142, 145, 148, 151, 153, 155, 155, 156],
+                                    borderColor: '#2196f3',
+                                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                    tension: 0.4,
+                                    fill: true,
+                                    yAxisID: 'y1'
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            scales: {
+                                x: {
+                                    display: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Month'
+                                    },
+                                    grid: {
+                                        display: false
+                                    }
+                                },
+                                y: {
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'left',
+                                    title: {
+                                        display: true,
+                                        text: 'Investment (CHF Million)'
+                                    }
+                                },
+                                y1: {
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'right',
+                                    title: {
+                                        display: true,
+                                        text: 'Number of Grants'
+                                    },
+                                    grid: {
+                                        drawOnChartArea: false
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top'
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Dashboard methods
+                updateDashboard() {
+                    // Update dashboard based on selected period
+                    console.log('Updating dashboard for period:', this.selectedPeriod);
+                    // Here you would typically fetch new data and update charts
+                },
+
+                loadDashboardData() {
+                    // Simulate loading dashboard data
+                    console.log('Loading dashboard data...');
+                },
+
+                // Export methods
+                exportTemplate() {
+                    console.log('Exporting template...');
+                    const templateData = {
+                        portfolioData: this.portfolioData,
+                        regionalData: this.regionalData,
+                        topGrants: this.topGrants,
+                        recentActivity: this.recentActivity
+                    };
+                    
+                    const dataStr = JSON.stringify(templateData, null, 2);
+                    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                    
+                    const exportFileDefaultName = 'portfolio-overview-template.json';
+                    
+                    const linkElement = document.createElement('a');
+                    linkElement.setAttribute('href', dataUri);
+                    linkElement.setAttribute('download', exportFileDefaultName);
+                    linkElement.click();
+                },
+
+                exportAs(format) {
+                    console.log('Exporting as', format);
+                    // Implementation would depend on format
+                },
+
+                exportChart(chartType) {
+                    try {
+                        let chart;
+                        let filename;
+                        
+                        if (chartType === 'portfolio-distribution') {
+                            chart = this.portfolioChart;
+                            filename = 'portfolio-distribution-chart.png';
+                        } else if (chartType === 'growth-trends') {
+                            chart = this.growthChart;
+                            filename = 'growth-trends-chart.png';
+                        }
+                        
+                        if (chart) {
+                            const link = document.createElement('a');
+                            link.download = filename;
+                            link.href = chart.toBase64Image();
+                            link.click();
+                        }
+                    } catch (error) {
+                        console.error('Chart export failed:', error);
+                    }
+                },
+
+                // Navigation methods
+                navigateTo(destination) {
+                    console.log('Navigating to:', destination);
+                    // Here you would typically handle navigation
+                },
+
+                viewAllGrants() {
+                    console.log('Viewing all grants...');
+                    // Navigate to grants list page
+                },
+
+                // Utility methods
+                formatCurrency(amount) {
+                    return new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'CHF',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }).format(amount);
+                },
+
+                formatNumber(number) {
+                    if (number >= 1000000) {
+                        return (number / 1000000).toFixed(1) + 'M';
+                    } else if (number >= 1000) {
+                        return (number / 1000).toFixed(0) + 'K';
+                    }
+                    return number.toString();
+                },
+
+                // Copy to clipboard functionality
+                copyToClipboard(elementId) {
+                    const element = document.getElementById(elementId);
+                    const text = element.textContent;
+                    
+                    navigator.clipboard.writeText(text).then(() => {
+                        console.log('Copied to clipboard');
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+                }
+            };
+        }
+    </script>
+</body>
+</html>

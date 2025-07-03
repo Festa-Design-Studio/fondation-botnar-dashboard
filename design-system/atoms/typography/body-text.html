@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Text Typography - Fondation Botnar Design System</title>
+    <meta name="description" content="Body text and paragraph typography components with responsive scaling">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="bodyTextDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Atoms
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Body Text</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">Body Text Typography</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-300">Body text, paragraph styles, and reading typography with responsive scaling</p>
+            </div>
+
+            <!-- Text Scale Examples -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Text Scale</h2>
+                
+                <div class="space-y-8">
+                    <!-- Large Text -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Large Text</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">1.125rem (18px) mobile → 1.25rem (20px) desktop | font-weight: 400</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900">
+                            <p class="text-lg md:text-xl text-gray-900 dark:text-gray-100">
+                                This is large body text, typically used for introductory paragraphs, important statements, or lead text that needs to stand out from regular content.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Regular Text -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Regular Text</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">1rem (16px) mobile → 1.125rem (18px) desktop | font-weight: 400</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900">
+                            <p class="text-base md:text-lg text-gray-900 dark:text-gray-100">
+                                This is regular body text used for most content throughout the dashboard. It provides comfortable reading while maintaining good information density. The line height is optimized for readability across different screen sizes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Small Text -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Small Text</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">0.875rem (14px) mobile → 1rem (16px) desktop | font-weight: 400</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900">
+                            <p class="text-sm md:text-base text-gray-700 dark:text-gray-300">
+                                This is small body text used for secondary information, captions, metadata, and supporting details that don't require as much visual prominence as primary content.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Extra Small Text -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300">Extra Small Text</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">0.75rem (12px) mobile → 0.875rem (14px) desktop | font-weight: 400</p>
+                        </div>
+                        <div class="p-6 bg-white dark:bg-gray-900">
+                            <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">
+                                This is extra small text used for labels, timestamps, fine print, and data that needs to be visible but not prominent. Often used in table cells and chart annotations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Text Styles and Emphasis -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Text Styles & Emphasis</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Font Weights -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Font Weights</h3>
+                        <div class="space-y-3">
+                            <p class="text-gray-900 dark:text-gray-100 font-light">Light text (300) - Used sparingly for special emphasis</p>
+                            <p class="text-gray-900 dark:text-gray-100 font-normal">Regular text (400) - Standard body text weight</p>
+                            <p class="text-gray-900 dark:text-gray-100 font-medium">Medium text (500) - Data labels and key information</p>
+                            <p class="text-gray-900 dark:text-gray-100 font-semibold">Semibold text (600) - Headings and important labels</p>
+                            <p class="text-gray-900 dark:text-gray-100 font-bold">Bold text (700) - Major headings and emphasis</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Text Colors -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Text Colors</h3>
+                        <div class="space-y-3">
+                            <p class="text-gray-900 dark:text-gray-100">Primary text - Main content and headings</p>
+                            <p class="text-gray-700 dark:text-gray-300">Secondary text - Supporting information</p>
+                            <p class="text-gray-600 dark:text-gray-400">Tertiary text - Captions and metadata</p>
+                            <p class="text-gray-500 dark:text-gray-500">Muted text - Placeholder and disabled states</p>
+                            <p class="text-botnar-blue-600 dark:text-botnar-blue-400">Link text - Interactive elements</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reading Content Examples -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Reading Content</h2>
+                
+                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8">
+                    <article class="prose prose-gray dark:prose-invert max-w-none">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Grant Impact Assessment Report</h3>
+                        
+                        <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                            Our comprehensive analysis reveals significant progress across all funded initiatives, with measurable improvements in health outcomes and digital literacy among target populations.
+                        </p>
+                        
+                        <p class="text-base md:text-lg text-gray-900 dark:text-gray-100 mb-4 leading-relaxed">
+                            The Q4 2024 evaluation period demonstrates the effectiveness of our strategic learning approach. Grant recipients have consistently met or exceeded their initial impact projections, with several programs showing remarkable innovation in their implementation strategies.
+                        </p>
+                        
+                        <p class="text-base md:text-lg text-gray-900 dark:text-gray-100 mb-4 leading-relaxed">
+                            Particularly noteworthy is the <strong class="font-semibold text-gray-900 dark:text-gray-100">digital health initiative in Southeast Asia</strong>, which has successfully reached over 150,000 beneficiaries through mobile health platforms. The program's integration of local languages and cultural considerations has proven crucial to its success.
+                        </p>
+                        
+                        <blockquote class="border-l-4 border-botnar-pink-500 pl-4 py-2 my-6 bg-gray-50 dark:bg-gray-800">
+                            <p class="text-base md:text-lg text-gray-700 dark:text-gray-300 italic mb-2">
+                                "The collaborative approach fostered by Fondation Botnar has enabled us to scale our impact beyond what we initially thought possible."
+                            </p>
+                            <cite class="text-sm text-gray-600 dark:text-gray-400">
+                                — Dr. Sarah Chen, Program Director, Digital Health Initiative
+                            </cite>
+                        </blockquote>
+                        
+                        <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                            Supporting data indicates that 89% of program participants reported improved access to essential health services, while 76% demonstrated increased digital literacy skills as measured by standardized assessments conducted by independent evaluators.
+                        </p>
+                        
+                        <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-6">
+                            <em>Last updated: January 15, 2025 | Data collection period: October 1 - December 31, 2024</em>
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Data Typography -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Data Typography</h2>
+                
+                <div class="space-y-6">
+                    <!-- KPI Display -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">KPI Display</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="text-kpi-large text-botnar-blue-600 dark:text-botnar-blue-400">2,847</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Active Grants</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-kpi-large text-botnar-pink-600 dark:text-botnar-pink-400">$42.7M</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Total Funding</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-kpi-large text-success-700 dark:text-success-400">94%</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-kpi-large text-gray-900 dark:text-gray-100">156</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Countries</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Labels -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Data Labels & Values</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-data-medium text-gray-700 dark:text-gray-300">Program Duration:</span>
+                                <span class="text-data-medium text-gray-900 dark:text-gray-100 font-medium">24 months</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-data-medium text-gray-700 dark:text-gray-300">Target Population:</span>
+                                <span class="text-data-medium text-gray-900 dark:text-gray-100 font-medium">Children ages 5-18</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-data-medium text-gray-700 dark:text-gray-300">Geographic Focus:</span>
+                                <span class="text-data-medium text-gray-900 dark:text-gray-100 font-medium">Sub-Saharan Africa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Accessibility & Guidelines -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Accessibility & Guidelines</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Accessibility Features -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Accessibility Features</h3>
+                        <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                WCAG AA contrast ratios (4.5:1 minimum)
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Responsive font scaling
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Optimal line heights for reading
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Dark mode support
+                            </li>
+                            <li class="flex items-center">
+                                <span class="text-green-500 mr-2">✓</span>
+                                Screen reader compatible
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Usage Guidelines -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Usage Guidelines</h3>
+                        <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2 mt-0.5">•</span>
+                                Use large text for introductory content
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2 mt-0.5">•</span>
+                                Regular text for main content blocks
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2 mt-0.5">•</span>
+                                Small text for metadata and captions
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2 mt-0.5">•</span>
+                                Maintain proper color contrast
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2 mt-0.5">•</span>
+                                Test readability at all screen sizes
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        function bodyTextDemo() {
+            return {
+                theme: 'light',
+                
+                init() {
+                    // Initialize theme from localStorage
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Elements Reference - Fondation Botnar Design System</title>
+    <meta name="description" content="Static form elements reference for the Fondation Botnar Design System">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .element-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background: white;
+        }
+        
+        .element-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+        
+        .state-section {
+            margin-bottom: 2rem;
+        }
+        
+        .state-title {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-sm text-gray-600 hover:text-botnar-blue-600">
+                    ← Interactive Showcase
+                </a>
+                <span class="text-gray-400">•</span>
+                <span class="text-gray-700 font-medium">Form Elements Reference</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        
+        <!-- Page Header -->
+        <div class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Form Elements Reference</h1>
+            <p class="text-xl text-gray-600 mb-6">
+                Complete reference of all form elements and their states
+            </p>
+        </div>
+
+        <!-- Input Elements -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Input Elements</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Text Input States -->
+                <div class="element-card">
+                    <div class="element-title">Text Input States</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Default State</div>
+                        <div class="form-group">
+                            <label for="text-default" class="form-label">Text Input</label>
+                            <input type="text" id="text-default" class="form-input" placeholder="Enter text...">
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Success State</div>
+                        <div class="form-group">
+                            <label for="text-success" class="form-label">Valid Input</label>
+                            <input type="text" id="text-success" class="form-input form-input-success" value="Valid input" readonly>
+                            <div class="form-success">This field is valid</div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Error State</div>
+                        <div class="form-group">
+                            <label for="text-error" class="form-label">Invalid Input</label>
+                            <input type="text" id="text-error" class="form-input form-input-error" value="Invalid input" readonly>
+                            <div class="form-error">This field is required</div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Disabled State</div>
+                        <div class="form-group">
+                            <label for="text-disabled" class="form-label">Disabled Input</label>
+                            <input type="text" id="text-disabled" class="form-input" value="Disabled input" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email and Special Inputs -->
+                <div class="element-card">
+                    <div class="element-title">Specialized Inputs</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Email Input</div>
+                        <div class="form-group">
+                            <label for="email-input" class="form-label">Email Address</label>
+                            <input type="email" id="email-input" class="form-input" placeholder="your.email@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Password Input</div>
+                        <div class="form-group">
+                            <label for="password-input" class="form-label">Password</label>
+                            <input type="password" id="password-input" class="form-input" placeholder="Enter password...">
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Number Input</div>
+                        <div class="form-group">
+                            <label for="number-input" class="form-label">Age</label>
+                            <input type="number" id="number-input" class="form-input" min="0" max="120" placeholder="25">
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Telephone Input</div>
+                        <div class="form-group">
+                            <label for="tel-input" class="form-label">Phone Number</label>
+                            <input type="tel" id="tel-input" class="form-input" placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Select Elements -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Select Elements</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Single Select -->
+                <div class="element-card">
+                    <div class="element-title">Single Select</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Default State</div>
+                        <div class="form-group">
+                            <label for="select-default" class="form-label">Organization Type</label>
+                            <select id="select-default" class="form-select">
+                                <option value="">Choose an option</option>
+                                <option value="nonprofit">Non-profit Organization</option>
+                                <option value="academic">Academic Institution</option>
+                                <option value="government">Government Agency</option>
+                                <option value="private">Private Company</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Error State</div>
+                        <div class="form-group">
+                            <label for="select-error" class="form-label">Required Field</label>
+                            <select id="select-error" class="form-select form-select-error">
+                                <option value="">Choose an option</option>
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                            </select>
+                            <div class="form-error">Please select an option</div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Disabled State</div>
+                        <div class="form-group">
+                            <label for="select-disabled" class="form-label">Disabled Select</label>
+                            <select id="select-disabled" class="form-select" disabled>
+                                <option value="option1">Selected Option</option>
+                                <option value="option2">Option 2</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multiple Select -->
+                <div class="element-card">
+                    <div class="element-title">Multiple Select</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Multiple Selection</div>
+                        <div class="form-group">
+                            <label for="multi-select" class="form-label">Areas of Interest</label>
+                            <select id="multi-select" class="form-select" multiple size="5">
+                                <option value="health" selected>Child Health</option>
+                                <option value="education">Education</option>
+                                <option value="technology" selected>Technology</option>
+                                <option value="research">Research</option>
+                                <option value="policy">Policy Development</option>
+                            </select>
+                            <div class="form-help">Hold Ctrl (Cmd on Mac) to select multiple options</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Textarea Elements -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Textarea Elements</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Standard Textarea -->
+                <div class="element-card">
+                    <div class="element-title">Standard Textarea</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Default State</div>
+                        <div class="form-group">
+                            <label for="textarea-default" class="form-label">Message</label>
+                            <textarea id="textarea-default" class="form-textarea" rows="4" placeholder="Enter your message..."></textarea>
+                            <div class="form-help">Maximum 500 characters</div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Error State</div>
+                        <div class="form-group">
+                            <label for="textarea-error" class="form-label">Invalid Message</label>
+                            <textarea id="textarea-error" class="form-textarea form-textarea-error" rows="3">This message is too long and exceeds the character limit...</textarea>
+                            <div class="form-error">Message exceeds 500 character limit</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Large Textarea -->
+                <div class="element-card">
+                    <div class="element-title">Large Textarea</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Success State</div>
+                        <div class="form-group">
+                            <label for="textarea-large" class="form-label">Project Description</label>
+                            <textarea id="textarea-large" class="form-textarea form-textarea-success" rows="6">This is a valid project description that meets all requirements and provides sufficient detail about the proposed initiative.</textarea>
+                            <div class="form-success">Description looks great!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Disabled State</div>
+                        <div class="form-group">
+                            <label for="textarea-disabled" class="form-label">Disabled Textarea</label>
+                            <textarea id="textarea-disabled" class="form-textarea" rows="3" disabled>This textarea is disabled and cannot be edited.</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkbox and Radio Elements -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Choice Elements</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Checkboxes -->
+                <div class="element-card">
+                    <div class="element-title">Checkbox Elements</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Single Checkbox</div>
+                        <div class="form-group">
+                            <div class="form-checkbox-group">
+                                <input type="checkbox" id="checkbox-single" class="form-checkbox" checked>
+                                <label for="checkbox-single" class="form-checkbox-label">
+                                    I agree to the terms and conditions
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Checkbox Group</div>
+                        <fieldset>
+                            <legend class="form-label">Communication Preferences</legend>
+                            <div class="space-y-2">
+                                <div class="form-checkbox-group">
+                                    <input type="checkbox" id="email-pref" name="preferences" value="email" class="form-checkbox" checked>
+                                    <label for="email-pref" class="form-checkbox-label">Email updates</label>
+                                </div>
+                                <div class="form-checkbox-group">
+                                    <input type="checkbox" id="sms-pref" name="preferences" value="sms" class="form-checkbox">
+                                    <label for="sms-pref" class="form-checkbox-label">SMS notifications</label>
+                                </div>
+                                <div class="form-checkbox-group">
+                                    <input type="checkbox" id="mail-pref" name="preferences" value="mail" class="form-checkbox">
+                                    <label for="mail-pref" class="form-checkbox-label">Postal mail</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Disabled Checkbox</div>
+                        <div class="form-group">
+                            <div class="form-checkbox-group">
+                                <input type="checkbox" id="checkbox-disabled" class="form-checkbox" disabled>
+                                <label for="checkbox-disabled" class="form-checkbox-label">
+                                    Disabled option
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Radio Buttons -->
+                <div class="element-card">
+                    <div class="element-title">Radio Button Elements</div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Radio Group</div>
+                        <fieldset>
+                            <legend class="form-label">Preferred Contact Method</legend>
+                            <div class="space-y-2">
+                                <div class="form-radio-group">
+                                    <input type="radio" id="contact-email" name="contact-method" value="email" class="form-radio" checked>
+                                    <label for="contact-email" class="form-radio-label">Email</label>
+                                </div>
+                                <div class="form-radio-group">
+                                    <input type="radio" id="contact-phone" name="contact-method" value="phone" class="form-radio">
+                                    <label for="contact-phone" class="form-radio-label">Phone</label>
+                                </div>
+                                <div class="form-radio-group">
+                                    <input type="radio" id="contact-mail" name="contact-method" value="mail" class="form-radio">
+                                    <label for="contact-mail" class="form-radio-label">Postal Mail</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    
+                    <div class="state-section">
+                        <div class="state-title">Disabled Radio Group</div>
+                        <fieldset>
+                            <legend class="form-label">Disabled Options</legend>
+                            <div class="space-y-2">
+                                <div class="form-radio-group">
+                                    <input type="radio" id="disabled-1" name="disabled-group" value="option1" class="form-radio" disabled>
+                                    <label for="disabled-1" class="form-radio-label">Disabled Option 1</label>
+                                </div>
+                                <div class="form-radio-group">
+                                    <input type="radio" id="disabled-2" name="disabled-group" value="option2" class="form-radio" disabled checked>
+                                    <label for="disabled-2" class="form-radio-label">Disabled Option 2 (Selected)</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Layouts -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-8">Form Layout Examples</h2>
+            
+            <div class="grid gap-8">
+                <!-- Grid Layout -->
+                <div class="element-card">
+                    <div class="element-title">Grid Layout Form</div>
+                    
+                    <form class="form-grid form-grid-2">
+                        <div class="form-group">
+                            <label for="grid-first-name" class="form-label">First Name</label>
+                            <input type="text" id="grid-first-name" class="form-input" placeholder="John">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="grid-last-name" class="form-label">Last Name</label>
+                            <input type="text" id="grid-last-name" class="form-input" placeholder="Doe">
+                        </div>
+                        
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="grid-email" class="form-label">Email Address</label>
+                            <input type="email" id="grid-email" class="form-input" placeholder="john.doe@example.com">
+                        </div>
+                        
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="grid-address" class="form-label">Street Address</label>
+                            <input type="text" id="grid-address" class="form-input" placeholder="123 Main St">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Inline Layout -->
+                <div class="element-card">
+                    <div class="element-title">Inline Layout Form</div>
+                    
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="inline-search" class="form-label">Search</label>
+                            <input type="text" id="inline-search" class="form-input" placeholder="Enter search term">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="inline-category" class="form-label">Category</label>
+                            <select id="inline-category" class="form-select">
+                                <option value="">All Categories</option>
+                                <option value="health">Health</option>
+                                <option value="education">Education</option>
+                                <option value="research">Research</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

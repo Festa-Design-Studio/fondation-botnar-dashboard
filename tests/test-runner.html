@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Runner - Fondation Botnar Dashboard</title>
+    <meta name="description" content="Comprehensive test suite runner for the Fondation Botnar Dashboard">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../dist/botnar-design-system.css">
+    
+    <!-- Test Runner Styles -->
+    <style>
+        .test-runner {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+            color: white;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .test-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .test-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .test-controls {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-controls h2 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-test {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-test:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .btn-test.primary {
+            background: #FF6B9D;
+            border-color: #FF6B9D;
+        }
+        
+        .btn-test.primary:hover {
+            background: #FF5C8A;
+            color: white;
+        }
+        
+        .test-results {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .summary-card .number {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-card .label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .test-list {
+            max-height: 400px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .test-name {
+            font-weight: 500;
+        }
+        
+        .test-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .test-status.passed {
+            background: #00CC66;
+            color: white;
+        }
+        
+        .test-status.failed {
+            background: #FF4444;
+            color: white;
+        }
+        
+        .test-status.running {
+            background: #FF9900;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00CC66, #FF6B9D);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .log-output {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 1rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @media (max-width: 768px) {
+            .test-container {
+                padding: 1rem;
+            }
+            
+            .test-header h1 {
+                font-size: 2rem;
+            }
+            
+            .control-group {
+                flex-direction: column;
+            }
+            
+            .test-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body class="test-runner">
+    <div class="test-container">
+        <!-- Header -->
+        <div class="test-header">
+            <h1>Test Runner</h1>
+            <p>Comprehensive testing suite for the Fondation Botnar Dashboard</p>
+        </div>
+
+        <!-- Test Controls -->
+        <div class="test-controls">
+            <h2>Test Controls</h2>
+            
+            <div class="control-group">
+                <button class="btn-test primary" onclick="runAllTests()">
+                    🚀 Run All Tests
+                </button>
+                <button class="btn-test" onclick="runAuthTests()">
+                    🔐 Authentication Tests
+                </button>
+                <button class="btn-test" onclick="runUITests()">
+                    🎨 UI/UX Tests
+                </button>
+                <button class="btn-test" onclick="runPerformanceTests()">
+                    ⚡ Performance Tests
+                </button>
+                <button class="btn-test" onclick="runSecurityTests()">
+                    🛡️ Security Tests
+                </button>
+                <button class="btn-test" onclick="runAccessibilityTests()">
+                    ♿ Accessibility Tests
+                </button>
+            </div>
+            
+            <div class="control-group">
+                <button class="btn-test" onclick="clearResults()">
+                    🗑️ Clear Results
+                </button>
+                <button class="btn-test" onclick="exportResults()">
+                    📊 Export Report
+                </button>
+                <a href="../design-system/pages/dashboard-home/" class="btn-test">
+                    🏠 Go to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-results" id="test-results" style="display: none;">
+            <h2>Test Results</h2>
+            
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <!-- Summary -->
+            <div class="test-summary" id="test-summary">
+                <div class="summary-card">
+                    <div class="number" id="total-tests">0</div>
+                    <div class="label">Total Tests</div>
+                </div>
+                <div class="summary-card">
+                    <div class="number" id="passed-tests">0</div>
+                    <div class="label">Passed</div>
+                </div>
+                <div class="summary-card">
+                    <div class="number" id="failed-tests">0</div>
+                    <div class="label">Failed</div>
+                </div>
+                <div class="summary-card">
+                    <div class="number" id="pass-rate">0%</div>
+                    <div class="label">Pass Rate</div>
+                </div>
+                <div class="summary-card">
+                    <div class="number" id="duration">0ms</div>
+                    <div class="label">Duration</div>
+                </div>
+            </div>
+            
+            <!-- Test List -->
+            <div class="test-list" id="test-list">
+                <!-- Test items will be populated here -->
+            </div>
+            
+            <!-- Log Output -->
+            <div class="log-output" id="log-output"></div>
+        </div>
+    </div>
+
+    <!-- Load test framework -->
+    <script src="e2e-test-suite.js"></script>
+    
+    <script>
+        let testRunner = null;
+        let currentTests = [];
+        let testResults = [];
+        
+        // Initialize test runner
+        function initializeTestRunner() {
+            testRunner = window.e2eTestSuite;
+            
+            // Override console.log to capture test output
+            const originalLog = console.log;
+            const originalError = console.error;
+            
+            console.log = function(...args) {
+                originalLog.apply(console, args);
+                appendToLog(args.join(' '));
+            };
+            
+            console.error = function(...args) {
+                originalError.apply(console, args);
+                appendToLog('[ERROR] ' + args.join(' '), 'error');
+            };
+        }
+        
+        // Run all tests
+        async function runAllTests() {
+            showResults();
+            clearResults();
+            appendToLog('Starting comprehensive test suite...');
+            
+            try {
+                await testRunner.runAllTests();
+                updateResults(window.testReport);
+            } catch (error) {
+                appendToLog(`Test suite failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Run specific test categories
+        async function runAuthTests() {
+            showResults();
+            clearResults();
+            appendToLog('Running authentication tests...');
+            
+            try {
+                await testRunner.testAuthentication();
+                updateResults(window.testReport);
+            } catch (error) {
+                appendToLog(`Authentication tests failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function runUITests() {
+            showResults();
+            clearResults();
+            appendToLog('Running UI/UX tests...');
+            
+            try {
+                await testRunner.testDashboardHome();
+                await testRunner.testGrantPortfolio();
+                await testRunner.testResponsiveDesign();
+                updateResults(window.testReport);
+            } catch (error) {
+                appendToLog(`UI tests failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function runPerformanceTests() {
+            showResults();
+            clearResults();
+            appendToLog('Running performance tests...');
+            
+            try {
+                await testRunner.testPerformance();
+                updateResults(window.testReport);
+            } catch (error) {
+                appendToLog(`Performance tests failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function runSecurityTests() {
+            showResults();
+            clearResults();
+            appendToLog('Running security tests...');
+            
+            try {
+                await testRunner.testSecurity();
+                updateResults(window.testReport);
+            } catch (error) {
+                appendToLog(`Security tests failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function runAccessibilityTests() {
+            showResults();
+            clearResults();
+            appendToLog('Running accessibility tests...');
+            
+            try {
+                await testRunner.testAccessibility();
+                updateResults(window.testReport);
+            } catch (error) {
+                appendToLog(`Accessibility tests failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Show results section
+        function showResults() {
+            document.getElementById('test-results').style.display = 'block';
+        }
+        
+        // Clear results
+        function clearResults() {
+            document.getElementById('test-list').innerHTML = '';
+            document.getElementById('log-output').innerHTML = '';
+            document.getElementById('progress-fill').style.width = '0%';
+            
+            // Reset summary
+            document.getElementById('total-tests').textContent = '0';
+            document.getElementById('passed-tests').textContent = '0';
+            document.getElementById('failed-tests').textContent = '0';
+            document.getElementById('pass-rate').textContent = '0%';
+            document.getElementById('duration').textContent = '0ms';
+        }
+        
+        // Update results display
+        function updateResults(report) {
+            if (!report) return;
+            
+            const { summary, results } = report;
+            
+            // Update summary
+            document.getElementById('total-tests').textContent = summary.total;
+            document.getElementById('passed-tests').textContent = summary.passed;
+            document.getElementById('failed-tests').textContent = summary.failed;
+            document.getElementById('pass-rate').textContent = summary.passRate;
+            document.getElementById('duration').textContent = summary.duration + 'ms';
+            
+            // Update progress bar
+            const progressPercent = (summary.passed / summary.total) * 100;
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            
+            // Update test list
+            const testList = document.getElementById('test-list');
+            testList.innerHTML = '';
+            
+            results.forEach(test => {
+                const testItem = document.createElement('div');
+                testItem.className = 'test-item';
+                
+                const statusClass = test.status === 'passed' ? 'passed' : 'failed';
+                const statusIcon = test.status === 'passed' ? '✅' : '❌';
+                
+                testItem.innerHTML = `
+                    <div class="test-name">${statusIcon} ${test.name}</div>
+                    <div class="test-details">
+                        <span class="test-status ${statusClass}">${test.status.toUpperCase()}</span>
+                        <span style="margin-left: 0.5rem; opacity: 0.7;">${test.duration}ms</span>
+                    </div>
+                `;
+                
+                if (test.error) {
+                    testItem.title = test.error;
+                }
+                
+                testList.appendChild(testItem);
+            });
+        }
+        
+        // Append to log output
+        function appendToLog(message, type = 'info') {
+            const logOutput = document.getElementById('log-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : 'ℹ️';
+            
+            logOutput.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+        
+        // Export results
+        function exportResults() {
+            if (!window.testReport) {
+                alert('No test results to export. Run tests first.');
+                return;
+            }
+            
+            const report = {
+                timestamp: new Date().toISOString(),
+                testSuite: 'Fondation Botnar Dashboard E2E Tests',
+                ...window.testReport
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], {
+                type: 'application/json'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `test-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTestRunner();
+            appendToLog('Test runner initialized. Ready to run tests.');
+        });
+        
+        // Handle test framework events
+        document.addEventListener('performanceMetric', (event) => {
+            appendToLog(`Performance metric: ${event.detail.type} = ${JSON.stringify(event.detail.data)}`);
+        });
+        
+        // Auto-scroll log output
+        function autoScrollLog() {
+            const logOutput = document.getElementById('log-output');
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+        
+        // Setup periodic log scroll
+        setInterval(autoScrollLog, 1000);
+    </script>
+</body>
+</html>

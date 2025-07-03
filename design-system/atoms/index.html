@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atoms - Fondation Botnar Design System</title>
+    <meta name="description" content="Basic building blocks of the Fondation Botnar Design System">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="atomsDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Atoms</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12 text-center">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                    Design System <span class="text-botnar-pink-600 dark:text-botnar-pink-400">Atoms</span>
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl mx-auto">
+                    Basic building blocks that cannot be broken down any further without losing their meaning. These are the fundamental elements that form the foundation of our design system.
+                </p>
+            </div>
+
+            <!-- Atomic Elements Grid -->
+            <section class="mb-16">
+                <div class="grid gap-8">
+                    
+                    <!-- Colors -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-botnar-pink-500 to-botnar-blue-500 rounded-lg"></div>
+                                    <div>
+                                        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Color System</h2>
+                                        <p class="text-gray-600 dark:text-gray-400">Accessible color palette with brand colors and semantic states</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <a href="colors/index.html" class="btn btn-primary">Interactive Showcase</a>
+                                    <a href="colors/color-swatches.html" class="btn btn-secondary">Static Reference</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-6 md:grid-cols-12 gap-2 mb-4">
+                                <!-- Brand Colors -->
+                                <div class="w-full h-8 bg-botnar-pink-500 rounded" title="Primary Pink"></div>
+                                <div class="w-full h-8 bg-botnar-pink-400 rounded" title="Pink 400"></div>
+                                <div class="w-full h-8 bg-botnar-pink-600 rounded" title="Pink 600"></div>
+                                <div class="w-full h-8 bg-botnar-blue-500 rounded" title="Secondary Blue"></div>
+                                <div class="w-full h-8 bg-botnar-blue-400 rounded" title="Blue 400"></div>
+                                <div class="w-full h-8 bg-botnar-blue-600 rounded" title="Blue 600"></div>
+                                <!-- Status Colors -->
+                                <div class="w-full h-8 bg-green-500 rounded" title="Success"></div>
+                                <div class="w-full h-8 bg-yellow-500 rounded" title="Warning"></div>
+                                <div class="w-full h-8 bg-red-500 rounded" title="Error"></div>
+                                <div class="w-full h-8 bg-blue-500 rounded" title="Info"></div>
+                                <!-- Neutral Colors -->
+                                <div class="w-full h-8 bg-gray-200 rounded" title="Gray 200"></div>
+                                <div class="w-full h-8 bg-gray-600 rounded" title="Gray 600"></div>
+                            </div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <strong>Features:</strong> 2 brand colors, 4 status colors, 30+ total shades, 100% WCAG AA compliant, Dark mode support
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typography -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                        <span class="text-xl font-bold text-gray-700 dark:text-gray-300">Aa</span>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Typography</h2>
+                                        <p class="text-gray-600 dark:text-gray-400">Inter font family with responsive scales and accessibility features</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <a href="typography/index.html" class="btn btn-primary">Interactive Showcase</a>
+                                    <a href="typography/headings.html" class="btn btn-secondary">Headings</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3 mb-4">
+                                <div class="text-4xl font-bold text-gray-900 dark:text-gray-100">Heading 1</div>
+                                <div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Heading 2</div>
+                                <div class="text-lg font-medium text-gray-900 dark:text-gray-100">Heading 3</div>
+                                <div class="text-base text-gray-700 dark:text-gray-300">Body text with optimal readability and contrast</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Caption and helper text</div>
+                            </div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <strong>Features:</strong> Inter font family, 6 heading levels, Responsive scaling, Line height optimization, Accessibility focused
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-botnar-pink-500 rounded-lg flex items-center justify-center">
+                                        <span class="text-sm font-medium text-white">BTN</span>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Buttons</h2>
+                                        <p class="text-gray-600 dark:text-gray-400">Interactive button components with multiple variants and states</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <a href="buttons/index.html" class="btn btn-primary">Interactive Showcase</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <button class="bg-botnar-pink-500 hover:bg-botnar-pink-600 text-white px-4 py-2 rounded-md font-medium">Primary</button>
+                                <button class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-md font-medium">Secondary</button>
+                                <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md font-medium">Success</button>
+                                <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md font-medium">Danger</button>
+                                <button class="text-botnar-blue-600 hover:text-botnar-blue-700 px-4 py-2 rounded-md font-medium">Link</button>
+                            </div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <strong>Features:</strong> 5 button variants, 3 sizes, Loading states, Disabled states, Icon support, Full accessibility
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Icons -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Icon System</h2>
+                                        <p class="text-gray-600 dark:text-gray-400">Scalable SVG icons with accessibility features and categories</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <a href="icons/index.html" class="btn btn-primary">Interactive Showcase</a>
+                                    <a href="icons/icon-library.html" class="btn btn-secondary">Icon Library</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex space-x-6 mb-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-1">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Navigation</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-1">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Actions</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-1">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Data</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-1">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Status</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-1">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Communication</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 text-gray-600 dark:text-gray-400 mb-1">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Files</span>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <strong>Features:</strong> 48+ icons, 6 categories, 7 sizes, SVG format, WCAG accessible, Animation support
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Forms -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                        <div class="w-6 h-4 border-2 border-gray-400 dark:border-gray-500 rounded flex items-center justify-center">
+                                            <div class="w-3 h-0.5 bg-gray-400 dark:bg-gray-500 rounded"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Form Elements</h2>
+                                        <p class="text-gray-600 dark:text-gray-400">Accessible form components with validation states and patterns</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <a href="forms/index.html" class="btn btn-primary">Interactive Showcase</a>
+                                    <a href="forms/form-elements.html" class="btn btn-secondary">Elements Reference</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Text Input</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" placeholder="Enter text...">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select</label>
+                                    <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                        <option>Choose option</option>
+                                        <option>Option 1</option>
+                                        <option>Option 2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <strong>Features:</strong> 8+ input types, 4 validation states, WCAG AA compliant, Real-time validation, Dark mode support
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Quick Stats -->
+            <section class="mb-16">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8 text-center">Atomic Statistics</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
+                        <div class="text-3xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400 mb-2">5</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Atomic Elements</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
+                        <div class="text-3xl font-bold text-botnar-blue-600 dark:text-botnar-blue-400 mb-2">48+</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Total Components</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
+                        <div class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">100%</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">WCAG AA</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
+                        <div class="text-3xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">2</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Theme Modes</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
+                        <div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">6</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Icon Categories</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        function atomsDemo() {
+            return {
+                theme: 'light',
+                
+                init() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

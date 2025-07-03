@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Components - Fondation Botnar Design System</title>
+    <meta name="description" content="Data visualization components combining atoms for interactive charts and dashboards">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    <!-- Chart utilities CSS -->
+    <link rel="stylesheet" href="chart-utilities.css">
+    
+    <!-- Chart.js v3.9.1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" 
+            integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="chartComponentsDemo()" x-init="console.log('Alpine.js initialized for charts')">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Molecules
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Charts</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Chart Components</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
+                    Data visualization molecules combining atomic elements for interactive charts and dashboard analytics
+                </p>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-pink-600 dark:text-pink-400">6</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Chart Types</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">4</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Size Options</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-green-600 dark:text-green-400">100%</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Interactive</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">WCAG</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">AA Accessible</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">Multi</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Data Sources</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Builder -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Interactive Chart Builder</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <!-- Controls -->
+                        <div class="lg:col-span-1">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Customize Chart</h3>
+                            <div class="space-y-4">
+                            <!-- Chart Type -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Chart Type</label>
+                                <select x-model="selectedChartType" @change="updateChart()" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                    <template x-for="type in chartTypes" :key="type.id">
+                                        <option :value="type.id" x-text="type.name"></option>
+                                    </template>
+                                </select>
+                            </div>
+                            
+                            <!-- Chart Size -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Chart Size</label>
+                                <select x-model="selectedSize" @change="updateChart()" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                    <option value="sm">Small (200px)</option>
+                                    <option value="md">Medium (300px)</option>
+                                    <option value="lg">Large (400px)</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Chart Options -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Options</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" x-model="showLegend" @change="updateChart()" class="w-4 h-4 text-botnar-pink-600 border-gray-300 rounded focus:ring-botnar-pink-500">
+                                        <span class="ml-2 text-sm text-gray-900 dark:text-gray-100">Show Legend</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" x-model="animateChart" @change="updateChart()" class="w-4 h-4 text-botnar-pink-600 border-gray-300 rounded focus:ring-botnar-pink-500">
+                                        <span class="ml-2 text-sm text-gray-900 dark:text-gray-100">Animate Chart</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <!-- Preview -->
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Preview</h3>
+                            <div class="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg">
+                                <div class="chart-container bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6" :class="getChartSizeClass()">
+                                    <canvas id="previewChart" style="border: 2px dashed #e91e63; background: #fafafa; border-radius: 8px;"></canvas>
+                                    <div class="text-xs text-gray-500 mt-2" x-text="'Canvas ID: previewChart | Type: ' + selectedChartType + ' | Size: ' + selectedSize"></div>
+                                </div>
+                            </div>
+
+                            <!-- Chart Info -->
+                            <div class="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                                <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-2" x-text="getCurrentChartType().name"></h4>
+                                <p class="text-sm text-blue-800 dark:text-blue-200" x-text="getCurrentChartType().description"></p>
+                            </div>
+
+                            <!-- Code Preview -->
+                            <div class="mt-4">
+                                <button @click="showCode = !showCode" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <span x-show="!showCode">Show Code</span>
+                                    <span x-show="showCode">Hide Code</span>
+                                </button>
+                                <div x-show="showCode" x-transition class="mt-3 p-4 bg-gray-800 rounded-lg overflow-x-auto">
+                                    <pre class="text-sm text-gray-300"><code x-text="generateChartHTML()"></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chart Types Showcase -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8">Chart Types</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Bar Chart -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Bar Chart</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Compare values across categories with vertical bars</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="chart-container chart-sm">
+                                <canvas id="barChart" width="200" height="200" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: barChart (200x200)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Line Chart -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Line Chart</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Show trends and changes over time</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="chart-container chart-sm">
+                                <canvas id="lineChart" width="200" height="200" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: lineChart (200x200)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pie Chart -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Pie Chart</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Display proportional data as segments</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="chart-container chart-sm">
+                                <canvas id="pieChart" width="200" height="200" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: pieChart (200x200)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Doughnut Chart -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Doughnut Chart</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Pie chart with center space for additional info</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="chart-container chart-sm">
+                                <canvas id="doughnutChart" width="200" height="200" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: doughnutChart (200x200)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Radar Chart -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Radar Chart</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Multi-dimensional data visualization</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="chart-container chart-sm">
+                                <canvas id="radarChart" width="200" height="200" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: radarChart (200x200)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Polar Area Chart -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Polar Area Chart</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Circular chart showing magnitude and categories</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="chart-container chart-sm">
+                                <canvas id="polarAreaChart" width="200" height="200" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: polarAreaChart (200x200)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <!-- Dashboard Example -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8">Dashboard Example</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Child Health Impact Dashboard</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Comprehensive overview of program outcomes and regional data</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Regional Impact Chart -->
+                        <div class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Regional Impact</h4>
+                            <div class="chart-container chart-md">
+                                <canvas id="dashboardChart1" width="300" height="300" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: dashboardChart1 (300x300)</div>
+                            </div>
+                        </div>
+
+                        <!-- Program Growth Chart -->
+                        <div class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                            <h4 class="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Program Growth</h4>
+                            <div class="chart-container chart-md">
+                                <canvas id="dashboardChart2" width="300" height="300" style="border: 2px dashed #ccc; background: #f9f9f9; border-radius: 8px;"></canvas>
+                                <div class="text-xs text-gray-500 mt-2">Canvas: dashboardChart2 (300x300)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usage Guidelines -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Best Practices -->
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Best Practices
+                        </h3>
+                        <ul class="text-sm text-green-800 dark:text-green-200 space-y-2">
+                            <li>• Choose appropriate chart type for your data</li>
+                            <li>• Use consistent color schemes across charts</li>
+                            <li>• Include clear labels and legends</li>
+                            <li>• Ensure charts are accessible with alt text</li>
+                            <li>• Test charts on different screen sizes</li>
+                            <li>• Provide data table alternatives</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Common Mistakes -->
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-red-900 dark:text-red-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Common Mistakes
+                        </h3>
+                        <ul class="text-sm text-red-800 dark:text-red-200 space-y-2">
+                            <li>• Using 3D effects that distort data</li>
+                            <li>• Overcrowding charts with too much data</li>
+                            <li>• Poor color choices that reduce readability</li>
+                            <li>• Missing or unclear axis labels</li>
+                            <li>• Charts that don't scale properly</li>
+                            <li>• No fallback for screen readers</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+        <span x-text="announcement"></span>
+    </div>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart Implementation -->
+    <script>
+        // Botnar Colors (inline for reliability)
+        const BotnarColors = {
+            primary: '#e91e63',
+            secondary: '#1976d2',
+            success: '#388e3c',
+            warning: '#ff9800',
+            error: '#d32f2f',
+            info: '#0288d1',
+            categorical: ['#e91e63', '#1976d2', '#388e3c', '#ff9800', '#9c27b0', '#00796b']
+        };
+
+        function addStatus(message, type = 'info') {
+            // Status display removed - only log to console
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function chartComponentsDemo() {
+            return {
+                theme: 'light',
+                announcement: '',
+                showCode: false,
+                selectedChartType: 'bar',
+                selectedSize: 'md',
+                showLegend: true,
+                animateChart: true,
+                previewChart: null,
+                
+                chartTypes: [
+                    { id: 'bar', name: 'Bar Chart', description: 'Perfect for comparing values across different categories with vertical bars' },
+                    { id: 'line', name: 'Line Chart', description: 'Ideal for showing trends and changes over time' },
+                    { id: 'pie', name: 'Pie Chart', description: 'Display proportional data as segments' },
+                    { id: 'doughnut', name: 'Doughnut Chart', description: 'Pie chart with center space for additional info' },
+                    { id: 'radar', name: 'Radar Chart', description: 'Multi-dimensional data visualization' },
+                    { id: 'polarArea', name: 'Polar Area Chart', description: 'Circular chart showing magnitude and categories' }
+                ],
+                
+                init() {
+                    addStatus('Initializing chart components...', 'info');
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                    
+                    // Wait for Chart.js to be available
+                    this.waitForChartJs();
+                },
+                
+                waitForChartJs() {
+                    let attempts = 0;
+                    const maxAttempts = 20;
+                    
+                    const checkChart = () => {
+                        attempts++;
+                        addStatus(`Checking Chart.js availability... (${attempts}/${maxAttempts})`, 'info');
+                        
+                        if (typeof Chart !== 'undefined') {
+                            addStatus(`✅ Chart.js v${Chart.version} loaded successfully!`, 'success');
+                            this.initializeCharts();
+                        } else if (attempts >= maxAttempts) {
+                            addStatus('❌ Chart.js failed to load after timeout', 'error');
+                        } else {
+                            setTimeout(checkChart, 500);
+                        }
+                    };
+                    
+                    checkChart();
+                },
+                
+                initializeCharts() {
+                    addStatus('Creating charts...', 'info');
+                    
+                    try {
+                        this.createPreviewChart();
+                        this.createShowcaseCharts();
+                        this.createDashboardCharts();
+                        addStatus('✅ All charts created successfully!', 'success');
+                    } catch (error) {
+                        addStatus(`❌ Chart creation failed: ${error.message}`, 'error');
+                        console.error('Chart creation error:', error);
+                    }
+                },
+                
+                createPreviewChart() {
+                    const canvas = document.getElementById('previewChart');
+                    if (!canvas) {
+                        addStatus('❌ Preview canvas not found', 'error');
+                        return;
+                    }
+                    
+                    addStatus('Creating preview chart...', 'info');
+                    
+                    // Destroy existing chart
+                    if (this.previewChart) {
+                        this.previewChart.destroy();
+                    }
+                    
+                    const config = this.getChartConfig();
+                    this.previewChart = new Chart(canvas, config);
+                    addStatus(`✅ Preview chart (${this.selectedChartType}) created`, 'success');
+                },
+                
+                createShowcaseCharts() {
+                    // Bar Chart
+                    const barCanvas = document.getElementById('barChart');
+                    if (barCanvas) {
+                        new Chart(barCanvas, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Health', 'Education', 'Nutrition'],
+                                datasets: [{
+                                    data: [45, 32, 18],
+                                    backgroundColor: BotnarColors.categorical.slice(0, 3)
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+                        addStatus('✅ Bar chart showcase created', 'success');
+                    }
+                    
+                    // Line Chart
+                    const lineCanvas = document.getElementById('lineChart');
+                    if (lineCanvas) {
+                        new Chart(lineCanvas, {
+                            type: 'line',
+                            data: {
+                                labels: ['2022', '2023', '2024'],
+                                datasets: [{
+                                    data: [25, 35, 45],
+                                    borderColor: BotnarColors.primary,
+                                    backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                                    fill: true,
+                                    tension: 0.4
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+                        addStatus('✅ Line chart showcase created', 'success');
+                    }
+                    
+                    // Pie Chart
+                    const pieCanvas = document.getElementById('pieChart');
+                    if (pieCanvas) {
+                        new Chart(pieCanvas, {
+                            type: 'pie',
+                            data: {
+                                labels: ['Health', 'Education', 'Nutrition'],
+                                datasets: [{
+                                    data: [45, 30, 25],
+                                    backgroundColor: BotnarColors.categorical.slice(0, 3)
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+                        addStatus('✅ Pie chart showcase created', 'success');
+                    }
+
+                    // Doughnut Chart
+                    const doughnutCanvas = document.getElementById('doughnutChart');
+                    if (doughnutCanvas) {
+                        new Chart(doughnutCanvas, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Health', 'Education', 'Nutrition', 'Digital Skills'],
+                                datasets: [{
+                                    data: [40, 30, 20, 10],
+                                    backgroundColor: BotnarColors.categorical.slice(0, 4)
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: { 
+                                    legend: { display: false }
+                                }
+                            }
+                        });
+                        addStatus('✅ Doughnut chart showcase created', 'success');
+                    }
+
+                    // Radar Chart
+                    const radarCanvas = document.getElementById('radarChart');
+                    if (radarCanvas) {
+                        new Chart(radarCanvas, {
+                            type: 'radar',
+                            data: {
+                                labels: ['Health', 'Education', 'Nutrition', 'Digital Skills', 'Safety'],
+                                datasets: [{
+                                    data: [85, 75, 90, 65, 80],
+                                    borderColor: BotnarColors.primary,
+                                    backgroundColor: 'rgba(233, 30, 99, 0.2)',
+                                    pointBackgroundColor: BotnarColors.primary
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    r: {
+                                        beginAtZero: true,
+                                        max: 100
+                                    }
+                                }
+                            }
+                        });
+                        addStatus('✅ Radar chart showcase created', 'success');
+                    }
+
+                    // Polar Area Chart
+                    const polarCanvas = document.getElementById('polarAreaChart');
+                    if (polarCanvas) {
+                        new Chart(polarCanvas, {
+                            type: 'polarArea',
+                            data: {
+                                labels: ['Health', 'Education', 'Nutrition', 'Digital Skills'],
+                                datasets: [{
+                                    data: [45, 32, 28, 15],
+                                    backgroundColor: BotnarColors.categorical.slice(0, 4)
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+                        addStatus('✅ Polar area chart showcase created', 'success');
+                    }
+                },
+                
+                createDashboardCharts() {
+                    // Dashboard Chart 1 - Regional Impact (Bar Chart)
+                    const dashCanvas1 = document.getElementById('dashboardChart1');
+                    if (dashCanvas1) {
+                        new Chart(dashCanvas1, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Africa', 'Asia', 'Latin America', 'Europe'],
+                                datasets: [{
+                                    label: 'Children Reached (thousands)',
+                                    data: [120, 180, 95, 45],
+                                    backgroundColor: BotnarColors.categorical.slice(0, 4),
+                                    borderRadius: 4
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: {
+                                    legend: { display: true, position: 'bottom' }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Children Reached (thousands)'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        addStatus('✅ Dashboard chart 1 created', 'success');
+                    }
+
+                    // Dashboard Chart 2 - Program Growth (Line Chart)
+                    const dashCanvas2 = document.getElementById('dashboardChart2');
+                    if (dashCanvas2) {
+                        new Chart(dashCanvas2, {
+                            type: 'line',
+                            data: {
+                                labels: ['2020', '2021', '2022', '2023', '2024'],
+                                datasets: [{
+                                    label: 'Total Children Reached',
+                                    data: [320, 450, 580, 720, 890],
+                                    borderColor: BotnarColors.primary,
+                                    backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                                    fill: true,
+                                    tension: 0.4,
+                                    borderWidth: 3
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: {
+                                    legend: { display: true, position: 'bottom' }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Children Reached (thousands)'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Year'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        addStatus('✅ Dashboard chart 2 created', 'success');
+                    }
+                },
+                
+                getChartConfig() {
+                    const baseData = {
+                        labels: ['Health Programs', 'Education', 'Nutrition', 'Digital Skills'],
+                        datasets: [{
+                            label: 'Children Reached (thousands)',
+                            data: [45, 32, 28, 15],
+                            backgroundColor: BotnarColors.categorical
+                        }]
+                    };
+                    
+                    return {
+                        type: this.selectedChartType,
+                        data: baseData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: {
+                                duration: this.animateChart ? 750 : 0
+                            },
+                            plugins: {
+                                legend: {
+                                    display: this.showLegend
+                                }
+                            }
+                        }
+                    };
+                },
+                
+                updateChart() {
+                    addStatus(`Updating chart to ${this.selectedChartType}...`, 'info');
+                    this.createPreviewChart();
+                },
+                
+                getChartSizeClass() {
+                    return `chart-${this.selectedSize}`;
+                },
+
+                getCurrentChartType() {
+                    return this.chartTypes.find(type => type.id === this.selectedChartType) || this.chartTypes[0];
+                },
+
+                generateChartHTML() {
+                    const chartType = this.getCurrentChartType();
+                    return `<canvas id="myChart"></canvas>
+<script>
+const ctx = document.getElementById('myChart');
+new Chart(ctx, {
+    type: '${this.selectedChartType}',
+    data: {
+        labels: ['Health Programs', 'Education', 'Nutrition', 'Digital Skills'],
+        datasets: [{
+            label: 'Children Reached (thousands)',
+            data: [45, 32, 28, 15],
+            backgroundColor: ['#e91e63', '#1976d2', '#388e3c', '#ff9800']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: ${this.showLegend} }
+        },
+        animation: { duration: ${this.animateChart ? 750 : 0} }
+    }
+});
+<\/script>`;
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                    this.announcement = `Switched to ${this.theme} mode`;
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -4,8 +4,10 @@ module.exports = {
     "./design-system/**/*.{html,js}",
     "./examples/**/*.{html,js}",
     "./documentation/**/*.{html,js}",
-    "./**/*.html"
+    "./showcase/**/*.{html,js}",
+    "./test-charts.html"
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {

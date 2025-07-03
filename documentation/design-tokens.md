@@ -305,6 +305,122 @@ This document outlines the complete design token system for the Fondation Botnar
 --animation-pulse-soft: pulseSoft 2s infinite;
 ```
 
+## Dark Mode Design Tokens
+
+### Dark Mode Color System
+
+The design system supports both light and dark themes through Tailwind's class-based dark mode:
+
+```css
+/* Dark Mode Color Variants */
+.dark {
+  /* Brand Colors (adjusted for dark theme) */
+  --color-botnar-pink-dark: #f48fb1;      /* Lighter pink for dark backgrounds */
+  --color-botnar-blue-dark: #64b5f6;      /* Lighter blue for dark backgrounds */
+  
+  /* Text Colors for Dark Mode */
+  --color-text-primary-dark: #f5f5f5;     /* Light text on dark background */
+  --color-text-secondary-dark: #e0e0e0;   /* Secondary light text */
+  --color-text-muted-dark: #bdbdbd;       /* Muted light text */
+  
+  /* Background Colors for Dark Mode */
+  --color-bg-primary-dark: #121212;       /* Primary dark background */
+  --color-bg-secondary-dark: #1e1e1e;     /* Secondary dark background */
+  --color-bg-tertiary-dark: #2d2d2d;      /* Tertiary dark background */
+  
+  /* Border Colors for Dark Mode */
+  --color-border-light-dark: #404040;     /* Light borders in dark mode */
+  --color-border-medium-dark: #606060;    /* Medium borders in dark mode */
+  --color-border-dark-dark: #808080;      /* Strong borders in dark mode */
+}
+```
+
+### Dark Mode Implementation
+
+**Tailwind Configuration:**
+```javascript
+// tailwind.config.js
+module.exports = {
+  darkMode: 'class', // Enables class-based dark mode
+  theme: {
+    extend: {
+      colors: {
+        // Colors automatically work with dark: variants
+        'botnar-pink': { /* ... */ },
+        'botnar-blue': { /* ... */ }
+      }
+    }
+  }
+}
+```
+
+**Component Usage:**
+```html
+<!-- Light/Dark mode component example -->
+<div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <h2 class="text-botnar-blue-600 dark:text-botnar-blue-400">
+    Dashboard Title
+  </h2>
+  <p class="text-gray-600 dark:text-gray-300">
+    Content that adapts to both themes
+  </p>
+</div>
+```
+
+## CSS Compilation and Build Process
+
+### Local Tailwind Setup
+
+The project uses local Tailwind CSS compilation for optimal performance:
+
+**Source Files:**
+- Input: `design-system/assets/css/base.css`
+- Config: `tailwind.config.js`
+- Output: `dist/botnar-design-system.css`
+
+**Build Commands:**
+```bash
+npm run dev          # Development watch mode
+npm run build        # Production build (minified)
+npm run build:dev    # Development build (unminified)
+```
+
+**Integration in HTML:**
+```html
+<!-- Always use compiled CSS -->
+<link rel="stylesheet" href="dist/botnar-design-system.css">
+
+<!-- Avoid CDN in production -->
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+```
+
+### Design Token Compilation
+
+Design tokens are implemented through:
+
+1. **CSS Custom Properties** (in `base.css`)
+2. **Tailwind Configuration** (in `tailwind.config.js`)
+3. **Compiled CSS Classes** (in output file)
+
+**Example Token Flow:**
+```css
+/* 1. CSS Custom Property (base.css) */
+:root {
+  --color-botnar-pink: #e91e63;
+}
+
+/* 2. Tailwind Config (tailwind.config.js) */
+colors: {
+  'botnar-pink': {
+    500: '#e91e63'
+  }
+}
+
+/* 3. Generated Classes (compiled CSS) */
+.bg-botnar-pink-500 { background-color: #e91e63; }
+.dark .dark\:bg-botnar-pink-400 { background-color: #ec407a; }
+```
+
 ## Usage Guidelines
 
 ### Color Usage
@@ -325,11 +441,25 @@ This document outlines the complete design token system for the Fondation Botnar
 - Ensure touch targets meet minimum accessibility requirements
 - Maintain visual rhythm through consistent spacing patterns
 
+### Dark Mode Usage Guidelines
+- Always provide dark mode variants for all interactive elements
+- Test color contrast in both light and dark themes
+- Use semantic color tokens that adapt automatically
+- Implement proper theme switching with localStorage persistence
+
 ### Implementation
 These tokens are implemented in:
-- `tailwind.config.js` - Tailwind CSS configuration
-- `base.css` - CSS custom properties
-- Component styles - Applied through utility classes
+- `tailwind.config.js` - Tailwind CSS configuration with dark mode support
+- `design-system/assets/css/base.css` - CSS custom properties and base styles
+- `dist/botnar-design-system.css` - Compiled CSS with all utility classes
+- Component styles - Applied through utility classes with dark: variants
+
+### Build Process Integration
+1. **Edit design tokens** in `tailwind.config.js`
+2. **Modify base styles** in `design-system/assets/css/base.css`
+3. **Compile CSS** using `npm run build` or `npm run dev`
+4. **Link compiled CSS** in HTML files: `dist/botnar-design-system.css`
+5. **Test both themes** using browser dev tools or theme toggle
 
 ---
 

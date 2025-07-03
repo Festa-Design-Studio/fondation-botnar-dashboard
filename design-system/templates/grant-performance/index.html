@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant Performance Template - Templates | Fondation Botnar Design System</title>
+    <meta name="description" content="Grant-specific dashboard template with detailed performance metrics, timeline visualization, and comprehensive tracking for individual grant management">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="grantPerformanceTemplate()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Breadcrumb Navigation -->
+                    <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+                        <a href="../../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Design System</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <a href="../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Templates</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium">Grant Performance</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Grant Performance Template</h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+                        A comprehensive grant-specific dashboard template featuring detailed performance metrics, timeline visualization, milestone tracking, and comprehensive reporting for individual grant management and evaluation.
+                    </p>
+                    
+                    <!-- Component Status -->
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                            ✅ Production Ready
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                            🔧 Interactive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400">
+                            ♿ WCAG AA
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">
+                            📱 Responsive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+                            📈 Timeline
+                        </span>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button @click="showCode = !showCode" class="btn btn-primary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            <span x-text="showCode ? 'Hide Code' : 'View Code'"></span>
+                        </button>
+                        <button @click="previewMode = !previewMode" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            <span x-text="previewMode ? 'Edit Mode' : 'Preview Mode'"></span>
+                        </button>
+                        <button @click="exportGrant()" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Export Grant Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template Preview -->
+            <div x-show="!showCode" class="space-y-8">
+                
+                <!-- Grant Header Information -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                            <div class="mb-4 lg:mb-0">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="grantData.title"></h2>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
+                                          :class="getStatusColor(grantData.status)"
+                                          x-text="grantData.status"></span>
+                                </div>
+                                <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                                    <div class="flex items-center gap-6">
+                                        <span><strong>Organization:</strong> <span x-text="grantData.organization"></span></span>
+                                        <span><strong>Country:</strong> <span x-text="grantData.country"></span></span>
+                                        <span><strong>Grant ID:</strong> <span x-text="grantData.id"></span></span>
+                                    </div>
+                                    <div class="flex items-center gap-6">
+                                        <span><strong>Start Date:</strong> <span x-text="formatDate(grantData.startDate)"></span></span>
+                                        <span><strong>End Date:</strong> <span x-text="formatDate(grantData.endDate)"></span></span>
+                                        <span><strong>Duration:</strong> <span x-text="grantData.duration"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <!-- Grant Actions -->
+                                <div class="relative" x-data="{ open: false }">
+                                    <button @click="open = !open" 
+                                            class="btn btn-secondary flex items-center"
+                                            :aria-expanded="open">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                        </svg>
+                                        Actions
+                                    </button>
+                                    
+                                    <div x-show="open" 
+                                         @click.away="open = false"
+                                         x-transition
+                                         class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10">
+                                        <div class="py-1">
+                                            <button @click="editGrant()" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Edit Grant Details</button>
+                                            <button @click="addMilestone()" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Add Milestone</button>
+                                            <button @click="uploadDocument()" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Upload Document</button>
+                                            <button @click="scheduleReview()" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Schedule Review</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button @click="generateReport()" class="btn btn-primary">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Generate Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grant Summary -->
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <!-- Total Budget -->
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="formatCurrency(grantData.totalBudget)"></div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">Total Budget</div>
+                            </div>
+                            
+                            <!-- Funds Disbursed -->
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="formatCurrency(grantData.fundsDisbursed)"></div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">Funds Disbursed</div>
+                                <div class="text-xs text-green-600 dark:text-green-400 mt-1" x-text="Math.round((grantData.fundsDisbursed / grantData.totalBudget) * 100) + '% of budget'"></div>
+                            </div>
+                            
+                            <!-- Project Progress -->
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="grantData.projectProgress + '%'"></div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">Project Progress</div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
+                                    <div class="bg-botnar-pink-500 h-2 rounded-full transition-all duration-300" :style="`width: ${grantData.projectProgress}%`"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Impact Score -->
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="grantData.impactScore + '/100'"></div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">Impact Score</div>
+                                <div class="flex items-center justify-center mt-1">
+                                    <template x-for="i in 5" :key="i">
+                                        <svg class="w-4 h-4 text-yellow-400" :class="i <= Math.round(grantData.impactScore / 20) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grant Timeline -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Project Timeline</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Key milestones and project phases</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center text-sm">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                                    <span class="text-gray-600 dark:text-gray-400">Completed</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                                    <span class="text-gray-600 dark:text-gray-400">In Progress</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <div class="w-3 h-3 bg-gray-300 dark:bg-gray-600 rounded-full mr-2"></div>
+                                    <span class="text-gray-600 dark:text-gray-400">Upcoming</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="relative">
+                            <!-- Timeline Canvas -->
+                            <canvas x-ref="timelineChart" class="w-full h-96" aria-label="Project timeline chart"></canvas>
+                        </div>
+                        
+                        <!-- Milestone List -->
+                        <div class="mt-8 space-y-4">
+                            <h4 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">Detailed Milestones</h4>
+                            <template x-for="milestone in milestones" :key="milestone.id">
+                                <div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-6 h-6 rounded-full flex items-center justify-center"
+                                             :class="getMilestoneStatusColor(milestone.status)">
+                                            <svg x-show="milestone.status === 'completed'" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <div x-show="milestone.status === 'in-progress'" class="w-3 h-3 bg-white rounded-full"></div>
+                                            <div x-show="milestone.status === 'upcoming'" class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-start justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="milestone.title"></h5>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1" x-text="milestone.description"></p>
+                                            </div>
+                                            <div class="text-right ml-4">
+                                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="formatDate(milestone.dueDate)"></div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-500" x-text="milestone.owner"></div>
+                                            </div>
+                                        </div>
+                                        <div x-show="milestone.documents && milestone.documents.length > 0" class="mt-3">
+                                            <div class="flex flex-wrap gap-2">
+                                                <template x-for="doc in milestone.documents" :key="doc.id">
+                                                    <button @click="openDocument(doc)" 
+                                                            class="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 px-2 py-1 rounded hover:bg-blue-200 dark:hover:bg-blue-900/40 transition-colors">
+                                                        <span x-text="doc.name"></span>
+                                                    </button>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Budget Utilization Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Budget Utilization</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Spending versus planned budget over time</p>
+                                </div>
+                                <button @click="exportChart('budget')" 
+                                        class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="relative">
+                                <canvas x-ref="budgetChart" class="w-full h-80" aria-label="Budget utilization chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Impact Metrics Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Impact Metrics</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Key performance indicators and outcomes</p>
+                                </div>
+                                <button @click="exportChart('impact')" 
+                                        class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="relative">
+                                <canvas x-ref="impactChart" class="w-full h-80" aria-label="Impact metrics chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documents and Reports -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                    
+                    <!-- Document Repository -->
+                    <div class="xl:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Documents & Reports</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Grant documentation and progress reports</p>
+                                </div>
+                                <button @click="uploadDocument()" class="btn btn-secondary btn-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <template x-for="document in documents" :key="document.id">
+                                    <div class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center"
+                                                 :class="getDocumentTypeColor(document.type)">
+                                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="document.name"></h4>
+                                                <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-500 mt-1">
+                                                    <span x-text="document.type"></span>
+                                                    <span x-text="formatDate(document.uploadDate)"></span>
+                                                    <span x-text="document.size"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button @click="downloadDocument(document)" 
+                                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                    :title="'Download ' + document.name">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                            </button>
+                                            <button @click="openDocument(document)" 
+                                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                    :title="'View ' + document.name">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Contacts and Next Actions -->
+                    <div class="space-y-8">
+                        
+                        <!-- Key Contacts -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                            <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Key Contacts</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-4">
+                                    <template x-for="contact in keyContacts" :key="contact.id">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300" x-text="contact.name.charAt(0)"></span>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="contact.name"></div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-500" x-text="contact.role"></div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-500" x-text="contact.email"></div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Next Actions -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                            <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Next Actions</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-3">
+                                    <template x-for="action in nextActions" :key="action.id">
+                                        <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                                            <div class="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 mt-0.5 flex-shrink-0"></div>
+                                            <div class="flex-1">
+                                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="action.title"></div>
+                                                <div class="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                                                    Due: <span x-text="formatDate(action.dueDate)"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code View -->
+            <div x-show="showCode" x-transition class="space-y-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Grant Template HTML Structure</h3>
+                        <button @click="copyToClipboard('grant-html')" 
+                                class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1 rounded">
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="bg-gray-50 dark:bg-gray-900 rounded border p-4 overflow-x-auto text-sm"><code id="grant-html" class="language-html">&lt;!-- Grant Performance Template Structure --&gt;
+&lt;div class="grant-dashboard" x-data="grantPerformanceTemplate()"&gt;
+    &lt;!-- Grant Header --&gt;
+    &lt;div class="grant-header"&gt;
+        &lt;h2 x-text="grantData.title"&gt;&lt;/h2&gt;
+        &lt;span class="status-badge" x-text="grantData.status"&gt;&lt;/span&gt;
+        &lt;div class="grant-meta"&gt;
+            &lt;span&gt;Organization: &lt;span x-text="grantData.organization"&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span&gt;Country: &lt;span x-text="grantData.country"&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Grant Summary KPIs --&gt;
+    &lt;div class="grant-summary"&gt;
+        &lt;div class="kpi-item"&gt;
+            &lt;div x-text="formatCurrency(grantData.totalBudget)"&gt;&lt;/div&gt;
+            &lt;div&gt;Total Budget&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="kpi-item"&gt;
+            &lt;div x-text="formatCurrency(grantData.fundsDisbursed)"&gt;&lt;/div&gt;
+            &lt;div&gt;Funds Disbursed&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="kpi-item"&gt;
+            &lt;div x-text="grantData.projectProgress + '%'"&gt;&lt;/div&gt;
+            &lt;div&gt;Project Progress&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Timeline Visualization --&gt;
+    &lt;div class="timeline-section"&gt;
+        &lt;canvas x-ref="timelineChart"&gt;&lt;/canvas&gt;
+        &lt;div class="milestone-list"&gt;
+            &lt;template x-for="milestone in milestones"&gt;
+                &lt;div class="milestone-item"&gt;
+                    &lt;div class="milestone-status"&gt;&lt;/div&gt;
+                    &lt;div class="milestone-content"&gt;
+                        &lt;h4 x-text="milestone.title"&gt;&lt;/h4&gt;
+                        &lt;p x-text="milestone.description"&gt;&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/template&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Performance Charts --&gt;
+    &lt;div class="charts-grid"&gt;
+        &lt;canvas x-ref="budgetChart"&gt;&lt;/canvas&gt;
+        &lt;canvas x-ref="impactChart"&gt;&lt;/canvas&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Documents and Contacts --&gt;
+    &lt;div class="bottom-grid"&gt;
+        &lt;div class="documents-section"&gt;
+            &lt;template x-for="document in documents"&gt;
+                &lt;div class="document-item"&gt;
+                    &lt;span x-text="document.name"&gt;&lt;/span&gt;
+                    &lt;button @click="openDocument(document)"&gt;View&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/template&gt;
+        &lt;/div&gt;
+        &lt;div class="contacts-section"&gt;
+            &lt;template x-for="contact in keyContacts"&gt;
+                &lt;div class="contact-item"&gt;
+                    &lt;span x-text="contact.name"&gt;&lt;/span&gt;
+                    &lt;span x-text="contact.role"&gt;&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/template&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Alpine.js Component Logic</h3>
+                        <button @click="copyToClipboard('grant-js')" 
+                                class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1 rounded">
+                            Copy JavaScript
+                        </button>
+                    </div>
+                    <pre class="bg-gray-50 dark:bg-gray-900 rounded border p-4 overflow-x-auto text-sm"><code id="grant-js" class="language-javascript">function grantPerformanceTemplate() {
+    return {
+        // Template state
+        theme: 'light',
+        showCode: false,
+        previewMode: false,
+
+        // Grant data
+        grantData: {
+            id: 'GNT-2024-001',
+            title: 'Urban Health Initiative Romania',
+            organization: 'Health Partners International',
+            country: 'Romania',
+            status: 'Active',
+            startDate: '2024-01-15',
+            endDate: '2025-12-31',
+            duration: '24 months',
+            totalBudget: 850000,
+            fundsDisbursed: 425000,
+            projectProgress: 68,
+            impactScore: 87
+        },
+
+        // Timeline and milestones
+        milestones: [
+            {
+                id: 1,
+                title: 'Project Inception and Team Setup',
+                description: 'Initial project planning and team formation',
+                dueDate: '2024-02-15',
+                status: 'completed',
+                owner: 'Project Manager',
+                documents: [
+                    { id: 1, name: 'Project Charter.pdf' }
+                ]
+            },
+            // Additional milestones...
+        ],
+
+        // Documents
+        documents: [
+            {
+                id: 1,
+                name: 'Grant Agreement.pdf',
+                type: 'Contract',
+                uploadDate: '2024-01-10',
+                size: '2.4 MB'
+            },
+            // Additional documents...
+        ],
+
+        // Key contacts
+        keyContacts: [
+            {
+                id: 1,
+                name: 'Dr. Maria Popescu',
+                role: 'Project Director',
+                email: 'maria.popescu@healthpartners.org'
+            },
+            // Additional contacts...
+        ],
+
+        // Charts
+        timelineChart: null,
+        budgetChart: null,
+        impactChart: null,
+
+        // Initialization
+        init() {
+            this.initTheme();
+            this.$nextTick(() => {
+                this.initCharts();
+            });
+        },
+
+        // Chart initialization
+        initCharts() {
+            this.initTimelineChart();
+            this.initBudgetChart();
+            this.initImpactChart();
+        },
+
+        // Timeline chart with milestones
+        initTimelineChart() {
+            const ctx = this.$refs.timelineChart.getContext('2d');
+            this.timelineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025'],
+                    datasets: [{
+                        label: 'Planned Progress',
+                        data: [20, 40, 60, 80, 100],
+                        borderColor: '#e91e63',
+                        backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                        borderDash: [5, 5]
+                    }, {
+                        label: 'Actual Progress',
+                        data: [25, 45, 68, null, null],
+                        borderColor: '#2196f3',
+                        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Progress (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        },
+
+        // Methods
+        getStatusColor(status) {
+            const colors = {
+                'Active': 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400',
+                'Pending': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400',
+                'Completed': 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400',
+                'Suspended': 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+            };
+            return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+        },
+
+        formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'CHF',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        },
+
+        formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+    };
+}</code></pre>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Template Script -->
+    <script>
+        function grantPerformanceTemplate() {
+            return {
+                // Template state
+                theme: 'light',
+                showCode: false,
+                previewMode: false,
+
+                // Grant data
+                grantData: {
+                    id: 'GNT-2024-001',
+                    title: 'Urban Health Initiative Romania',
+                    organization: 'Health Partners International',
+                    country: 'Romania',
+                    status: 'Active',
+                    startDate: '2024-01-15',
+                    endDate: '2025-12-31',
+                    duration: '24 months',
+                    totalBudget: 850000,
+                    fundsDisbursed: 425000,
+                    projectProgress: 68,
+                    impactScore: 87
+                },
+
+                // Timeline and milestones
+                milestones: [
+                    {
+                        id: 1,
+                        title: 'Project Inception and Team Setup',
+                        description: 'Initial project planning, team formation, and stakeholder alignment',
+                        dueDate: '2024-02-15',
+                        status: 'completed',
+                        owner: 'Project Manager',
+                        documents: [
+                            { id: 1, name: 'Project Charter.pdf' },
+                            { id: 2, name: 'Team Structure.xlsx' }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: 'Community Needs Assessment',
+                        description: 'Comprehensive analysis of local health needs and infrastructure',
+                        dueDate: '2024-04-30',
+                        status: 'completed',
+                        owner: 'Research Lead',
+                        documents: [
+                            { id: 3, name: 'Needs Assessment Report.pdf' }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        title: 'Health Center Infrastructure Development',
+                        description: 'Construction and equipment of primary health centers',
+                        dueDate: '2024-08-15',
+                        status: 'in-progress',
+                        owner: 'Infrastructure Manager',
+                        documents: [
+                            { id: 4, name: 'Construction Progress Report.pdf' }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        title: 'Healthcare Worker Training Program',
+                        description: 'Training local healthcare workers on new protocols and equipment',
+                        dueDate: '2024-10-30',
+                        status: 'upcoming',
+                        owner: 'Training Coordinator',
+                        documents: []
+                    },
+                    {
+                        id: 5,
+                        title: 'Community Health Education Campaign',
+                        description: 'Public health education and awareness campaigns',
+                        dueDate: '2025-03-15',
+                        status: 'upcoming',
+                        owner: 'Community Outreach Lead',
+                        documents: []
+                    },
+                    {
+                        id: 6,
+                        title: 'Impact Evaluation and Reporting',
+                        description: 'Final impact assessment and project evaluation',
+                        dueDate: '2025-12-31',
+                        status: 'upcoming',
+                        owner: 'Evaluation Specialist',
+                        documents: []
+                    }
+                ],
+
+                // Documents
+                documents: [
+                    {
+                        id: 1,
+                        name: 'Grant Agreement.pdf',
+                        type: 'Contract',
+                        uploadDate: '2024-01-10',
+                        size: '2.4 MB'
+                    },
+                    {
+                        id: 2,
+                        name: 'Q2 Progress Report.pdf',
+                        type: 'Report',
+                        uploadDate: '2024-07-01',
+                        size: '1.8 MB'
+                    },
+                    {
+                        id: 3,
+                        name: 'Budget Breakdown.xlsx',
+                        type: 'Financial',
+                        uploadDate: '2024-06-15',
+                        size: '0.5 MB'
+                    },
+                    {
+                        id: 4,
+                        name: 'Community Assessment.pdf',
+                        type: 'Research',
+                        uploadDate: '2024-05-10',
+                        size: '3.2 MB'
+                    },
+                    {
+                        id: 5,
+                        name: 'Risk Management Plan.docx',
+                        type: 'Planning',
+                        uploadDate: '2024-03-20',
+                        size: '0.8 MB'
+                    }
+                ],
+
+                // Key contacts
+                keyContacts: [
+                    {
+                        id: 1,
+                        name: 'Dr. Maria Popescu',
+                        role: 'Project Director',
+                        email: 'maria.popescu@healthpartners.org'
+                    },
+                    {
+                        id: 2,
+                        name: 'Andrei Ionescu',
+                        role: 'Operations Manager',
+                        email: 'andrei.ionescu@healthpartners.org'
+                    },
+                    {
+                        id: 3,
+                        name: 'Elena Radu',
+                        role: 'Community Liaison',
+                        email: 'elena.radu@healthpartners.org'
+                    },
+                    {
+                        id: 4,
+                        name: 'Sarah Thompson',
+                        role: 'Fondation Botnar Program Officer',
+                        email: 's.thompson@fondationbotnar.org'
+                    }
+                ],
+
+                // Next actions
+                nextActions: [
+                    {
+                        id: 1,
+                        title: 'Submit Q3 financial report',
+                        dueDate: '2024-10-15'
+                    },
+                    {
+                        id: 2,
+                        title: 'Complete infrastructure milestone review',
+                        dueDate: '2024-10-20'
+                    },
+                    {
+                        id: 3,
+                        title: 'Schedule mid-term evaluation meeting',
+                        dueDate: '2024-11-01'
+                    }
+                ],
+
+                // Charts
+                timelineChart: null,
+                budgetChart: null,
+                impactChart: null,
+
+                // Initialization
+                init() {
+                    this.initTheme();
+                    this.$nextTick(() => {
+                        this.initCharts();
+                    });
+                },
+
+                // Theme management
+                initTheme() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+
+                // Chart initialization
+                initCharts() {
+                    if (this.$refs.timelineChart && this.$refs.budgetChart && this.$refs.impactChart) {
+                        this.initTimelineChart();
+                        this.initBudgetChart();
+                        this.initImpactChart();
+                    }
+                },
+
+                // Timeline chart with milestones
+                initTimelineChart() {
+                    const ctx = this.$refs.timelineChart.getContext('2d');
+                    this.timelineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'],
+                            datasets: [
+                                {
+                                    label: 'Planned Progress',
+                                    data: [15, 30, 45, 60, 75, 85, 95, 100],
+                                    borderColor: '#e91e63',
+                                    backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                                    borderDash: [5, 5],
+                                    tension: 0.4
+                                },
+                                {
+                                    label: 'Actual Progress',
+                                    data: [18, 32, 68, null, null, null, null, null],
+                                    borderColor: '#2196f3',
+                                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                    tension: 0.4,
+                                    fill: false
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { 
+                                    position: 'top',
+                                    labels: {
+                                        usePointStyle: true
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    title: {
+                                        display: true,
+                                        text: 'Progress (%)'
+                                    },
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Timeline'
+                                    },
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Budget utilization chart
+                initBudgetChart() {
+                    const ctx = this.$refs.budgetChart.getContext('2d');
+                    this.budgetChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Infrastructure', 'Training', 'Equipment', 'Operations', 'Evaluation'],
+                            datasets: [
+                                {
+                                    label: 'Budgeted',
+                                    data: [350000, 200000, 150000, 100000, 50000],
+                                    backgroundColor: 'rgba(233, 30, 99, 0.3)',
+                                    borderColor: '#e91e63',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Spent',
+                                    data: [245000, 95000, 65000, 15000, 5000],
+                                    backgroundColor: 'rgba(33, 150, 243, 0.3)',
+                                    borderColor: '#2196f3',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { 
+                                    position: 'top',
+                                    labels: {
+                                        usePointStyle: true
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8,
+                                    callbacks: {
+                                        label: (context) => {
+                                            return context.dataset.label + ': ' + this.formatCurrency(context.parsed.y);
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Amount (CHF)'
+                                    },
+                                    ticks: {
+                                        callback: (value) => this.formatCurrency(value)
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Budget Categories'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Impact metrics chart
+                initImpactChart() {
+                    const ctx = this.$refs.impactChart.getContext('2d');
+                    this.impactChart = new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Health Access', 'Quality of Care', 'Community Engagement', 'Sustainability', 'Innovation', 'Cost Effectiveness'],
+                            datasets: [
+                                {
+                                    label: 'Target',
+                                    data: [90, 85, 80, 75, 70, 85],
+                                    borderColor: '#e91e63',
+                                    backgroundColor: 'rgba(233, 30, 99, 0.2)',
+                                    borderWidth: 2
+                                },
+                                {
+                                    label: 'Current',
+                                    data: [87, 82, 89, 65, 78, 91],
+                                    borderColor: '#2196f3',
+                                    backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                                    borderWidth: 2
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { 
+                                    position: 'top',
+                                    labels: {
+                                        usePointStyle: true
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
+                                }
+                            },
+                            scales: {
+                                r: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: {
+                                        stepSize: 20
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Utility methods
+                getStatusColor(status) {
+                    const colors = {
+                        'Active': 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400',
+                        'Pending': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400',
+                        'Completed': 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400',
+                        'Suspended': 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+                    };
+                    return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+                },
+
+                getMilestoneStatusColor(status) {
+                    const colors = {
+                        'completed': 'bg-green-500',
+                        'in-progress': 'bg-blue-500',
+                        'upcoming': 'bg-gray-300 dark:bg-gray-600'
+                    };
+                    return colors[status] || 'bg-gray-300 dark:bg-gray-600';
+                },
+
+                getDocumentTypeColor(type) {
+                    const colors = {
+                        'Contract': 'bg-red-500',
+                        'Report': 'bg-blue-500',
+                        'Financial': 'bg-green-500',
+                        'Research': 'bg-purple-500',
+                        'Planning': 'bg-orange-500'
+                    };
+                    return colors[type] || 'bg-gray-500';
+                },
+
+                formatCurrency(amount) {
+                    return new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'CHF',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }).format(amount);
+                },
+
+                formatDate(dateString) {
+                    return new Date(dateString).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                },
+
+                // Action methods
+                editGrant() {
+                    console.log('Edit grant details');
+                },
+
+                addMilestone() {
+                    console.log('Add new milestone');
+                },
+
+                uploadDocument() {
+                    console.log('Upload document');
+                },
+
+                scheduleReview() {
+                    console.log('Schedule review');
+                },
+
+                generateReport() {
+                    console.log('Generate comprehensive grant report');
+                },
+
+                exportGrant() {
+                    console.log('Export grant data');
+                },
+
+                exportChart(chartType) {
+                    try {
+                        let chart;
+                        let filename;
+                        
+                        switch(chartType) {
+                            case 'timeline':
+                                chart = this.timelineChart;
+                                filename = 'timeline-chart.png';
+                                break;
+                            case 'budget':
+                                chart = this.budgetChart;
+                                filename = 'budget-chart.png';
+                                break;
+                            case 'impact':
+                                chart = this.impactChart;
+                                filename = 'impact-chart.png';
+                                break;
+                        }
+                        
+                        if (chart) {
+                            const link = document.createElement('a');
+                            link.download = filename;
+                            link.href = chart.toBase64Image();
+                            link.click();
+                        }
+                    } catch (error) {
+                        console.error('Chart export failed:', error);
+                    }
+                },
+
+                openDocument(document) {
+                    console.log('Opening document:', document.name);
+                },
+
+                downloadDocument(document) {
+                    console.log('Downloading document:', document.name);
+                },
+
+                // Copy to clipboard functionality
+                copyToClipboard(elementId) {
+                    const element = document.getElementById(elementId);
+                    const text = element.textContent;
+                    
+                    navigator.clipboard.writeText(text).then(() => {
+                        console.log('Copied to clipboard');
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+                }
+            };
+        }
+    </script>
+</body>
+</html>

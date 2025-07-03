@@ -6,8 +6,9 @@
   "license": "PROPRIETARY",
   "private": true,
   "scripts": {
-    "dev": "echo 'Development server to be configured'",
-    "build": "echo 'Build process to be configured'",
+    "dev": "tailwindcss -i ./design-system/assets/css/base.css -o ./dist/botnar-design-system.css --watch",
+    "build": "tailwindcss -i ./design-system/assets/css/base.css -o ./dist/botnar-design-system.css --minify",
+    "build:dev": "tailwindcss -i ./design-system/assets/css/base.css -o ./dist/botnar-design-system.css",
     "test": "echo 'Test runner to be configured'",
     "lint": "echo 'Linter to be configured'"
   },

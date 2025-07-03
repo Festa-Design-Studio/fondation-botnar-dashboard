@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Dashboard Template - Templates | Fondation Botnar Design System</title>
+    <meta name="description" content="Evaluation-focused dashboard template with comparison features, stakeholder views, data export capabilities, and comprehensive impact assessment tools">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="evaluationDashboardTemplate()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Breadcrumb Navigation -->
+                    <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+                        <a href="../../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Design System</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <a href="../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Templates</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium">Evaluation Dashboard</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Evaluation Dashboard Template</h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+                        A comprehensive evaluation-focused dashboard template featuring comparison functionality, stakeholder-specific views, data export capabilities, and advanced impact assessment tools for strategic decision-making and program evaluation.
+                    </p>
+                    
+                    <!-- Component Status -->
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                            ✅ Production Ready
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                            🔧 Interactive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400">
+                            ♿ WCAG AA
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">
+                            📱 Responsive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/20 dark:text-indigo-400">
+                            📊 Comparison
+                        </span>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button @click="showCode = !showCode" class="btn btn-primary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            <span x-text="showCode ? 'Hide Code' : 'View Code'"></span>
+                        </button>
+                        <button @click="previewMode = !previewMode" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            <span x-text="previewMode ? 'Edit Mode' : 'Preview Mode'"></span>
+                        </button>
+                        <button @click="exportEvaluation()" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Export Evaluation
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template Preview -->
+            <div x-show="!showCode" class="space-y-8">
+                
+                <!-- Evaluation Controls -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Impact Evaluation Dashboard</h2>
+                            <p class="text-gray-600 dark:text-gray-400">Comprehensive analysis and comparison of program outcomes</p>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <!-- Stakeholder View Selector -->
+                            <div class="relative">
+                                <label for="stakeholder-view" class="sr-only">Select stakeholder view</label>
+                                <select id="stakeholder-view" 
+                                        x-model="selectedStakeholder" 
+                                        @change="updateDashboardView()"
+                                        class="form-select">
+                                    <option value="executive">Executive View</option>
+                                    <option value="program">Program Manager View</option>
+                                    <option value="financial">Financial View</option>
+                                    <option value="impact">Impact Specialist View</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Comparison Mode Toggle -->
+                            <div class="flex items-center">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" 
+                                           x-model="comparisonMode" 
+                                           @change="toggleComparisonMode()"
+                                           class="sr-only">
+                                    <div class="relative">
+                                        <div class="w-10 h-6 bg-gray-200 dark:bg-gray-600 rounded-full shadow-inner"></div>
+                                        <div class="absolute inset-y-0 left-0 flex items-center">
+                                            <div class="w-4 h-4 bg-white rounded-full shadow transform transition-transform"
+                                                 :class="{ 'translate-x-4': comparisonMode }"></div>
+                                        </div>
+                                    </div>
+                                    <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Comparison Mode</span>
+                                </label>
+                            </div>
+                            
+                            <!-- Time Period Selector -->
+                            <div class="relative">
+                                <label for="evaluation-period" class="sr-only">Select evaluation period</label>
+                                <select id="evaluation-period" 
+                                        x-model="selectedPeriod" 
+                                        @change="updateDashboard()"
+                                        class="form-select">
+                                    <option value="current">Current Period</option>
+                                    <option value="6m">Last 6 months</option>
+                                    <option value="1y">Last year</option>
+                                    <option value="2y">Last 2 years</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison Selection (when comparison mode is active) -->
+                <div x-show="comparisonMode" 
+                     x-transition
+                     class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Select Items to Compare</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Primary Selection -->
+                        <div>
+                            <label for="primary-selection" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Primary</label>
+                            <select id="primary-selection" 
+                                    x-model="comparison.primary" 
+                                    @change="updateComparison()"
+                                    class="form-select">
+                                <template x-for="item in comparisonItems" :key="item.id">
+                                    <option :value="item.id" x-text="item.name"></option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <!-- Secondary Selection -->
+                        <div>
+                            <label for="secondary-selection" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Compare Against</label>
+                            <select id="secondary-selection" 
+                                    x-model="comparison.secondary" 
+                                    @change="updateComparison()"
+                                    class="form-select">
+                                <template x-for="item in comparisonItems" :key="item.id">
+                                    <option :value="item.id" x-text="item.name"></option>
+                                </template>
+                            </select>
+                        </div>
+                        
+                        <!-- Comparison Type -->
+                        <div>
+                            <label for="comparison-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Comparison Type</label>
+                            <select id="comparison-type" 
+                                    x-model="comparison.type" 
+                                    @change="updateComparison()"
+                                    class="form-select">
+                                <option value="side-by-side">Side by Side</option>
+                                <option value="overlay">Overlay Charts</option>
+                                <option value="percentage">Percentage Difference</option>
+                                <option value="trend">Trend Analysis</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Performance Indicators -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Overall Impact Score -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="evaluationData.overallScore + '/100'"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Overall Impact Score</div>
+                                <div class="flex items-center">
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-2">
+                                        <div class="bg-botnar-pink-500 h-2 rounded-full transition-all duration-300" :style="`width: ${evaluationData.overallScore}%`"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 dark:text-gray-500" x-text="getScoreLabel(evaluationData.overallScore)"></span>
+                                </div>
+                                <div x-show="comparisonMode" class="mt-2 text-xs">
+                                    <span :class="getComparisonColor(evaluationData.overallScoreChange)" 
+                                          x-text="formatChange(evaluationData.overallScoreChange)"></span>
+                                    <span class="text-gray-500 dark:text-gray-500 ml-1">vs comparison</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">🎯</div>
+                        </div>
+                    </div>
+
+                    <!-- Beneficiaries Reached -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="formatNumber(evaluationData.beneficiariesReached)"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Beneficiaries Reached</div>
+                                <div class="flex items-center">
+                                    <span class="text-sm text-green-600 dark:text-green-400 font-medium">
+                                        <span x-text="Math.round((evaluationData.beneficiariesReached / evaluationData.targetBeneficiaries) * 100)"></span>% of target
+                                    </span>
+                                </div>
+                                <div x-show="comparisonMode" class="mt-2 text-xs">
+                                    <span :class="getComparisonColor(evaluationData.beneficiariesChange)" 
+                                          x-text="formatChange(evaluationData.beneficiariesChange)"></span>
+                                    <span class="text-gray-500 dark:text-gray-500 ml-1">vs comparison</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">👥</div>
+                        </div>
+                    </div>
+
+                    <!-- Cost Effectiveness -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="formatCurrency(evaluationData.costPerBeneficiary)"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Cost per Beneficiary</div>
+                                <div class="flex items-center">
+                                    <span class="text-sm font-medium" 
+                                          :class="evaluationData.costEfficiencyTrend > 0 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'">
+                                        <span x-text="evaluationData.costEfficiencyTrend > 0 ? '+' : ''"></span><span x-text="Math.abs(evaluationData.costEfficiencyTrend)"></span>%
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-500 ml-1">vs baseline</span>
+                                </div>
+                                <div x-show="comparisonMode" class="mt-2 text-xs">
+                                    <span :class="getComparisonColor(evaluationData.costEfficiencyChange)" 
+                                          x-text="formatChange(evaluationData.costEfficiencyChange)"></span>
+                                    <span class="text-gray-500 dark:text-gray-500 ml-1">vs comparison</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">💰</div>
+                        </div>
+                    </div>
+
+                    <!-- Sustainability Index -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1" x-text="evaluationData.sustainabilityIndex + '%'"></div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Sustainability Index</div>
+                                <div class="flex items-center space-x-1">
+                                    <template x-for="i in 5" :key="i">
+                                        <svg class="w-4 h-4" :class="i <= Math.round(evaluationData.sustainabilityIndex / 20) ? 'text-green-400' : 'text-gray-300 dark:text-gray-600'" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </template>
+                                </div>
+                                <div x-show="comparisonMode" class="mt-2 text-xs">
+                                    <span :class="getComparisonColor(evaluationData.sustainabilityChange)" 
+                                          x-text="formatChange(evaluationData.sustainabilityChange)"></span>
+                                    <span class="text-gray-500 dark:text-gray-500 ml-1">vs comparison</span>
+                                </div>
+                            </div>
+                            <div class="text-4xl" aria-hidden="true">🌱</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Impact Assessment Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Outcome Trends Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Outcome Trends</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Key outcomes over time</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button @click="exportChart('outcomes')" 
+                                            class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
+                                        Export
+                                    </button>
+                                    <div class="relative" x-data="{ open: false }">
+                                        <button @click="open = !open" 
+                                                class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
+                                            Options
+                                        </button>
+                                        <div x-show="open" 
+                                             @click.away="open = false"
+                                             x-transition
+                                             class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10">
+                                            <div class="py-1">
+                                                <button @click="toggleOutcome('health')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Toggle Health Outcomes</button>
+                                                <button @click="toggleOutcome('education')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Toggle Education Outcomes</button>
+                                                <button @click="toggleOutcome('economic')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Toggle Economic Outcomes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="relative">
+                                <canvas x-ref="outcomesChart" class="w-full h-80" aria-label="Outcome trends chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Impact Distribution Chart -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Impact Distribution</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Impact across different dimensions</p>
+                                </div>
+                                <button @click="exportChart('impact')" 
+                                        class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="relative">
+                                <canvas x-ref="impactChart" class="w-full h-80" aria-label="Impact distribution chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison Analysis (when comparison mode is active) -->
+                <div x-show="comparisonMode" 
+                     x-transition
+                     class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Comparative Analysis</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Detailed comparison between selected items</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Comparison Chart -->
+                            <div class="relative">
+                                <canvas x-ref="comparisonChart" class="w-full h-80" aria-label="Comparison chart"></canvas>
+                            </div>
+                            
+                            <!-- Comparison Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Metric</th>
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Primary</th>
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Comparison</th>
+                                            <th class="text-left text-sm font-medium text-gray-500 dark:text-gray-400 pb-3">Difference</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        <template x-for="metric in comparisonMetrics" :key="metric.name">
+                                            <tr>
+                                                <td class="py-3 text-sm font-medium text-gray-900 dark:text-gray-100" x-text="metric.name"></td>
+                                                <td class="py-3 text-sm text-gray-700 dark:text-gray-300" x-text="metric.primary"></td>
+                                                <td class="py-3 text-sm text-gray-700 dark:text-gray-300" x-text="metric.secondary"></td>
+                                                <td class="py-3 text-sm font-medium" :class="getComparisonColor(metric.difference)" x-text="formatChange(metric.difference)"></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stakeholder-Specific Insights -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                    
+                    <!-- Key Findings -->
+                    <div class="xl:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Key Findings</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400" x-text="`Insights for ${getStakeholderLabel(selectedStakeholder)}`"></p>
+                                </div>
+                                <button @click="generateInsightsReport()" class="btn btn-secondary btn-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Generate Report
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-6">
+                                <template x-for="finding in getStakeholderFindings(selectedStakeholder)" :key="finding.id">
+                                    <div class="p-4 rounded-lg border" :class="getFindingColor(finding.type)">
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1"
+                                                 :class="getFindingIconColor(finding.type)">
+                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path x-show="finding.type === 'positive'" fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                                    <path x-show="finding.type === 'concern'" fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                    <path x-show="finding.type === 'neutral'" fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2" x-text="finding.title"></h4>
+                                                <p class="text-sm text-gray-700 dark:text-gray-300 mb-3" x-text="finding.description"></p>
+                                                <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-500">
+                                                    <span><strong>Impact:</strong> <span x-text="finding.impact"></span></span>
+                                                    <span><strong>Confidence:</strong> <span x-text="finding.confidence"></span></span>
+                                                    <span x-show="finding.recommendation"><strong>Action:</strong> <span x-text="finding.recommendation"></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions and Export -->
+                    <div class="space-y-8">
+                        
+                        <!-- Quick Actions -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                            <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Quick Actions</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-3">
+                                    <button @click="scheduleReview()" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Schedule Evaluation Review</span>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
+                                    <button @click="createAction()" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Create Action Plan</span>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
+                                    <button @click="shareFindings()" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Share with Stakeholders</span>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Export Options -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                            <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Export Options</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-3">
+                                    <button @click="exportAs('executive-summary')" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Executive Summary (PDF)</span>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </button>
+                                    <button @click="exportAs('detailed-report')" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Detailed Report (PDF)</span>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </button>
+                                    <button @click="exportAs('data-export')" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Raw Data (Excel)</span>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </button>
+                                    <button @click="exportAs('presentation')" class="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Presentation (PowerPoint)</span>
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code View -->
+            <div x-show="showCode" x-transition class="space-y-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Evaluation Template HTML Structure</h3>
+                        <button @click="copyToClipboard('evaluation-html')" 
+                                class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1 rounded">
+                            Copy HTML
+                        </button>
+                    </div>
+                    <pre class="bg-gray-50 dark:bg-gray-900 rounded border p-4 overflow-x-auto text-sm"><code id="evaluation-html" class="language-html">&lt;!-- Evaluation Dashboard Template Structure --&gt;
+&lt;div class="evaluation-dashboard" x-data="evaluationDashboardTemplate()"&gt;
+    &lt;!-- Dashboard Controls --&gt;
+    &lt;div class="evaluation-controls"&gt;
+        &lt;select x-model="selectedStakeholder"&gt;
+            &lt;option value="executive"&gt;Executive View&lt;/option&gt;
+            &lt;option value="program"&gt;Program Manager View&lt;/option&gt;
+        &lt;/select&gt;
+        
+        &lt;label class="comparison-toggle"&gt;
+            &lt;input type="checkbox" x-model="comparisonMode"&gt;
+            Comparison Mode
+        &lt;/label&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Comparison Selection --&gt;
+    &lt;div x-show="comparisonMode" class="comparison-selection"&gt;
+        &lt;select x-model="comparison.primary"&gt;
+            &lt;template x-for="item in comparisonItems"&gt;
+                &lt;option :value="item.id" x-text="item.name"&gt;&lt;/option&gt;
+            &lt;/template&gt;
+        &lt;/select&gt;
+        &lt;select x-model="comparison.secondary"&gt;
+            &lt;template x-for="item in comparisonItems"&gt;
+                &lt;option :value="item.id" x-text="item.name"&gt;&lt;/option&gt;
+            &lt;/template&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+
+    &lt;!-- KPI Grid --&gt;
+    &lt;div class="kpi-grid"&gt;
+        &lt;div class="kpi-card"&gt;
+            &lt;div x-text="evaluationData.overallScore + '/100'"&gt;&lt;/div&gt;
+            &lt;div&gt;Overall Impact Score&lt;/div&gt;
+            &lt;div x-show="comparisonMode"&gt;
+                &lt;span x-text="formatChange(evaluationData.overallScoreChange)"&gt;&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- Additional KPIs... --&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Charts Section --&gt;
+    &lt;div class="charts-grid"&gt;
+        &lt;canvas x-ref="outcomesChart"&gt;&lt;/canvas&gt;
+        &lt;canvas x-ref="impactChart"&gt;&lt;/canvas&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Comparison Analysis --&gt;
+    &lt;div x-show="comparisonMode" class="comparison-analysis"&gt;
+        &lt;canvas x-ref="comparisonChart"&gt;&lt;/canvas&gt;
+        &lt;table class="comparison-table"&gt;
+            &lt;template x-for="metric in comparisonMetrics"&gt;
+                &lt;tr&gt;
+                    &lt;td x-text="metric.name"&gt;&lt;/td&gt;
+                    &lt;td x-text="metric.primary"&gt;&lt;/td&gt;
+                    &lt;td x-text="metric.secondary"&gt;&lt;/td&gt;
+                    &lt;td x-text="formatChange(metric.difference)"&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/template&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Stakeholder Insights --&gt;
+    &lt;div class="insights-section"&gt;
+        &lt;template x-for="finding in getStakeholderFindings(selectedStakeholder)"&gt;
+            &lt;div class="finding-card"&gt;
+                &lt;h4 x-text="finding.title"&gt;&lt;/h4&gt;
+                &lt;p x-text="finding.description"&gt;&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/template&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Alpine.js Component Logic</h3>
+                        <button @click="copyToClipboard('evaluation-js')" 
+                                class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1 rounded">
+                            Copy JavaScript
+                        </button>
+                    </div>
+                    <pre class="bg-gray-50 dark:bg-gray-900 rounded border p-4 overflow-x-auto text-sm"><code id="evaluation-js" class="language-javascript">function evaluationDashboardTemplate() {
+    return {
+        // Template state
+        theme: 'light',
+        showCode: false,
+        previewMode: false,
+        selectedStakeholder: 'executive',
+        selectedPeriod: 'current',
+        comparisonMode: false,
+
+        // Comparison settings
+        comparison: {
+            primary: 'program-1',
+            secondary: 'program-2',
+            type: 'side-by-side'
+        },
+
+        // Evaluation data
+        evaluationData: {
+            overallScore: 87,
+            overallScoreChange: +5,
+            beneficiariesReached: 156000,
+            beneficiariesChange: +12,
+            targetBeneficiaries: 180000,
+            costPerBeneficiary: 125,
+            costEfficiencyTrend: -8,
+            costEfficiencyChange: -15,
+            sustainabilityIndex: 82,
+            sustainabilityChange: +7
+        },
+
+        // Comparison items
+        comparisonItems: [
+            { id: 'program-1', name: 'Health Initiative Romania' },
+            { id: 'program-2', name: 'Education Program Ghana' },
+            { id: 'program-3', name: 'Climate Action Colombia' }
+        ],
+
+        // Stakeholder findings
+        stakeholderFindings: {
+            executive: [
+                {
+                    id: 1,
+                    type: 'positive',
+                    title: 'Strong ROI Performance',
+                    description: 'The program demonstrates exceptional return on investment with 87% impact score.',
+                    impact: 'High',
+                    confidence: 'Very High',
+                    recommendation: 'Consider scaling successful elements'
+                }
+            ],
+            program: [
+                {
+                    id: 1,
+                    type: 'concern',
+                    title: 'Resource Allocation Efficiency',
+                    description: 'Some budget categories showing higher than expected utilization rates.',
+                    impact: 'Medium',
+                    confidence: 'High',
+                    recommendation: 'Review procurement processes'
+                }
+            ]
+        },
+
+        // Charts
+        outcomesChart: null,
+        impactChart: null,
+        comparisonChart: null,
+
+        // Initialization
+        init() {
+            this.initTheme();
+            this.$nextTick(() => {
+                this.initCharts();
+            });
+        },
+
+        // Chart initialization
+        initCharts() {
+            this.initOutcomesChart();
+            this.initImpactChart();
+            if (this.comparisonMode) {
+                this.initComparisonChart();
+            }
+        },
+
+        // Methods
+        toggleComparisonMode() {
+            if (this.comparisonMode && this.$refs.comparisonChart) {
+                this.$nextTick(() => {
+                    this.initComparisonChart();
+                });
+            }
+        },
+
+        getStakeholderFindings(stakeholder) {
+            return this.stakeholderFindings[stakeholder] || [];
+        },
+
+        getStakeholderLabel(stakeholder) {
+            const labels = {
+                executive: 'Executive Leadership',
+                program: 'Program Managers',
+                financial: 'Financial Team',
+                impact: 'Impact Specialists'
+            };
+            return labels[stakeholder] || stakeholder;
+        },
+
+        formatChange(value) {
+            return value > 0 ? `+${value}%` : `${value}%`;
+        },
+
+        getComparisonColor(value) {
+            if (value > 0) return 'text-green-600 dark:text-green-400';
+            if (value < 0) return 'text-red-600 dark:text-red-400';
+            return 'text-gray-600 dark:text-gray-400';
+        }
+    };
+}</code></pre>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Template Script -->
+    <script>
+        function evaluationDashboardTemplate() {
+            return {
+                // Template state
+                theme: 'light',
+                showCode: false,
+                previewMode: false,
+                selectedStakeholder: 'executive',
+                selectedPeriod: 'current',
+                comparisonMode: false,
+
+                // Comparison settings
+                comparison: {
+                    primary: 'program-1',
+                    secondary: 'program-2',
+                    type: 'side-by-side'
+                },
+
+                // Evaluation data
+                evaluationData: {
+                    overallScore: 87,
+                    overallScoreChange: +5,
+                    beneficiariesReached: 156000,
+                    beneficiariesChange: +12,
+                    targetBeneficiaries: 180000,
+                    costPerBeneficiary: 125,
+                    costEfficiencyTrend: -8,
+                    costEfficiencyChange: -15,
+                    sustainabilityIndex: 82,
+                    sustainabilityChange: +7
+                },
+
+                // Comparison items
+                comparisonItems: [
+                    { id: 'program-1', name: 'Health Initiative Romania' },
+                    { id: 'program-2', name: 'Education Program Ghana' },
+                    { id: 'program-3', name: 'Climate Action Colombia' },
+                    { id: 'program-4', name: 'Digital Innovation Indonesia' },
+                    { id: 'program-5', name: 'Youth Development Tanzania' }
+                ],
+
+                // Comparison metrics
+                comparisonMetrics: [
+                    { name: 'Impact Score', primary: '87%', secondary: '82%', difference: +5 },
+                    { name: 'Beneficiaries', primary: '156,000', secondary: '142,000', difference: +10 },
+                    { name: 'Cost Efficiency', primary: 'CHF 125', secondary: 'CHF 145', difference: -14 },
+                    { name: 'Sustainability', primary: '82%', secondary: '76%', difference: +8 },
+                    { name: 'Timeline', primary: '95%', secondary: '88%', difference: +8 }
+                ],
+
+                // Stakeholder findings
+                stakeholderFindings: {
+                    executive: [
+                        {
+                            id: 1,
+                            type: 'positive',
+                            title: 'Strong ROI Performance',
+                            description: 'The program demonstrates exceptional return on investment with 87% impact score, exceeding initial projections by 12%.',
+                            impact: 'High',
+                            confidence: 'Very High',
+                            recommendation: 'Consider scaling successful elements to other regions'
+                        },
+                        {
+                            id: 2,
+                            type: 'neutral',
+                            title: 'Market Expansion Opportunity',
+                            description: 'Analysis shows potential for geographic expansion with similar demographic profiles.',
+                            impact: 'Medium',
+                            confidence: 'Medium',
+                            recommendation: 'Conduct feasibility studies for expansion'
+                        },
+                        {
+                            id: 3,
+                            type: 'concern',
+                            title: 'Dependency Risk',
+                            description: 'High reliance on key personnel and single-source partnerships may pose risks to program continuity.',
+                            impact: 'Medium',
+                            confidence: 'High',
+                            recommendation: 'Develop contingency plans and backup partnerships'
+                        }
+                    ],
+                    program: [
+                        {
+                            id: 1,
+                            type: 'concern',
+                            title: 'Resource Allocation Efficiency',
+                            description: 'Some budget categories showing higher than expected utilization rates, particularly in equipment and training costs.',
+                            impact: 'Medium',
+                            confidence: 'High',
+                            recommendation: 'Review procurement processes and vendor negotiations'
+                        },
+                        {
+                            id: 2,
+                            type: 'positive',
+                            title: 'Team Performance Excellence',
+                            description: 'Local team adaptation and problem-solving capabilities exceed expectations, resulting in innovative solutions.',
+                            impact: 'High',
+                            confidence: 'Very High',
+                            recommendation: 'Document best practices for replication'
+                        },
+                        {
+                            id: 3,
+                            type: 'neutral',
+                            title: 'Technology Integration Progress',
+                            description: 'Digital platform adoption rates meeting targets but user engagement could be improved.',
+                            impact: 'Medium',
+                            confidence: 'Medium',
+                            recommendation: 'Enhance user training and support programs'
+                        }
+                    ],
+                    financial: [
+                        {
+                            id: 1,
+                            type: 'positive',
+                            title: 'Cost Control Success',
+                            description: 'Operating costs reduced by 8% while maintaining quality outcomes through process optimization.',
+                            impact: 'High',
+                            confidence: 'Very High',
+                            recommendation: 'Apply cost optimization model to other programs'
+                        },
+                        {
+                            id: 2,
+                            type: 'concern',
+                            title: 'Currency Fluctuation Impact',
+                            description: 'Exchange rate variations affecting budget projections and requiring frequent adjustments.',
+                            impact: 'Medium',
+                            confidence: 'High',
+                            recommendation: 'Implement currency hedging strategies'
+                        }
+                    ],
+                    impact: [
+                        {
+                            id: 1,
+                            type: 'positive',
+                            title: 'Outcome Quality Improvement',
+                            description: 'Beneficiary satisfaction scores increased by 15% compared to baseline measurements.',
+                            impact: 'High',
+                            confidence: 'Very High',
+                            recommendation: 'Maintain current approach and monitor trends'
+                        },
+                        {
+                            id: 2,
+                            type: 'neutral',
+                            title: 'Long-term Impact Tracking',
+                            description: 'Early indicators suggest positive long-term outcomes, but more data needed for conclusive assessment.',
+                            impact: 'High',
+                            confidence: 'Medium',
+                            recommendation: 'Continue longitudinal studies for 2+ years'
+                        }
+                    ]
+                },
+
+                // Charts
+                outcomesChart: null,
+                impactChart: null,
+                comparisonChart: null,
+
+                // Initialization
+                init() {
+                    this.initTheme();
+                    this.$nextTick(() => {
+                        this.initCharts();
+                    });
+                },
+
+                // Theme management
+                initTheme() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+
+                // Chart initialization
+                initCharts() {
+                    if (this.$refs.outcomesChart && this.$refs.impactChart) {
+                        this.initOutcomesChart();
+                        this.initImpactChart();
+                        if (this.comparisonMode && this.$refs.comparisonChart) {
+                            this.initComparisonChart();
+                        }
+                    }
+                },
+
+                // Outcomes trends chart
+                initOutcomesChart() {
+                    const ctx = this.$refs.outcomesChart.getContext('2d');
+                    this.outcomesChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Q1 2023', 'Q2 2023', 'Q3 2023', 'Q4 2023', 'Q1 2024', 'Q2 2024', 'Q3 2024'],
+                            datasets: [
+                                {
+                                    label: 'Health Outcomes',
+                                    data: [65, 72, 78, 82, 85, 88, 91],
+                                    borderColor: '#e91e63',
+                                    backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                },
+                                {
+                                    label: 'Education Outcomes',
+                                    data: [58, 64, 71, 75, 79, 83, 87],
+                                    borderColor: '#2196f3',
+                                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                },
+                                {
+                                    label: 'Economic Outcomes',
+                                    data: [45, 52, 58, 65, 71, 76, 82],
+                                    borderColor: '#4caf50',
+                                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { 
+                                    position: 'top',
+                                    labels: { usePointStyle: true }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    title: {
+                                        display: true,
+                                        text: 'Outcome Score'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Time Period'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Impact distribution chart
+                initImpactChart() {
+                    const ctx = this.$refs.impactChart.getContext('2d');
+                    this.impactChart = new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Health Access', 'Quality of Care', 'Community Engagement', 'Sustainability', 'Innovation', 'Cost Effectiveness'],
+                            datasets: [
+                                {
+                                    label: 'Current Performance',
+                                    data: [87, 82, 89, 82, 78, 91],
+                                    borderColor: '#e91e63',
+                                    backgroundColor: 'rgba(233, 30, 99, 0.2)',
+                                    borderWidth: 2
+                                },
+                                {
+                                    label: 'Target',
+                                    data: [85, 85, 85, 85, 85, 85],
+                                    borderColor: '#2196f3',
+                                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                    borderWidth: 2,
+                                    borderDash: [5, 5]
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { 
+                                    position: 'top',
+                                    labels: { usePointStyle: true }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
+                                }
+                            },
+                            scales: {
+                                r: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: { stepSize: 20 }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Comparison chart
+                initComparisonChart() {
+                    if (!this.$refs.comparisonChart) return;
+                    
+                    const ctx = this.$refs.comparisonChart.getContext('2d');
+                    this.comparisonChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Impact Score', 'Beneficiaries (000s)', 'Cost Efficiency', 'Sustainability', 'Timeline'],
+                            datasets: [
+                                {
+                                    label: 'Primary',
+                                    data: [87, 156, 125, 82, 95],
+                                    backgroundColor: 'rgba(233, 30, 99, 0.7)',
+                                    borderColor: '#e91e63',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Comparison',
+                                    data: [82, 142, 145, 76, 88],
+                                    backgroundColor: 'rgba(33, 150, 243, 0.7)',
+                                    borderColor: '#2196f3',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { 
+                                    position: 'top',
+                                    labels: { usePointStyle: true }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                    titleColor: '#212121',
+                                    bodyColor: '#424242',
+                                    borderColor: '#e0e0e0',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Value'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+                // Dashboard methods
+                updateDashboardView() {
+                    console.log('Updating dashboard for stakeholder:', this.selectedStakeholder);
+                },
+
+                updateDashboard() {
+                    console.log('Updating dashboard for period:', this.selectedPeriod);
+                },
+
+                toggleComparisonMode() {
+                    if (this.comparisonMode && this.$refs.comparisonChart) {
+                        this.$nextTick(() => {
+                            this.initComparisonChart();
+                        });
+                    }
+                },
+
+                updateComparison() {
+                    if (this.comparisonChart) {
+                        this.comparisonChart.update();
+                    }
+                },
+
+                // Utility methods
+                getScoreLabel(score) {
+                    if (score >= 90) return 'Excellent';
+                    if (score >= 80) return 'Good';
+                    if (score >= 70) return 'Fair';
+                    return 'Needs Improvement';
+                },
+
+                getStakeholderFindings(stakeholder) {
+                    return this.stakeholderFindings[stakeholder] || [];
+                },
+
+                getStakeholderLabel(stakeholder) {
+                    const labels = {
+                        executive: 'Executive Leadership',
+                        program: 'Program Managers',
+                        financial: 'Financial Team',
+                        impact: 'Impact Specialists'
+                    };
+                    return labels[stakeholder] || stakeholder;
+                },
+
+                getFindingColor(type) {
+                    const colors = {
+                        positive: 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20',
+                        concern: 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20',
+                        neutral: 'border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20'
+                    };
+                    return colors[type] || colors.neutral;
+                },
+
+                getFindingIconColor(type) {
+                    const colors = {
+                        positive: 'bg-green-500',
+                        concern: 'bg-red-500',
+                        neutral: 'bg-blue-500'
+                    };
+                    return colors[type] || colors.neutral;
+                },
+
+                formatChange(value) {
+                    return value > 0 ? `+${value}%` : `${value}%`;
+                },
+
+                getComparisonColor(value) {
+                    if (value > 0) return 'text-green-600 dark:text-green-400';
+                    if (value < 0) return 'text-red-600 dark:text-red-400';
+                    return 'text-gray-600 dark:text-gray-400';
+                },
+
+                formatCurrency(amount) {
+                    return new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'CHF',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }).format(amount);
+                },
+
+                formatNumber(number) {
+                    if (number >= 1000000) {
+                        return (number / 1000000).toFixed(1) + 'M';
+                    } else if (number >= 1000) {
+                        return (number / 1000).toFixed(0) + 'K';
+                    }
+                    return number.toString();
+                },
+
+                // Action methods
+                scheduleReview() {
+                    console.log('Scheduling evaluation review');
+                },
+
+                createAction() {
+                    console.log('Creating action plan');
+                },
+
+                shareFindings() {
+                    console.log('Sharing findings with stakeholders');
+                },
+
+                generateInsightsReport() {
+                    console.log('Generating insights report for', this.selectedStakeholder);
+                },
+
+                exportEvaluation() {
+                    console.log('Exporting evaluation dashboard');
+                },
+
+                exportAs(format) {
+                    console.log('Exporting as:', format);
+                },
+
+                exportChart(chartType) {
+                    try {
+                        let chart;
+                        let filename;
+                        
+                        switch(chartType) {
+                            case 'outcomes':
+                                chart = this.outcomesChart;
+                                filename = 'outcomes-chart.png';
+                                break;
+                            case 'impact':
+                                chart = this.impactChart;
+                                filename = 'impact-chart.png';
+                                break;
+                            case 'comparison':
+                                chart = this.comparisonChart;
+                                filename = 'comparison-chart.png';
+                                break;
+                        }
+                        
+                        if (chart) {
+                            const link = document.createElement('a');
+                            link.download = filename;
+                            link.href = chart.toBase64Image();
+                            link.click();
+                        }
+                    } catch (error) {
+                        console.error('Chart export failed:', error);
+                    }
+                },
+
+                toggleOutcome(type) {
+                    console.log('Toggling outcome type:', type);
+                    // Implementation would update chart visibility
+                },
+
+                // Copy to clipboard functionality
+                copyToClipboard(elementId) {
+                    const element = document.getElementById(elementId);
+                    const text = element.textContent;
+                    
+                    navigator.clipboard.writeText(text).then(() => {
+                        console.log('Copied to clipboard');
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+                }
+            };
+        }
+    </script>
+</body>
+</html>

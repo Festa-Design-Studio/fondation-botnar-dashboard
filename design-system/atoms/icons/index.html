@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon System - Fondation Botnar Design System</title>
+    <meta name="description" content="SVG icon library with accessibility features and interactive showcase">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="iconSystemDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Atoms
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Icons</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Icon System</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
+                    Scalable SVG icons with accessibility features for the Fondation Botnar Dashboard
+                </p>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400" x-text="Object.keys(iconCategories).reduce((total, cat) => total + iconCategories[cat].length, 0)"></div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Total Icons</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-blue-600 dark:text-botnar-blue-400" x-text="Object.keys(iconCategories).length"></div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Categories</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-success-700 dark:text-success-400">WCAG</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Accessible</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">SVG</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Format</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Icon Preview & Controls -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Interactive Icon Preview</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Selected Icon Display -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Selected Icon</h3>
+                            <div class="space-y-4">
+                                <!-- Icon Display -->
+                                <div class="flex items-center justify-center w-full h-32 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                    <div class="text-gray-400 dark:text-gray-500" 
+                                         :class="'w-' + selectedIconSize + ' h-' + selectedIconSize"
+                                         x-html="selectedIcon.svg">
+                                    </div>
+                                </div>
+                                
+                                <!-- Icon Info -->
+                                <div class="space-y-2">
+                                    <div class="text-lg font-semibold text-gray-900 dark:text-gray-100" x-text="selectedIcon.name"></div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                                        <span class="font-medium">Category:</span> <span x-text="selectedIcon.category"></span>
+                                    </div>
+                                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                                        <span class="font-medium">Usage:</span> <span x-text="selectedIcon.usage"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Controls & Code -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Customization</h3>
+                            <div class="space-y-4">
+                                <!-- Size Control -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Icon Size</label>
+                                    <select x-model="selectedIconSize" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                        <option value="4">16px (w-4 h-4)</option>
+                                        <option value="5">20px (w-5 h-5)</option>
+                                        <option value="6">24px (w-6 h-6)</option>
+                                        <option value="8">32px (w-8 h-8)</option>
+                                        <option value="12">48px (w-12 h-12)</option>
+                                        <option value="16">64px (w-16 h-16)</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Usage Example -->
+                                <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">HTML Code</h4>
+                                    <div class="text-sm font-mono bg-white dark:bg-gray-800 p-3 rounded border overflow-x-auto">
+                                        <pre class="text-gray-800 dark:text-gray-200" x-text="`<div class='w-${selectedIconSize} h-${selectedIconSize} text-gray-600'>\n  ${selectedIcon.svg}\n</div>`"></pre>
+                                    </div>
+                                </div>
+                                
+                                <!-- Copy Button -->
+                                <button @click="copyIconCode()" 
+                                        class="w-full bg-botnar-pink-500 hover:bg-botnar-pink-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                    <span x-show="!copied">Copy HTML Code</span>
+                                    <span x-show="copied" class="text-green-100">Copied!</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Icon Categories -->
+            <template x-for="(category, categoryName) in iconCategories" :key="categoryName">
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6" x-text="categoryName"></h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6" x-text="getCategoryDescription(categoryName)"></p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
+                        <template x-for="icon in category" :key="icon.name">
+                            <div class="icon-item bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center cursor-pointer transition-all duration-200 hover:border-botnar-pink-300 hover:shadow-md group"
+                                 :role="'button'"
+                                 :aria-label="`${icon.name} icon - ${icon.usage}`"
+                                 :tabindex="0"
+                                 @click="selectIcon(icon, categoryName)"
+                                 @keydown.enter="selectIcon(icon, categoryName)"
+                                 @keydown.space.prevent="selectIcon(icon, categoryName)">
+                                <div class="w-8 h-8 mx-auto mb-2 text-gray-600 dark:text-gray-400 group-hover:text-botnar-pink-500 transition-colors"
+                                     x-html="icon.svg"></div>
+                                <div class="text-xs font-medium text-gray-900 dark:text-gray-100" x-text="icon.name"></div>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+            </template>
+
+            <!-- Usage Guidelines -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Accessibility Guidelines -->
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Accessibility Best Practices
+                        </h3>
+                        <ul class="text-sm text-green-800 dark:text-green-200 space-y-2">
+                            <li>• Use aria-label for standalone icons</li>
+                            <li>• Add role="img" for decorative icons</li>
+                            <li>• Ensure 24px minimum touch target</li>
+                            <li>• Provide alternative text descriptions</li>
+                            <li>• Use semantic HTML with icons</li>
+                            <li>• Test with screen readers</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Implementation Guidelines -->
+                    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-blue-900 dark:text-blue-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Implementation Guidelines
+                        </h3>
+                        <ul class="text-sm text-blue-800 dark:text-blue-200 space-y-2">
+                            <li>• Use consistent icon sizes across contexts</li>
+                            <li>• Apply text colors for icon coloring</li>
+                            <li>• Maintain 1:1 aspect ratio</li>
+                            <li>• Use SVG format for scalability</li>
+                            <li>• Follow naming conventions</li>
+                            <li>• Test across different themes</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+        <span x-text="announcement"></span>
+    </div>
+
+    <script>
+        function iconSystemDemo() {
+            return {
+                theme: 'light',
+                selectedIcon: null,
+                selectedIconSize: '6',
+                copied: false,
+                announcement: '',
+                
+                iconCategories: {
+                    'Navigation': [
+                        {
+                            name: 'Home',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>',
+                            usage: 'Dashboard home navigation'
+                        },
+                        {
+                            name: 'Menu',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>',
+                            usage: 'Menu toggle, navigation drawer'
+                        },
+                        {
+                            name: 'Arrow Left',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>',
+                            usage: 'Back navigation, previous page'
+                        },
+                        {
+                            name: 'Arrow Right',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>',
+                            usage: 'Forward navigation, next page'
+                        }
+                    ],
+                    'Actions': [
+                        {
+                            name: 'Add',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>',
+                            usage: 'Add new items, create actions'
+                        },
+                        {
+                            name: 'Edit',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>',
+                            usage: 'Edit content, modify data'
+                        },
+                        {
+                            name: 'Delete',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>',
+                            usage: 'Delete items, remove content'
+                        },
+                        {
+                            name: 'Save',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>',
+                            usage: 'Save data, download files'
+                        }
+                    ],
+                    'Data & Analytics': [
+                        {
+                            name: 'Chart Bar',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>',
+                            usage: 'Bar charts, data visualization'
+                        },
+                        {
+                            name: 'Chart Line',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4"></path></svg>',
+                            usage: 'Line charts, trend analysis'
+                        },
+                        {
+                            name: 'Table',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0V6a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg>',
+                            usage: 'Data tables, grid layouts'
+                        },
+                        {
+                            name: 'Filter',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>',
+                            usage: 'Filter data, search refinement'
+                        }
+                    ],
+                    'Communication': [
+                        {
+                            name: 'Bell',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.07 2.82a3 3 0 00-4.24 0L2.82 5.83a3 3 0 000 4.24L9.88 17.12a3 3 0 004.24 0l3.01-3.01a3 3 0 000-4.24L10.07 2.82z"></path></svg>',
+                            usage: 'Notifications, alerts'
+                        },
+                        {
+                            name: 'Mail',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>',
+                            usage: 'Email, messages'
+                        },
+                        {
+                            name: 'Chat',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>',
+                            usage: 'Chat, discussions'
+                        },
+                        {
+                            name: 'Share',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path></svg>',
+                            usage: 'Share content, social features'
+                        }
+                    ],
+                    'Status': [
+                        {
+                            name: 'Check',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>',
+                            usage: 'Success states, completed tasks'
+                        },
+                        {
+                            name: 'X',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>',
+                            usage: 'Close, cancel, error states'
+                        },
+                        {
+                            name: 'Warning',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.728-.833-2.498 0L4.416 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>',
+                            usage: 'Warning messages, caution'
+                        },
+                        {
+                            name: 'Info',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+                            usage: 'Information, help tooltips'
+                        }
+                    ],
+                    'Files & Media': [
+                        {
+                            name: 'Document',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>',
+                            usage: 'Documents, files'
+                        },
+                        {
+                            name: 'Upload',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>',
+                            usage: 'File upload, import data'
+                        },
+                        {
+                            name: 'Download',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>',
+                            usage: 'Download files, export data'
+                        },
+                        {
+                            name: 'Image',
+                            svg: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>',
+                            usage: 'Images, media content'
+                        }
+                    ]
+                },
+                
+                init() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                    // Set default selected icon
+                    this.selectedIcon = {
+                        ...this.iconCategories['Navigation'][0],
+                        category: 'Navigation'
+                    };
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                selectIcon(icon, category) {
+                    this.selectedIcon = {
+                        ...icon,
+                        category: category
+                    };
+                    this.announcement = `Selected ${icon.name} icon from ${category} category. Usage: ${icon.usage}`;
+                },
+                
+                getCategoryDescription(category) {
+                    const descriptions = {
+                        'Navigation': 'Icons for navigation, routing, and directional actions within the dashboard',
+                        'Actions': 'Common action icons for user interactions and data manipulation',
+                        'Data & Analytics': 'Icons for data visualization, charts, and analytical tools',
+                        'Communication': 'Icons for messaging, notifications, and social interactions',
+                        'Status': 'Status indicators, feedback icons, and state representations',
+                        'Files & Media': 'Icons for file operations, uploads, downloads, and media content'
+                    };
+                    return descriptions[category] || '';
+                },
+                
+                async copyIconCode() {
+                    const code = `<div class="w-${this.selectedIconSize} h-${this.selectedIconSize} text-gray-600">\n  ${this.selectedIcon.svg}\n</div>`;
+                    try {
+                        await navigator.clipboard.writeText(code);
+                        this.copied = true;
+                        this.announcement = `Copied ${this.selectedIcon.name} icon code to clipboard`;
+                        setTimeout(() => {
+                            this.copied = false;
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy: ', err);
+                        this.announcement = 'Failed to copy to clipboard';
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

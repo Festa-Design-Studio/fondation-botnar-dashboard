@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Layouts - Organisms | Fondation Botnar Design System</title>
+    <meta name="description" content="Complex dashboard layout organisms combining multiple molecules for comprehensive data visualization interfaces">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="dashboardLayoutsDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Breadcrumb Navigation -->
+                    <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+                        <a href="../../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Design System</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <a href="../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Organisms</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium">Dashboard Layouts</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Dashboard Layouts</h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+                        Complex dashboard organisms that combine multiple molecules (charts, cards, navigation, filters) into comprehensive data visualization interfaces for strategic decision-making.
+                    </p>
+                    
+                    <!-- Component Status -->
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                            ✅ Production Ready
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                            🔧 Interactive
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400">
+                            ♿ WCAG AA
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">
+                            📱 Responsive
+                        </span>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button @click="showCode = !showCode" class="btn btn-primary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            <span x-text="showCode ? 'Hide Code' : 'View Code'"></span>
+                        </button>
+                        <button @click="resetDemo()" class="btn btn-secondary">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Reset Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layout Selector -->
+            <section class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Dashboard Layout Variants</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <template x-for="layout in layouts" :key="layout.id">
+                        <button @click="selectedLayout = layout.id; initializeCharts()" 
+                                class="p-4 rounded-lg border-2 text-left transition-all"
+                                :class="selectedLayout === layout.id ? 
+                                    'border-botnar-pink-500 bg-botnar-pink-50 dark:bg-botnar-pink-900/20 dark:border-botnar-pink-400' : 
+                                    'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800'">
+                            <div class="flex items-center mb-2">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center mr-3"
+                                     :class="layout.color">
+                                    <span x-html="layout.icon"></span>
+                                </div>
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-100" x-text="layout.name"></h3>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400" x-text="layout.description"></p>
+                        </button>
+                    </template>
+                </div>
+            </section>
+
+            <!-- Dashboard Layout Demo -->
+            <section class="mb-12">
+                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <!-- Dashboard Header -->
+                    <div class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                                    <span x-text="getCurrentLayout().title"></span>
+                                </h2>
+                                <p class="text-gray-600 dark:text-gray-400" x-text="getCurrentLayout().subtitle"></p>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <!-- Date Range -->
+                                <div class="flex items-center space-x-2">
+                                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Period:</label>
+                                    <select x-model="dateRange" 
+                                            @change="updateData()"
+                                            class="form-select text-sm border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                                        <option value="7d">Last 7 days</option>
+                                        <option value="30d">Last 30 days</option>
+                                        <option value="90d">Last 90 days</option>
+                                        <option value="1y">Last year</option>
+                                    </select>
+                                </div>
+                                <!-- Export Button -->
+                                <button @click="exportData()" class="btn btn-secondary btn-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m-6 4h8"></path>
+                                    </svg>
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Content -->
+                    <div class="p-6" x-show="selectedLayout === 'executive'">
+                        <!-- Executive Dashboard Layout -->
+                        <div class="grid gap-6">
+                            <!-- KPI Row -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                <template x-for="kpi in kpiData" :key="kpi.id">
+                                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400" x-text="kpi.label"></p>
+                                                <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="kpi.value"></p>
+                                                <p class="text-xs flex items-center mt-1"
+                                                   :class="kpi.trend === 'up' ? 'text-green-600' : kpi.trend === 'down' ? 'text-red-600' : 'text-gray-500'">
+                                                    <span x-text="kpi.change"></span>
+                                                    <span class="ml-1" x-text="kpi.trend === 'up' ? '↗' : kpi.trend === 'down' ? '↘' : '→'"></span>
+                                                </p>
+                                            </div>
+                                            <div class="w-12 h-12 rounded-lg flex items-center justify-center"
+                                                 :class="kpi.color">
+                                                <span x-html="kpi.icon"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            
+                            <!-- Main Charts Row -->
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Primary Chart -->
+                                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Program Impact Over Time</h3>
+                                    <div class="h-64">
+                                        <canvas id="executiveChart1"></canvas>
+                                    </div>
+                                </div>
+                                
+                                <!-- Secondary Chart -->
+                                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Budget Distribution</h3>
+                                    <div class="h-64">
+                                        <canvas id="executiveChart2"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6" x-show="selectedLayout === 'operational'">
+                        <!-- Operational Dashboard Layout -->
+                        <div class="grid gap-6">
+                            <!-- Filter Bar -->
+                            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+                                <div class="flex flex-wrap items-center gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Region</label>
+                                        <select x-model="filters.region" @change="updateData()" class="form-select text-sm">
+                                            <option value="">All Regions</option>
+                                            <option value="africa">Africa</option>
+                                            <option value="asia">Asia</option>
+                                            <option value="latam">Latin America</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Program Type</label>
+                                        <select x-model="filters.program" @change="updateData()" class="form-select text-sm">
+                                            <option value="">All Programs</option>
+                                            <option value="health">Health</option>
+                                            <option value="education">Education</option>
+                                            <option value="development">Development</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                                        <select x-model="filters.status" @change="updateData()" class="form-select text-sm">
+                                            <option value="">All Status</option>
+                                            <option value="active">Active</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="planned">Planned</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Data Table -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Active Programs</h3>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead class="bg-gray-50 dark:bg-gray-900">
+                                            <tr>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Program</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Region</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Budget</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Progress</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <template x-for="program in programData" :key="program.id">
+                                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div>
+                                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="program.name"></div>
+                                                            <div class="text-sm text-gray-500 dark:text-gray-400" x-text="program.type"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100" x-text="program.region"></td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100" x-text="program.budget"></td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                            <div class="w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-2">
+                                                                <div class="bg-botnar-pink-500 h-2 rounded-full" :style="`width: ${program.progress}%`"></div>
+                                                            </div>
+                                                            <span class="text-sm text-gray-700 dark:text-gray-300" x-text="program.progress + '%'"></span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                                                              :class="program.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' : 
+                                                                     program.status === 'completed' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400' :
+                                                                     'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'"
+                                                              x-text="program.status"></span>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Charts Row -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                    <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Regional Distribution</h4>
+                                    <div class="h-32">
+                                        <canvas id="operationalChart1"></canvas>
+                                    </div>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                    <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Program Types</h4>
+                                    <div class="h-32">
+                                        <canvas id="operationalChart2"></canvas>
+                                    </div>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                    <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Monthly Trends</h4>
+                                    <div class="h-32">
+                                        <canvas id="operationalChart3"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6" x-show="selectedLayout === 'analytical'">
+                        <!-- Analytical Dashboard Layout -->
+                        <div class="grid gap-6">
+                            <!-- Analysis Controls -->
+                            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+                                <div class="flex flex-wrap items-center gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Analysis Type</label>
+                                        <select x-model="analysisType" @change="updateAnalysis()" class="form-select text-sm">
+                                            <option value="impact">Impact Analysis</option>
+                                            <option value="efficiency">Efficiency Analysis</option>
+                                            <option value="comparative">Comparative Analysis</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Metric</label>
+                                        <select x-model="selectedMetric" @change="updateAnalysis()" class="form-select text-sm">
+                                            <option value="reach">Beneficiary Reach</option>
+                                            <option value="outcomes">Outcomes Achieved</option>
+                                            <option value="cost">Cost Effectiveness</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <button @click="generateReport()" class="btn btn-primary btn-sm">
+                                            Generate Report
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Main Analysis Chart -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                                    <span x-text="getAnalysisTitle()"></span>
+                                </h3>
+                                <div class="h-96">
+                                    <canvas id="analyticalChart1"></canvas>
+                                </div>
+                            </div>
+                            
+                            <!-- Analysis Insights -->
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                    <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Key Insights</h4>
+                                    <div class="space-y-4">
+                                        <template x-for="insight in analysisInsights" :key="insight.id">
+                                            <div class="flex items-start space-x-3">
+                                                <div class="flex-shrink-0 w-2 h-2 rounded-full bg-botnar-pink-500 mt-2"></div>
+                                                <p class="text-sm text-gray-700 dark:text-gray-300" x-text="insight.text"></p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                    <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Recommendations</h4>
+                                    <div class="space-y-4">
+                                        <template x-for="rec in recommendations" :key="rec.id">
+                                            <div class="flex items-start space-x-3">
+                                                <div class="flex-shrink-0">
+                                                    <div class="w-6 h-6 rounded-full bg-botnar-blue-100 dark:bg-botnar-blue-900/20 flex items-center justify-center">
+                                                        <span class="text-xs font-semibold text-botnar-blue-600 dark:text-botnar-blue-400" x-text="rec.priority"></span>
+                                                    </div>
+                                                </div>
+                                                <p class="text-sm text-gray-700 dark:text-gray-300" x-text="rec.text"></p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Code Preview -->
+            <section x-show="showCode" class="mb-12">
+                <div class="bg-gray-900 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Implementation Code</h3>
+                        <button @click="copyCode()" class="btn btn-sm bg-gray-800 text-white hover:bg-gray-700">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            Copy Code
+                        </button>
+                    </div>
+                    <pre><code class="language-javascript" x-text="getDashboardCode()"></code></pre>
+                </div>
+            </section>
+
+            <!-- Documentation -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="grid gap-8">
+                    <!-- Layout Types -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Dashboard Layout Types</h3>
+                        <div class="grid gap-4">
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Executive Dashboard</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3">High-level overview for senior leadership with KPIs and strategic metrics.</p>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Key Performance Indicators (KPIs) prominently displayed</li>
+                                    <li>• High-level charts and trends</li>
+                                    <li>• Minimal interaction complexity</li>
+                                    <li>• Focus on outcomes and impact</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Operational Dashboard</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3">Detailed view for program managers with filters and data tables.</p>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Advanced filtering and search capabilities</li>
+                                    <li>• Detailed data tables with sorting</li>
+                                    <li>• Real-time status updates</li>
+                                    <li>• Action-oriented interface</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Analytical Dashboard</h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3">Deep analysis tools for researchers and analysts with advanced visualizations.</p>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Complex data visualizations</li>
+                                    <li>• Statistical analysis tools</li>
+                                    <li>• Comparative analysis features</li>
+                                    <li>• Export and reporting capabilities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Guide -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Implementation Guidelines</h3>
+                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                            <div class="prose dark:prose-invert max-w-none">
+                                <h4>State Management</h4>
+                                <p>Dashboard organisms require complex state management to coordinate between multiple molecular components. Use Alpine.js's reactive data system to manage:</p>
+                                <ul>
+                                    <li>Filter states across components</li>
+                                    <li>Chart data synchronization</li>
+                                    <li>Layout preferences</li>
+                                    <li>User interactions</li>
+                                </ul>
+                                
+                                <h4>Performance Considerations</h4>
+                                <ul>
+                                    <li>Lazy load charts below the fold</li>
+                                    <li>Implement data virtualization for large tables</li>
+                                    <li>Use debounced filtering for real-time search</li>
+                                    <li>Cache computed data where possible</li>
+                                </ul>
+                                
+                                <h4>Accessibility Features</h4>
+                                <ul>
+                                    <li>Proper ARIA landmarks for dashboard sections</li>
+                                    <li>Keyboard navigation between components</li>
+                                    <li>Screen reader announcements for data updates</li>
+                                    <li>High contrast mode support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" class="sr-only" aria-live="polite" aria-atomic="true">
+        <span x-text="announcement"></span>
+    </div>
+
+    <script>
+        function dashboardLayoutsDemo() {
+            return {
+                theme: 'light',
+                showCode: false,
+                selectedLayout: 'executive',
+                dateRange: '30d',
+                analysisType: 'impact',
+                selectedMetric: 'reach',
+                announcement: '',
+                
+                layouts: [
+                    {
+                        id: 'executive',
+                        name: 'Executive Dashboard',
+                        description: 'High-level overview with KPIs and strategic metrics for leadership.',
+                        title: 'Executive Overview',
+                        subtitle: 'Strategic performance indicators and key metrics',
+                        icon: '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>',
+                        color: 'bg-botnar-pink-500'
+                    },
+                    {
+                        id: 'operational',
+                        name: 'Operational Dashboard',
+                        description: 'Detailed program management with filters, tables, and real-time data.',
+                        title: 'Operations Center',
+                        subtitle: 'Program management and operational metrics',
+                        icon: '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path></svg>',
+                        color: 'bg-botnar-blue-500'
+                    },
+                    {
+                        id: 'analytical',
+                        name: 'Analytical Dashboard',
+                        description: 'Deep analysis tools with advanced visualizations and insights.',
+                        title: 'Analytics Hub',
+                        subtitle: 'Data analysis and research insights',
+                        icon: '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>',
+                        color: 'bg-green-500'
+                    }
+                ],
+                
+                filters: {
+                    region: '',
+                    program: '',
+                    status: ''
+                },
+                
+                kpiData: [
+                    { id: 1, label: 'Total Beneficiaries', value: '2.4M', change: '+12%', trend: 'up', color: 'bg-botnar-pink-100 dark:bg-botnar-pink-900/20', icon: '<svg class="w-6 h-6 text-botnar-pink-600 dark:text-botnar-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>' },
+                    { id: 2, label: 'Active Programs', value: '156', change: '+8', trend: 'up', color: 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20', icon: '<svg class="w-6 h-6 text-botnar-blue-600 dark:text-botnar-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>' },
+                    { id: 3, label: 'Budget Utilized', value: '€89.2M', change: '+5%', trend: 'up', color: 'bg-green-100 dark:bg-green-900/20', icon: '<svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' },
+                    { id: 4, label: 'Impact Score', value: '94%', change: '+2%', trend: 'up', color: 'bg-purple-100 dark:bg-purple-900/20', icon: '<svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>' }
+                ],
+                
+                programData: [
+                    { id: 1, name: 'Child Health Initiative', type: 'Health', region: 'Africa', budget: '€12.5M', progress: 85, status: 'active' },
+                    { id: 2, name: 'Digital Education Access', type: 'Education', region: 'Asia', budget: '€8.2M', progress: 92, status: 'active' },
+                    { id: 3, name: 'Community Development', type: 'Development', region: 'Latin America', budget: '€15.1M', progress: 78, status: 'active' },
+                    { id: 4, name: 'Maternal Care Support', type: 'Health', region: 'Africa', budget: '€6.8M', progress: 100, status: 'completed' },
+                    { id: 5, name: 'Rural School Building', type: 'Education', region: 'Asia', budget: '€22.3M', progress: 45, status: 'active' }
+                ],
+                
+                analysisInsights: [
+                    { id: 1, text: 'Health programs show 23% higher impact scores compared to other sectors.' },
+                    { id: 2, text: 'Africa region demonstrates strongest community engagement metrics.' },
+                    { id: 3, text: 'Programs with local partnerships achieve 18% better outcomes.' },
+                    { id: 4, text: 'Digital interventions scale 40% faster than traditional approaches.' }
+                ],
+                
+                recommendations: [
+                    { id: 1, priority: 'H', text: 'Expand successful health program model to additional regions.' },
+                    { id: 2, priority: 'M', text: 'Increase local partnership development budget by 15%.' },
+                    { id: 3, priority: 'M', text: 'Implement digital-first strategy for new education initiatives.' },
+                    { id: 4, priority: 'L', text: 'Develop standardized impact measurement framework.' }
+                ],
+                
+                charts: {},
+                
+                init() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                    this.$nextTick(() => {
+                        this.initializeCharts();
+                    });
+                },
+                
+                getCurrentLayout() {
+                    return this.layouts.find(l => l.id === this.selectedLayout) || this.layouts[0];
+                },
+                
+                initializeCharts() {
+                    this.$nextTick(() => {
+                        this.destroyExistingCharts();
+                        
+                        if (this.selectedLayout === 'executive') {
+                            this.createExecutiveCharts();
+                        } else if (this.selectedLayout === 'operational') {
+                            this.createOperationalCharts();
+                        } else if (this.selectedLayout === 'analytical') {
+                            this.createAnalyticalCharts();
+                        }
+                    });
+                },
+                
+                destroyExistingCharts() {
+                    Object.values(this.charts).forEach(chart => {
+                        if (chart) chart.destroy();
+                    });
+                    this.charts = {};
+                },
+                
+                createExecutiveCharts() {
+                    // Executive Chart 1 - Line Chart
+                    const ctx1 = document.getElementById('executiveChart1');
+                    if (ctx1) {
+                        this.charts.exec1 = new Chart(ctx1, {
+                            type: 'line',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                                datasets: [{
+                                    label: 'Program Impact Score',
+                                    data: [85, 87, 89, 91, 93, 94],
+                                    borderColor: '#E91E63',
+                                    backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false }
+                                },
+                                scales: {
+                                    y: { beginAtZero: false, min: 80 }
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Executive Chart 2 - Doughnut Chart
+                    const ctx2 = document.getElementById('executiveChart2');
+                    if (ctx2) {
+                        this.charts.exec2 = new Chart(ctx2, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Health', 'Education', 'Development', 'Research'],
+                                datasets: [{
+                                    data: [45, 30, 18, 7],
+                                    backgroundColor: ['#E91E63', '#2196F3', '#4CAF50', '#FF9800']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { position: 'bottom' }
+                                }
+                            }
+                        });
+                    }
+                },
+                
+                createOperationalCharts() {
+                    // Operational Chart 1 - Regional Distribution
+                    const ctx1 = document.getElementById('operationalChart1');
+                    if (ctx1) {
+                        this.charts.op1 = new Chart(ctx1, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Africa', 'Asia', 'Latin America'],
+                                datasets: [{
+                                    data: [45, 35, 20],
+                                    backgroundColor: ['#E91E63', '#2196F3', '#4CAF50']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: { y: { beginAtZero: true } }
+                            }
+                        });
+                    }
+                    
+                    // Operational Chart 2 - Program Types
+                    const ctx2 = document.getElementById('operationalChart2');
+                    if (ctx2) {
+                        this.charts.op2 = new Chart(ctx2, {
+                            type: 'pie',
+                            data: {
+                                labels: ['Health', 'Education', 'Development'],
+                                datasets: [{
+                                    data: [50, 35, 15],
+                                    backgroundColor: ['#E91E63', '#2196F3', '#4CAF50']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+                    }
+                    
+                    // Operational Chart 3 - Monthly Trends
+                    const ctx3 = document.getElementById('operationalChart3');
+                    if (ctx3) {
+                        this.charts.op3 = new Chart(ctx3, {
+                            type: 'line',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                                datasets: [{
+                                    data: [120, 135, 128, 142, 155, 148],
+                                    borderColor: '#2196F3',
+                                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: { y: { beginAtZero: true } }
+                            }
+                        });
+                    }
+                },
+                
+                createAnalyticalCharts() {
+                    // Analytical Chart 1 - Complex Analysis
+                    const ctx1 = document.getElementById('analyticalChart1');
+                    if (ctx1) {
+                        this.charts.anal1 = new Chart(ctx1, {
+                            type: 'scatter',
+                            data: {
+                                datasets: [{
+                                    label: 'Impact vs Cost Efficiency',
+                                    data: [
+                                        {x: 85, y: 92}, {x: 78, y: 88}, {x: 92, y: 85},
+                                        {x: 88, y: 90}, {x: 75, y: 82}, {x: 95, y: 94}
+                                    ],
+                                    backgroundColor: '#E91E63'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    x: { title: { display: true, text: 'Impact Score' } },
+                                    y: { title: { display: true, text: 'Cost Efficiency' } }
+                                }
+                            }
+                        });
+                    }
+                },
+                
+                updateData() {
+                    this.announce('Dashboard data updated based on selected filters');
+                    // Simulate data update
+                },
+                
+                updateAnalysis() {
+                    this.announce('Analysis updated for ' + this.analysisType + ' with ' + this.selectedMetric + ' metric');
+                },
+                
+                getAnalysisTitle() {
+                    const typeMap = {
+                        'impact': 'Impact Analysis',
+                        'efficiency': 'Efficiency Analysis', 
+                        'comparative': 'Comparative Analysis'
+                    };
+                    const metricMap = {
+                        'reach': 'Beneficiary Reach',
+                        'outcomes': 'Outcomes Achieved',
+                        'cost': 'Cost Effectiveness'
+                    };
+                    return `${typeMap[this.analysisType]} - ${metricMap[this.selectedMetric]}`;
+                },
+                
+                exportData() {
+                    this.announce('Dashboard data exported successfully');
+                    // Implement export functionality
+                },
+                
+                generateReport() {
+                    this.announce('Analysis report generated successfully');
+                    // Implement report generation
+                },
+                
+                resetDemo() {
+                    this.selectedLayout = 'executive';
+                    this.dateRange = '30d';
+                    this.analysisType = 'impact';
+                    this.selectedMetric = 'reach';
+                    this.filters = { region: '', program: '', status: '' };
+                    this.initializeCharts();
+                    this.announce('Dashboard demo reset to default state');
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                    this.announce('Switched to ' + this.theme + ' mode');
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                announce(message) {
+                    this.announcement = message;
+                    setTimeout(() => this.announcement = '', 1000);
+                },
+                
+                copyCode() {
+                    navigator.clipboard.writeText(this.getDashboardCode());
+                    this.announce('Code copied to clipboard');
+                },
+                
+                getDashboardCode() {
+                    return `// Dashboard Layout Organism - Alpine.js Implementation
+function dashboardLayoutsDemo() {
+    return {
+        selectedLayout: 'executive',
+        dateRange: '30d',
+        filters: { region: '', program: '', status: '' },
+        
+        // KPI data structure
+        kpiData: [
+            { 
+                label: 'Total Beneficiaries', 
+                value: '2.4M', 
+                change: '+12%', 
+                trend: 'up',
+                color: 'bg-botnar-pink-100',
+                icon: '<!-- SVG icon -->'
+            }
+            // ... more KPIs
+        ],
+        
+        // Dashboard layout configuration
+        layouts: [
+            {
+                id: 'executive',
+                name: 'Executive Dashboard',
+                title: 'Executive Overview',
+                subtitle: 'Strategic performance indicators'
+            }
+            // ... more layouts
+        ],
+        
+        // Chart initialization
+        initializeCharts() {
+            this.destroyExistingCharts();
+            
+            if (this.selectedLayout === 'executive') {
+                this.createExecutiveCharts();
+            }
+            // ... other layout types
+        },
+        
+        // Data update handling
+        updateData() {
+            // Filter and refresh data
+            this.announce('Data updated');
+        },
+        
+        // Export functionality
+        exportData() {
+            // Generate and download data export
+        }
+    }
+}
+
+<!-- HTML Structure -->
+<div x-data="dashboardLayoutsDemo()">
+    <!-- Layout Selector -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <template x-for="layout in layouts">
+            <button @click="selectedLayout = layout.id; initializeCharts()">
+                <!-- Layout option UI -->
+            </button>
+        </template>
+    </div>
+    
+    <!-- Dashboard Content -->
+    <div x-show="selectedLayout === 'executive'">
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <template x-for="kpi in kpiData">
+                <div class="bg-white rounded-lg border p-6">
+                    <!-- KPI display -->
+                </div>
+            </template>
+        </div>
+        
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg border p-6">
+                <canvas id="executiveChart1"></canvas>
+            </div>
+            <div class="bg-white rounded-lg border p-6">
+                <canvas id="executiveChart2"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Operational Layout -->
+    <div x-show="selectedLayout === 'operational'">
+        <!-- Filter Bar -->
+        <div class="bg-gray-50 rounded-lg p-4">
+            <select x-model="filters.region" @change="updateData()">
+                <option value="">All Regions</option>
+                <!-- Filter options -->
+            </select>
+        </div>
+        
+        <!-- Data Table -->
+        <table class="min-w-full divide-y divide-gray-200">
+            <tbody>
+                <template x-for="program in programData">
+                    <tr>
+                        <!-- Table row content -->
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+/* CSS Utilities for Dashboard Components */
+.dashboard-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.kpi-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

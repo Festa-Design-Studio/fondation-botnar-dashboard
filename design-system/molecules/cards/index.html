@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Components - Fondation Botnar Design System</title>
+    <meta name="description" content="Reusable card components combining atoms for content display">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    <!-- Card utilities CSS -->
+    <link rel="stylesheet" href="card-utilities.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Additional card styling for this showcase */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: #e91e63;
+            color: #ffffff;
+            border-color: #e91e63;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d81b60;
+            border-color: #d81b60;
+        }
+        
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #374151;
+            border-color: #d1d5db;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+            color: #111827;
+        }
+        
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+        
+        .dark .btn-secondary {
+            background-color: #374151;
+            color: #d1d5db;
+            border-color: #4b5563;
+        }
+        
+        .dark .btn-secondary:hover {
+            background-color: #4b5563;
+            color: #f9fafb;
+        }
+        
+        /* Form utilities for the showcase */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dark .form-label {
+            color: #d1d5db;
+        }
+        
+        .form-select {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+            color: #111827;
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .form-select {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
+        }
+        
+        .form-checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-checkbox {
+            width: 1rem;
+            height: 1rem;
+            color: #e91e63;
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+        }
+        
+        .form-checkbox-label {
+            font-size: 0.875rem;
+            color: #374151;
+        }
+        
+        .dark .form-checkbox {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+        
+        .dark .form-checkbox-label {
+            color: #d1d5db;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="cardComponentsDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Navigation -->
+                    <nav class="flex items-center space-x-4">
+                        <a href="../../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            ← Design System
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <a href="../index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-botnar-blue-600 dark:hover:text-botnar-blue-400">
+                            Molecules
+                        </a>
+                        <span class="text-gray-300 dark:text-gray-600">/</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Cards</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Card Components</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
+                    Reusable card molecules that combine atomic elements for structured content display
+                </p>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400">8</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Card Types</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-botnar-blue-600 dark:text-botnar-blue-400">4</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Layout Variants</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-success-700 dark:text-success-400">100%</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">Responsive</div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">WCAG</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">AA Accessible</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Customization -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Interactive Card Builder</h2>
+                
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <!-- Controls -->
+                        <div class="lg:col-span-1">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Customize Card</h3>
+                            <div class="space-y-4">
+                                <!-- Card Type -->
+                                <div>
+                                    <label class="form-label">Card Type</label>
+                                    <select x-model="selectedCardType" class="form-select">
+                                        <template x-for="type in cardTypes" :key="type.id">
+                                            <option :value="type.id" x-text="type.name"></option>
+                                        </template>
+                                    </select>
+                                </div>
+
+                                <!-- Card Variant -->
+                                <div>
+                                    <label class="form-label">Variant</label>
+                                    <select x-model="selectedVariant" class="form-select">
+                                        <option value="default">Default</option>
+                                        <option value="bordered">Bordered</option>
+                                        <option value="elevated">Elevated</option>
+                                        <option value="interactive">Interactive</option>
+                                    </select>
+                                </div>
+
+                                <!-- Card Size -->
+                                <div>
+                                    <label class="form-label">Size</label>
+                                    <select x-model="selectedSize" class="form-select">
+                                        <option value="sm">Small</option>
+                                        <option value="md">Medium</option>
+                                        <option value="lg">Large</option>
+                                    </select>
+                                </div>
+
+                                <!-- Show Elements -->
+                                <div>
+                                    <label class="form-label">Elements</label>
+                                    <div class="space-y-2">
+                                        <div class="form-checkbox-group">
+                                            <input type="checkbox" id="show-header" x-model="showHeader" class="form-checkbox">
+                                            <label for="show-header" class="form-checkbox-label">Header</label>
+                                        </div>
+                                        <div class="form-checkbox-group">
+                                            <input type="checkbox" id="show-image" x-model="showImage" class="form-checkbox">
+                                            <label for="show-image" class="form-checkbox-label">Image</label>
+                                        </div>
+                                        <div class="form-checkbox-group">
+                                            <input type="checkbox" id="show-actions" x-model="showActions" class="form-checkbox">
+                                            <label for="show-actions" class="form-checkbox-label">Actions</label>
+                                        </div>
+                                        <div class="form-checkbox-group">
+                                            <input type="checkbox" id="show-footer" x-model="showFooter" class="form-checkbox">
+                                            <label for="show-footer" class="form-checkbox-label">Footer</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview -->
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Preview</h3>
+                            <div class="bg-gray-100 dark:bg-gray-900 p-8 rounded-lg min-h-[400px] flex items-center justify-center">
+                                <div class="w-full max-w-sm">
+                                    <!-- Dynamic Card Preview -->
+                                    <div :class="getCardClasses()" class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
+                                        <!-- Header -->
+                                        <div x-show="showHeader" x-transition class="p-6 pb-0">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100" x-text="getCurrentCardData().title"></h3>
+                                                <div class="w-5 h-5 text-gray-400">
+                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400" x-text="getCurrentCardData().subtitle"></p>
+                                        </div>
+
+                                        <!-- Image -->
+                                        <div x-show="showImage" x-transition class="p-6 pb-0">
+                                            <div class="w-full h-40 bg-gradient-to-br from-botnar-pink-100 to-botnar-blue-100 dark:from-botnar-pink-900/20 dark:to-botnar-blue-900/20 rounded-lg flex items-center justify-center">
+                                                <div class="w-12 h-12 text-gray-400">
+                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Content -->
+                                        <div class="p-6" :class="{ 'pt-6': !showHeader && !showImage, 'pt-0': showHeader || showImage }">
+                                            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed" x-text="getCurrentCardData().content"></p>
+                                        </div>
+
+                                        <!-- Actions -->
+                                        <div x-show="showActions" x-transition class="px-6 pb-4">
+                                            <div class="flex space-x-3">
+                                                <button class="btn btn-primary btn-sm">Primary</button>
+                                                <button class="btn btn-secondary btn-sm">Secondary</button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Footer -->
+                                        <div x-show="showFooter" x-transition class="px-6 pb-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                            <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                                                <span x-text="getCurrentCardData().date"></span>
+                                                <span x-text="getCurrentCardData().author"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Code Preview -->
+                            <div class="mt-4">
+                                <button @click="showCode = !showCode" class="btn btn-secondary btn-sm">
+                                    <span x-show="!showCode">Show Code</span>
+                                    <span x-show="showCode">Hide Code</span>
+                                </button>
+                                <div x-show="showCode" x-transition class="mt-3 p-4 bg-gray-800 rounded-lg overflow-x-auto">
+                                    <pre class="text-sm text-gray-300"><code x-text="generateCardHTML()"></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Card Types Showcase -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8">Card Types</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Basic Card -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200">
+                        <div class="p-6 pb-0">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Basic Card</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-0">Simple content container</p>
+                        </div>
+                        <div class="p-6 pt-3">
+                            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                This is a basic card component with header, content, and optional elements.
+                            </p>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <button class="btn btn-primary btn-sm">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- Metric Card -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Total Children Reached</p>
+                                    <p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">2.4M</p>
+                                    <p class="text-sm text-green-600 dark:text-green-400">+12% from last month</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Card -->
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 border-l-4 border-l-green-500 rounded-lg overflow-hidden transition-all duration-200">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">Project Active</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">All systems operational</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article Card -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200">
+                        <div class="w-full h-48 bg-gradient-to-br from-botnar-blue-100 to-botnar-pink-100 dark:from-botnar-blue-900/20 dark:to-botnar-pink-900/20 flex items-center justify-center">
+                            <span class="text-gray-500 dark:text-gray-400 font-medium">Article Image</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Child Health Initiative</h3>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                                New research findings on childhood development and nutrition programs.
+                            </p>
+                            <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <span>March 15, 2025</span>
+                                <span>Dr. Sarah Johnson</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Card -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200 cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2" tabindex="0">
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Interactive Card</h3>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                                Click or focus this card to see hover and focus states.
+                            </p>
+                            <div class="mt-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-botnar-pink-100 text-botnar-pink-800 dark:bg-botnar-pink-900/20 dark:text-botnar-pink-400">
+                                    Interactive
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Card -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200">
+                        <div class="p-6 pb-0">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Quick Contact</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Get in touch with our team</p>
+                        </div>
+                        <div class="p-6 pt-4">
+                            <form class="space-y-4">
+                                <div>
+                                    <label for="contact-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                                    <input type="text" id="contact-name" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-botnar-pink-500 focus:border-transparent" placeholder="Your name">
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                                    <input type="email" id="contact-email" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-botnar-pink-500 focus:border-transparent" placeholder="your.email@example.com">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <button class="btn btn-primary btn-sm w-full">Send Message</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Card Variants -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Card Variants</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Default -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200 shadow-sm">
+                        <div class="p-6">
+                            <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Default</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Standard card with subtle background</p>
+                        </div>
+                    </div>
+
+                    <!-- Bordered -->
+                    <div class="bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden transition-all duration-200">
+                        <div class="p-6">
+                            <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Bordered</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Card with visible border outline</p>
+                        </div>
+                    </div>
+
+                    <!-- Elevated -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200 shadow-lg">
+                        <div class="p-6">
+                            <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Elevated</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Card with drop shadow elevation</p>
+                        </div>
+                    </div>
+
+                    <!-- Interactive -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-all duration-200 cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2" tabindex="0">
+                        <div class="p-6">
+                            <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Interactive</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Card with hover and focus states</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usage Guidelines -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Best Practices -->
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Best Practices
+                        </h3>
+                        <ul class="text-sm text-green-800 dark:text-green-200 space-y-2">
+                            <li>• Use consistent card spacing in layouts</li>
+                            <li>• Include clear headings for card content</li>
+                            <li>• Maintain visual hierarchy within cards</li>
+                            <li>• Use appropriate card variants for context</li>
+                            <li>• Ensure interactive cards have focus states</li>
+                            <li>• Test card layouts on mobile devices</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Common Mistakes -->
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+                        <h3 class="font-semibold text-red-900 dark:text-red-100 mb-4 flex items-center">
+                            <div class="w-5 h-5 mr-2">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            Common Mistakes
+                        </h3>
+                        <ul class="text-sm text-red-800 dark:text-red-200 space-y-2">
+                            <li>• Overcrowding cards with too much content</li>
+                            <li>• Using inconsistent spacing between cards</li>
+                            <li>• Missing focus states on interactive cards</li>
+                            <li>• Poor contrast in card content</li>
+                            <li>• Not testing responsive card layouts</li>
+                            <li>• Mixing too many card variants</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Screen reader announcements -->
+    <div id="sr-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only">
+        <span x-text="announcement"></span>
+    </div>
+
+    <script>
+        function cardComponentsDemo() {
+            return {
+                theme: 'light',
+                announcement: '',
+                showCode: false,
+                
+                selectedCardType: 'basic',
+                selectedVariant: 'default',
+                selectedSize: 'md',
+                showHeader: true,
+                showImage: false,
+                showActions: true,
+                showFooter: false,
+                
+                cardTypes: [
+                    {
+                        id: 'basic',
+                        name: 'Basic Card',
+                        title: 'Basic Card Title',
+                        subtitle: 'Card subtitle text',
+                        content: 'This is the main content area of the card where you can include text, images, or other elements.',
+                        date: 'March 15, 2025',
+                        author: 'Author Name'
+                    },
+                    {
+                        id: 'metric',
+                        name: 'Metric Card',
+                        title: 'Total Projects',
+                        subtitle: 'Active initiatives',
+                        content: '2.4M children reached through our programs with a 12% increase from last month.',
+                        date: 'Updated today',
+                        author: 'Data Team'
+                    },
+                    {
+                        id: 'article',
+                        name: 'Article Card',
+                        title: 'Research Findings',
+                        subtitle: 'Latest publication',
+                        content: 'New insights into childhood development and nutrition programs across developing regions.',
+                        date: 'March 10, 2025',
+                        author: 'Dr. Sarah Johnson'
+                    },
+                    {
+                        id: 'status',
+                        name: 'Status Card',
+                        title: 'System Status',
+                        subtitle: 'All systems operational',
+                        content: 'All monitoring systems are running smoothly with no issues detected.',
+                        date: 'Last check: 2 min ago',
+                        author: 'System Monitor'
+                    }
+                ],
+                
+                init() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+                
+                getCurrentCardData() {
+                    return this.cardTypes.find(type => type.id === this.selectedCardType);
+                },
+                
+                getCardClasses() {
+                    let classes = [];
+                    
+                    if (this.selectedVariant !== 'default') {
+                        classes.push(`card-${this.selectedVariant}`);
+                    }
+                    
+                    if (this.selectedSize !== 'md') {
+                        classes.push(`card-${this.selectedSize}`);
+                    }
+                    
+                    if (this.selectedCardType === 'metric') {
+                        classes.push('card-metric');
+                    }
+                    
+                    if (this.selectedCardType === 'status') {
+                        classes.push('card-status', 'card-status-success');
+                    }
+                    
+                    return classes.join(' ');
+                },
+                
+                generateCardHTML() {
+                    const cardData = this.getCurrentCardData();
+                    let html = `<div class="${this.getCardClasses()}">\n`;
+                    
+                    if (this.showHeader) {
+                        html += `  <div class="card-header">\n`;
+                        html += `    <h3 class="card-title">${cardData.title}</h3>\n`;
+                        html += `    <p class="card-subtitle">${cardData.subtitle}</p>\n`;
+                        html += `  </div>\n`;
+                    }
+                    
+                    if (this.showImage) {
+                        html += `  <div class="card-image">\n`;
+                        html += `    <img src="..." alt="..." class="w-full h-48 object-cover rounded-lg">\n`;
+                        html += `  </div>\n`;
+                    }
+                    
+                    html += `  <div class="card-content">\n`;
+                    html += `    <p class="card-text">${cardData.content}</p>\n`;
+                    html += `  </div>\n`;
+                    
+                    if (this.showActions) {
+                        html += `  <div class="card-actions">\n`;
+                        html += `    <button class="btn btn-primary btn-sm">Primary</button>\n`;
+                        html += `    <button class="btn btn-secondary btn-sm">Secondary</button>\n`;
+                        html += `  </div>\n`;
+                    }
+                    
+                    if (this.showFooter) {
+                        html += `  <div class="card-footer">\n`;
+                        html += `    <div class="flex items-center justify-between text-sm text-gray-500">\n`;
+                        html += `      <span>${cardData.date}</span>\n`;
+                        html += `      <span>${cardData.author}</span>\n`;
+                        html += `    </div>\n`;
+                        html += `  </div>\n`;
+                    }
+                    
+                    html += `</div>`;
+                    
+                    return html;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -4,8 +4,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Production build
-dist/
+# Production build - dist/ is included for GitHub Pages deployment
+# dist/
 build/
 
 # Development

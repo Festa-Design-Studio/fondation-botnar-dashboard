@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organisms - Fondation Botnar Design System</title>
+    <meta name="description" content="Complex UI organisms composed of multiple molecules for comprehensive dashboard experiences">
+    
+    <!-- Botnar Design System CSS -->
+    <link rel="stylesheet" href="../../dist/botnar-design-system.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="organismsDemo()">
+    <!-- Skip to content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+    
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Breadcrumb Navigation -->
+                    <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+                        <a href="../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Design System</a>
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium">Organisms</span>
+                    </nav>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="toggleTheme()" 
+                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12 text-center">
+                <h1 class="text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+                    <span class="text-botnar-pink-600 dark:text-botnar-pink-400">Organisms</span>
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Complex UI components composed of groups of molecules and atoms that form distinct sections of an interface. These organisms provide complete, functional experiences for dashboard users.
+                </p>
+                
+                <!-- Progress Indicator -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+                            🚧 Phase 4 - In Development
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                            2 of 4 Tasks Complete
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Organisms Overview -->
+            <section class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">Organism Components</h2>
+                
+                <div class="grid gap-6">
+                    <!-- Dashboard Layouts -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                        Dashboard Layouts
+                                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                                            ✅ Complete
+                                        </span>
+                                    </h3>
+                                    <p class="text-gray-600 dark:text-gray-400">Complex dashboard organisms combining multiple molecules for comprehensive data visualization interfaces</p>
+                                </div>
+                                <a href="dashboard/index.html" class="btn btn-primary">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                    </svg>
+                                    Explore Dashboards
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex flex-col items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <div class="w-12 h-12 bg-botnar-pink-100 dark:bg-botnar-pink-900/20 rounded-lg flex items-center justify-center mb-3">
+                                        <svg class="w-6 h-6 text-botnar-pink-600 dark:text-botnar-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-1">Executive Dashboard</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 text-center">High-level KPIs and strategic metrics</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <div class="w-12 h-12 bg-botnar-blue-100 dark:bg-botnar-blue-900/20 rounded-lg flex items-center justify-center mb-3">
+                                        <svg class="w-6 h-6 text-botnar-blue-600 dark:text-botnar-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-1">Operational Dashboard</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Detailed program management tools</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mb-3">
+                                        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-1">Analytical Dashboard</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Deep analysis and research tools</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Table Components -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                        Data Table Components
+                                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                                            ✅ Complete
+                                        </span>
+                                    </h3>
+                                    <p class="text-gray-600 dark:text-gray-400">Advanced data manipulation with sorting, filtering, pagination, and virtual scrolling capabilities</p>
+                                </div>
+                                <a href="data-tables/index.html" class="btn btn-primary">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Explore Data Tables
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex flex-col items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <div class="w-12 h-12 bg-botnar-blue-100 dark:bg-botnar-blue-900/20 rounded-lg mb-3 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-botnar-blue-600 dark:text-botnar-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-1">Advanced Tables</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Complex data display and manipulation</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg mb-3 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-1">Virtual Scrolling</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Performance for large datasets</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg mb-3 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m-6 4h8"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-1">Export Tools</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Data export and reporting</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Dialog Systems -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden opacity-60">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                        Modal Dialog Systems
+                                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                            📝 Task 4.3 - Planned
+                                        </span>
+                                    </h3>
+                                    <p class="text-gray-600 dark:text-gray-400">Accessible modal dialogs with focus trap, backdrop handling, and comprehensive ARIA patterns</p>
+                                </div>
+                                <button class="btn btn-secondary" disabled>Coming Soon</button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex flex-col items-center p-4 rounded-lg">
+                                    <div class="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-lg mb-3"></div>
+                                    <h4 class="font-medium text-gray-500 dark:text-gray-500 mb-1">Alert Dialogs</h4>
+                                    <p class="text-sm text-gray-400 text-center">Critical messages and confirmations</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg">
+                                    <div class="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-lg mb-3"></div>
+                                    <h4 class="font-medium text-gray-500 dark:text-gray-500 mb-1">Content Modals</h4>
+                                    <p class="text-sm text-gray-400 text-center">Rich content and form interfaces</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg">
+                                    <div class="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-lg mb-3"></div>
+                                    <h4 class="font-medium text-gray-500 dark:text-gray-500 mb-1">Drawer Panels</h4>
+                                    <p class="text-sm text-gray-400 text-center">Side panels and slide-out content</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Wizards -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden opacity-60">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                        Form Wizards and Multi-step Flows
+                                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                            📝 Task 4.4 - Planned
+                                        </span>
+                                    </h3>
+                                    <p class="text-gray-600 dark:text-gray-400">Complex multi-step forms with validation, progress tracking, and conditional logic flows</p>
+                                </div>
+                                <button class="btn btn-secondary" disabled>Coming Soon</button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex flex-col items-center p-4 rounded-lg">
+                                    <div class="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-lg mb-3"></div>
+                                    <h4 class="font-medium text-gray-500 dark:text-gray-500 mb-1">Step Progress</h4>
+                                    <p class="text-sm text-gray-400 text-center">Visual progress and navigation</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg">
+                                    <div class="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-lg mb-3"></div>
+                                    <h4 class="font-medium text-gray-500 dark:text-gray-500 mb-1">Validation States</h4>
+                                    <p class="text-sm text-gray-400 text-center">Real-time validation and error handling</p>
+                                </div>
+                                <div class="flex flex-col items-center p-4 rounded-lg">
+                                    <div class="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-lg mb-3"></div>
+                                    <h4 class="font-medium text-gray-500 dark:text-gray-500 mb-1">Conditional Logic</h4>
+                                    <p class="text-sm text-gray-400 text-center">Dynamic form flows and branching</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Implementation Guidelines -->
+            <section class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">Implementation Guidelines</h2>
+                
+                <div class="grid gap-8">
+                    <!-- Complexity Overview -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Organism Complexity</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-4">Technical Considerations</h4>
+                                <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                                    <li class="flex items-start">
+                                        <span class="w-2 h-2 bg-botnar-pink-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                        Complex state management across multiple components
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="w-2 h-2 bg-botnar-pink-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                        Performance optimization for large datasets
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="w-2 h-2 bg-botnar-pink-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                        Advanced accessibility patterns and ARIA implementation
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="w-2 h-2 bg-botnar-pink-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                        Integration between molecular components
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-4">Development Timeline</h4>
+                                <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                                    <li class="flex items-center">
+                                        <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                                        <span class="font-medium">Task 4.1:</span> 
+                                        <span class="ml-1">Dashboard Layouts (6-8 days) ✅</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                                        <span class="font-medium">Task 4.2:</span> 
+                                        <span class="ml-1">Data Tables (6-7 days) ✅</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-3 h-3 bg-yellow-500 rounded-full mr-3"></span>
+                                        <span class="font-medium">Task 4.3:</span> 
+                                        <span class="ml-1">Modal Systems (4-5 days)</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="w-3 h-3 bg-yellow-500 rounded-full mr-3"></span>
+                                        <span class="font-medium">Task 4.4:</span> 
+                                        <span class="ml-1">Form Wizards (7-8 days)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Best Practices -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-8">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Organism Best Practices</h3>
+                        <div class="prose dark:prose-invert max-w-none">
+                            <h4>State Management</h4>
+                            <p>Organisms require sophisticated state management to coordinate multiple molecular components. Use Alpine.js's reactive data system with proper data flow patterns.</p>
+                            
+                            <h4>Performance</h4>
+                            <p>Implement lazy loading, virtual scrolling, and efficient re-rendering strategies. Monitor performance metrics and optimize for large datasets.</p>
+                            
+                            <h4>Accessibility</h4>
+                            <p>Ensure comprehensive ARIA patterns, keyboard navigation, and screen reader support. Test with assistive technologies regularly.</p>
+                            
+                            <h4>Testing</h4>
+                            <p>Implement unit tests for state management, integration tests for component communication, and end-to-end tests for complete user flows.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        function organismsDemo() {
+            return {
+                theme: 'light',
+                
+                init() {
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
