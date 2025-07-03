@@ -143,6 +143,17 @@
             .timeline-item {
                 padding-left: 1rem;
             }
+            
+            /* Mobile header controls */
+            .header-content > div:last-child {
+                width: 100%;
+            }
+            
+            /* Mobile select boxes */
+            select {
+                min-width: 0;
+                text-overflow: ellipsis;
+            }
         }
         
         @media (max-width: 768px) {
@@ -326,10 +337,10 @@
                                 <p class="text-gray-600 dark:text-gray-300">Deep dive into program performance and strategic insights</p>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                             <!-- Analysis Type Selector -->
                             <select x-model="analysisType" @change="updateAnalysisType()" 
-                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm">
+                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm w-full sm:w-auto">
                                 <option value="performance">Performance Analysis</option>
                                 <option value="comparative">Comparative Analysis</option>
                                 <option value="predictive">Predictive Analysis</option>
@@ -338,7 +349,7 @@
                             
                             <!-- Time Range -->
                             <select x-model="timeRange" @change="updateTimeRange()" 
-                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm">
+                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm w-full sm:w-auto">
                                 <option value="3m">Last 3 Months</option>
                                 <option value="6m">Last 6 Months</option>
                                 <option value="1y">Last Year</option>
@@ -346,11 +357,12 @@
                             </select>
                             
                             <!-- Generate Report Button -->
-                            <button @click="generateAnalysisReport()" class="btn btn-primary text-sm">
+                            <button @click="generateAnalysisReport()" class="btn btn-primary text-sm w-full sm:w-auto flex items-center justify-center">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
-                                Generate Report
+                                <span class="hidden sm:inline">Generate Report</span>
+                                <span class="sm:hidden">Generate</span>
                             </button>
                         </div>
                     </div>
