@@ -340,7 +340,7 @@
                         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                             <!-- Analysis Type Selector -->
                             <select x-model="analysisType" @change="updateAnalysisType()" 
-                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm w-full sm:w-auto">
+                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm mobile-hide-sm">
                                 <option value="performance">Performance Analysis</option>
                                 <option value="comparative">Comparative Analysis</option>
                                 <option value="predictive">Predictive Analysis</option>
@@ -349,7 +349,7 @@
                             
                             <!-- Time Range -->
                             <select x-model="timeRange" @change="updateTimeRange()" 
-                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm w-full sm:w-auto">
+                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm mobile-hide-sm">
                                 <option value="3m">Last 3 Months</option>
                                 <option value="6m">Last 6 Months</option>
                                 <option value="1y">Last Year</option>
