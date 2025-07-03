@@ -93,6 +93,23 @@ Administrator: admin@fondation-botnar.org / admin123
 Analyst: analyst@fondation-botnar.org / analyst123
 ```
 
+## 🌐 Live Demonstrations
+
+### GitHub Pages Deployment
+
+**🔗 Live Project**: [https://festa-design-studio.github.io/fondation-botnar-dashboard/](https://festa-design-studio.github.io/fondation-botnar-dashboard/)
+
+**🚀 Dashboard Demo**: [https://festa-design-studio.github.io/fondation-botnar-dashboard/design-system/pages/auth/login.html](https://festa-design-studio.github.io/fondation-botnar-dashboard/design-system/pages/auth/login.html)
+
+**📚 Design System**: [https://festa-design-studio.github.io/fondation-botnar-dashboard/design-system/](https://festa-design-studio.github.io/fondation-botnar-dashboard/design-system/)
+
+#### Demo Credentials for Dashboard
+```
+Demo User: demo@fondation-botnar.org / dashboard2025
+Administrator: admin@fondation-botnar.org / admin123
+Analyst: analyst@fondation-botnar.org / analyst123
+```
+
 ## Getting Started
 
 ### Prerequisites
@@ -105,7 +122,7 @@ Analyst: analyst@fondation-botnar.org / analyst123
 
 ```bash
 # Clone the repository
-git clone [https://github.com/Festa-Design-Studio/fondation-botnar-dashboard.git]
+git clone https://github.com/Festa-Design-Studio/fondation-botnar-dashboard.git
 
 # Navigate to project directory
 cd fondation-botnar-dashboard
