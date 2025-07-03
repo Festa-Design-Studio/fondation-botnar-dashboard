@@ -453,34 +453,10 @@
                   </p>
                 </div>
               </div>
-              <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-                <!-- Year Selector -->
-                <select
-                  x-model="selectedYear"
-                  @change="updateYear()"
-                  class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm mobile-hide-sm"
-                >
-                  <option value="2025">2025</option>
-                  <option value="2024">2024</option>
-                  <option value="2023">2023</option>
-                  <option value="all">All Years</option>
-                </select>
-
-                <!-- Currency Selector -->
-                <select
-                  x-model="currency"
-                  @change="updateCurrency()"
-                  class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm mobile-hide-sm"
-                >
-                  <option value="EUR">EUR (€)</option>
-                  <option value="USD">USD ($)</option>
-                  <option value="CHF">CHF (₣)</option>
-                </select>
-
-                <!-- Export Button -->
+              <div class="flex items-center space-x-4">
                 <button
                   @click="exportFinancialReport()"
-                  class="btn btn-primary text-sm w-full sm:w-auto flex items-center justify-center"
+                  class="btn btn-primary"
                 >
                   <svg
                     class="w-4 h-4 mr-2"
@@ -495,13 +471,53 @@
                       d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
-                  <span class="hidden sm:inline">Export Report</span>
-                  <span class="sm:hidden">Export</span>
+                  Export Report
                 </button>
               </div>
             </div>
           </div>
         </header>
+        
+        <!-- Filters and Controls -->
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <!-- Year Selector -->
+            <select
+              x-model="selectedYear"
+              @change="updateYear()"
+              class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+            >
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="all">All Years</option>
+            </select>
+
+            <!-- Currency Selector -->
+            <select
+              x-model="currency"
+              @change="updateCurrency()"
+              class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+            >
+              <option value="EUR">EUR (€)</option>
+              <option value="USD">USD ($)</option>
+              <option value="CHF">CHF (₣)</option>
+            </select>
+            
+            <!-- Department Filter -->
+            <select
+              x-model="departmentFilter"
+              @change="updateDepartment()"
+              class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+            >
+              <option value="">All Departments</option>
+              <option value="programs">Programs</option>
+              <option value="operations">Operations</option>
+              <option value="research">Research</option>
+              <option value="partnerships">Partnerships</option>
+            </select>
+          </div>
+        </div>
 
         <!-- Main Dashboard Content -->
         <main id="main-content" class="flex-1 p-6 overflow-y-auto">
