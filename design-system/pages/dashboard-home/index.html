@@ -8,6 +8,8 @@
     
     <!-- Botnar Design System CSS -->
     <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    <!-- Navigation utilities CSS -->
+    <link rel="stylesheet" href="../../molecules/navigation/navigation-utilities.css">
     
     <!-- Chart.js - Load first -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
@@ -35,61 +37,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        .dashboard-nav {
-            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
-        }
-        .nav-item {
-            transition: all 0.2s ease;
-        }
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .nav-item.active {
-            background: rgba(255, 255, 255, 0.2);
-            border-left: 4px solid #FF6B9D;
-        }
-        
-        /* Responsive Sidebar Styles */
-        @media (max-width: 1023px) {
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                z-index: 50;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease-in-out;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .mobile-backdrop {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 40;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease-in-out;
-            }
-            .mobile-backdrop.show {
-                opacity: 1;
-                pointer-events: auto;
-            }
-            .main-content {
-                margin-left: 0 !important;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .sidebar {
-                position: relative;
-                transform: none;
-            }
-        }
         
         /* Mobile Content Fixes */
         @media (max-width: 640px) {
@@ -295,7 +242,7 @@
                                 </svg>
                             </button>
                             <div class="text-wrap">
-                                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard Overview</h1>
+                                <h1 class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400">Dashboard Overview</h1>
                                 <p class="text-gray-600 dark:text-gray-300 hidden sm:block">Strategic insights and portfolio performance</p>
                             </div>
                         </div>
@@ -327,7 +274,7 @@
                 
                 <!-- Executive KPI Row -->
                 <div class="mb-8">
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Key Performance Indicators</h2>
+                    <h2 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Key Performance Indicators</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 kpi-grid">
                         <!-- Total Portfolio Value -->
                         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
@@ -412,7 +359,7 @@
                     <!-- Portfolio Growth Chart -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 chart-wrapper">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 space-y-2 sm:space-y-0">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Portfolio Growth</h3>
+                            <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400">Portfolio Growth</h3>
                             <div class="flex items-center space-x-1 sm:space-x-2">
                                 <button @click="chartPeriod = '1Y'" 
                                         :class="chartPeriod === '1Y' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
@@ -432,7 +379,7 @@
                     
                     <!-- Regional Distribution Chart -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 chart-wrapper">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Regional Distribution</h3>
+                        <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Regional Distribution</h3>
                         <div class="h-64 chart-container">
                             <canvas id="regionalChart"></canvas>
                         </div>
@@ -461,7 +408,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 grid-responsive">
                     <!-- Recent Activity -->
                     <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Recent Activity</h3>
+                        <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Recent Activity</h3>
                         <div class="space-y-4">
                             <div class="flex items-start space-x-3">
                                 <div class="flex-shrink-0">
@@ -527,7 +474,7 @@
                     
                     <!-- Quick Actions -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
+                        <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Quick Actions</h3>
                         <div class="space-y-3">
                             <button @click="navigateTo('grant-portfolio')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                 <div class="flex items-center">

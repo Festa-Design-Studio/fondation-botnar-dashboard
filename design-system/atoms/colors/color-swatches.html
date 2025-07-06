@@ -8,6 +8,8 @@
     
     <!-- Botnar Design System CSS -->
     <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    <!-- Color utilities CSS -->
+    <link rel="stylesheet" href="color-utilities.css">
     
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -16,6 +18,70 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Color swatch display styles */
+        .color-atom {
+            text-align: center;
+        }
+        
+        .color-swatch {
+            width: 100%;
+            height: 4rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .color-info {
+            padding-top: 0.5rem;
+        }
+        
+        .contrast-badge {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .contrast-aaa {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        
+        .contrast-aa {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .contrast-fail {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        
+        /* Dark mode support */
+        .dark .color-swatch {
+            border-color: #374151;
+        }
+        
+        .dark .contrast-aaa {
+            background-color: #14532d;
+            color: #bbf7d0;
+        }
+        
+        .dark .contrast-aa {
+            background-color: #92400e;
+            color: #fef3c7;
+        }
+        
+        .dark .contrast-fail {
+            background-color: #7f1d1d;
+            color: #fecaca;
+        }
+    </style>
 </head>
 
 <body class="h-full bg-gray-50 dark:bg-gray-900" x-data="colorSystemDemo()">
@@ -529,5 +595,33 @@
         Color contrast ratings: AA means 4.5:1 ratio for normal text, AAA means 7:1 ratio for enhanced accessibility. 
         Fail means insufficient contrast for text on that background color.
     </div>
+
+    <script>
+        function colorSystemDemo() {
+            return {
+                theme: 'light',
+                
+                init() {
+                    // Initialize theme from localStorage
+                    this.theme = localStorage.getItem('botnar-theme') || 'light';
+                    this.applyTheme();
+                },
+                
+                toggleTheme() {
+                    this.theme = this.theme === 'light' ? 'dark' : 'light';
+                    this.applyTheme();
+                    localStorage.setItem('botnar-theme', this.theme);
+                },
+                
+                applyTheme() {
+                    if (this.theme === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>

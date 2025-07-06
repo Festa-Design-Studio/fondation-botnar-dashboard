@@ -39,7 +39,7 @@
                             Atoms
                         </a>
                         <span class="text-gray-300 dark:text-gray-600">/</span>
-                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Colors</span>
+                        <span class="text-sm font-medium text-botnar-pink-600 dark:text-botnar-pink-400">Colors</span>
                     </nav>
                     
                     <!-- Theme Toggle -->
@@ -62,7 +62,7 @@
             
             <!-- Page Header -->
             <div class="mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Color System</h1>
+                <h1 class="text-4xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Color System</h1>
                 <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
                     Accessible color palette designed for the Fondation Botnar Dashboard
                 </p>
@@ -82,7 +82,7 @@
                         <div class="text-sm text-gray-600 dark:text-gray-400">WCAG AA</div>
                     </div>
                     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
-                        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">30</div>
+                        <div class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400">30</div>
                         <div class="text-sm text-gray-600 dark:text-gray-400">Total Shades</div>
                     </div>
                 </div>
@@ -90,19 +90,19 @@
 
             <!-- Color Picker & Preview -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Interactive Color Preview</h2>
+                <h2 class="text-2xl font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-6">Interactive Color Preview</h2>
                 
                 <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
                     <div class="grid md:grid-cols-2 gap-8">
                         <!-- Selected Color Display -->
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Selected Color</h3>
+                            <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Selected Color</h3>
                             <div class="space-y-4">
                                 <div class="w-full h-32 rounded-lg border border-gray-200 dark:border-gray-600"
                                      :style="`background-color: ${selectedColor.hex}`"></div>
                                 
                                 <div class="space-y-2">
-                                    <div class="text-lg font-semibold text-gray-900 dark:text-gray-100" x-text="selectedColor.name"></div>
+                                    <div class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400" x-text="selectedColor.name"></div>
                                     <div class="grid grid-cols-3 gap-4 text-sm">
                                         <div>
                                             <span class="text-gray-500 dark:text-gray-400">HEX:</span>
@@ -134,7 +134,7 @@
                         
                         <!-- Usage Examples -->
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Usage Example</h3>
+                            <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Usage Example</h3>
                             <div class="space-y-4">
                                 <!-- Button Example -->
                                 <button class="px-4 py-2 rounded-md font-medium transition-colors"
@@ -171,7 +171,7 @@
 
             <!-- Primary Colors - Botnar Pink -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Primary Colors - Botnar Pink</h2>
+                <h2 class="text-2xl font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-6">Primary Colors - Botnar Pink</h2>
                 <p class="text-gray-600 dark:text-gray-400 mb-6">The primary brand color palette based on Fondation Botnar's signature pink.</p>
                 
                 <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4" x-data="{ colors: pinkColors }">
@@ -186,7 +186,7 @@
                             <div class="w-full h-20 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg group-focus:ring-2 group-focus:ring-botnar-pink-500"
                                  :style="`background-color: ${color.hex}`"></div>
                             <div class="mt-2 text-center">
-                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="color.name"></div>
+                                <div class="text-sm font-medium text-botnar-pink-600 dark:text-botnar-pink-400" x-text="color.name"></div>
                                 <div class="text-xs text-gray-600 dark:text-gray-400" x-text="color.hex"></div>
                                 <div class="mt-1">
                                     <span :class="{
@@ -205,7 +205,7 @@
 
             <!-- Secondary Colors - Botnar Blue -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Secondary Colors - Botnar Blue</h2>
+                <h2 class="text-2xl font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-6">Secondary Colors - Botnar Blue</h2>
                 <p class="text-gray-600 dark:text-gray-400 mb-6">Complementary blue palette for supporting elements and data visualization.</p>
                 
                 <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4" x-data="{ colors: blueColors }">
@@ -220,7 +220,7 @@
                             <div class="w-full h-20 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg group-focus:ring-2 group-focus:ring-botnar-blue-500"
                                  :style="`background-color: ${color.hex}`"></div>
                             <div class="mt-2 text-center">
-                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="color.name"></div>
+                                <div class="text-sm font-medium text-botnar-pink-600 dark:text-botnar-pink-400" x-text="color.name"></div>
                                 <div class="text-xs text-gray-600 dark:text-gray-400" x-text="color.hex"></div>
                                 <div class="mt-1">
                                     <span :class="{
@@ -239,13 +239,13 @@
 
             <!-- Status Colors -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Status Colors</h2>
+                <h2 class="text-2xl font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-6">Status Colors</h2>
                 <p class="text-gray-600 dark:text-gray-400 mb-6">Semantic colors for feedback, alerts, and status indicators.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <template x-for="statusColor in statusColors" :key="statusColor.name">
                         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4" x-text="statusColor.name"></h3>
+                            <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4" x-text="statusColor.name"></h3>
                             <div class="space-y-4">
                                 <template x-for="variant in statusColor.variants" :key="variant.name">
                                     <div class="color-atom cursor-pointer group" 
@@ -258,7 +258,7 @@
                                         <div class="w-full h-16 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg"
                                              :style="`background-color: ${variant.hex}`"></div>
                                         <div class="mt-2 text-center">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="variant.name"></div>
+                                            <div class="text-sm font-medium text-botnar-pink-600 dark:text-botnar-pink-400" x-text="variant.name"></div>
                                             <div class="text-xs text-gray-600 dark:text-gray-400" x-text="variant.hex"></div>
                                             <div class="mt-1">
                                                 <span :class="{
@@ -280,7 +280,7 @@
 
             <!-- Neutral Colors -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Neutral Colors</h2>
+                <h2 class="text-2xl font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-6">Neutral Colors</h2>
                 <p class="text-gray-600 dark:text-gray-400 mb-6">Gray scale for text, borders, and backgrounds.</p>
                 
                 <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-4" x-data="{ colors: grayColors }">
@@ -295,7 +295,7 @@
                             <div class="w-full h-20 rounded-lg border transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg group-focus:ring-2 group-focus:ring-gray-500"
                                  :style="`background-color: ${color.hex}; border-color: ${color.name === 'Gray 50' ? '#d1d5db' : color.hex}`"></div>
                             <div class="mt-2 text-center">
-                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="color.name"></div>
+                                <div class="text-sm font-medium text-botnar-pink-600 dark:text-botnar-pink-400" x-text="color.name"></div>
                                 <div class="text-xs text-gray-600 dark:text-gray-400" x-text="color.hex"></div>
                                 <div class="mt-1">
                                     <span :class="{
@@ -314,7 +314,7 @@
 
             <!-- Usage Guidelines -->
             <section class="mb-12">
-                <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
+                <h2 class="text-2xl font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-6">Usage Guidelines</h2>
                 
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- Accessibility Guidelines -->

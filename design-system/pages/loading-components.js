@@ -152,7 +152,7 @@ const LoadingComponents = {
             </svg>
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Something went wrong</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-4">${message}</p>
-            ${retry ? `<button onclick="${retry}" class="btn btn-primary">Try Again</button>` : ''}
+            ${retry ? `<button onclick="${retry}" class="btn-primary">Try Again</button>` : ''}
         </div>
     `,
 
