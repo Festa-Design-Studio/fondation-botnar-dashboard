@@ -21,6 +21,7 @@
     <script src="../error-handler.js"></script>
     <script src="../performance-optimizer.js"></script>
     <script src="../security-utils.js"></script>
+    <script src="../auth.js"></script>
     <script src="../chart-initializer.js"></script>
     
     <!-- Alpine.js - Load after Chart.js -->
@@ -182,13 +183,8 @@
         <nav class="w-64 dashboard-nav text-white flex flex-col sidebar" :class="{ 'open': sidebarOpen }" aria-label="Main Navigation">
             <!-- Logo and Header -->
             <div class="p-6 border-b border-white/20">
-                <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center">
-                        <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
-                    </div>
-                    <div>
-                        <p class="text-sm text-blue-200">Dashboard</p>
-                    </div>
+                <div class="flex items-center justify-center">
+                    <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
                 </div>
             </div>
             
@@ -282,11 +278,23 @@
                     
                     <div class="flex flex-col sm:flex-row gap-4">
                         <!-- New Grant Button -->
-                        <button @click="openCreateModal()" class="btn-primary">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                            </svg>
-                            New Grant
+                        <button @click="openCreateModal()" 
+                                :disabled="createGrantLoading"
+                                class="bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white inline-flex items-center px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                                aria-label="Create new grant">
+                            <span x-show="!createGrantLoading" class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                                New Grant
+                            </span>
+                            <span x-show="createGrantLoading" class="flex items-center">
+                                <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Creating...
+                            </span>
                         </button>
                         
                         <!-- Time Period Selector -->
@@ -394,8 +402,17 @@
                                     <p class="text-sm text-gray-500 dark:text-gray-400">Investment allocation by focus area</p>
                                 </div>
                                 <button @click="exportChart('portfolio-distribution')" 
-                                        class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
-                                    Export
+                                        :disabled="exportLoading['portfolio-distribution']"
+                                        class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        aria-label="Export portfolio distribution chart">
+                                    <span x-show="!exportLoading['portfolio-distribution']">Export</span>
+                                    <span x-show="exportLoading['portfolio-distribution']" class="flex items-center">
+                                        <svg class="animate-spin -ml-1 mr-2 h-3 w-3" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Exporting
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -415,8 +432,17 @@
                                     <p class="text-sm text-gray-500 dark:text-gray-400">Portfolio growth over time</p>
                                 </div>
                                 <button @click="exportChart('growth-trends')" 
-                                        class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-md">
-                                    Export
+                                        :disabled="exportLoading['growth-trends']"
+                                        class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        aria-label="Export growth trends chart">
+                                    <span x-show="!exportLoading['growth-trends']">Export</span>
+                                    <span x-show="exportLoading['growth-trends']" class="flex items-center">
+                                        <svg class="animate-spin -ml-1 mr-2 h-3 w-3" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Exporting
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -435,7 +461,9 @@
                             <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-1">Featured Grants</h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Highlighted portfolio initiatives and their performance</p>
                         </div>
-                        <button @click="viewAllGrants()" class="text-sm text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 font-medium">
+                        <button @click="viewAllGrants()" 
+                                class="bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                                aria-label="View all grants in portfolio">
                             View All Grants →
                         </button>
                     </div>
@@ -488,7 +516,9 @@
                                         <span class="text-gray-600 dark:text-gray-400">Impact Score: </span>
                                         <span class="font-semibold text-gray-900 dark:text-gray-100">87/100</span>
                                     </div>
-                                    <button @click="viewGrantDetails('GNT-2024-001')" class="text-sm text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 font-medium">
+                                    <button @click="viewGrantDetails('GNT-2024-001')" 
+                                            class="bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                                            aria-label="View details for Urban Health Initiative Romania">
                                         View Details
                                     </button>
                                 </div>
@@ -542,7 +572,9 @@
                                         <span class="text-gray-600 dark:text-gray-400">Impact Score: </span>
                                         <span class="font-semibold text-gray-900 dark:text-gray-100">94/100</span>
                                     </div>
-                                    <button @click="viewGrantDetails('GNT-2023-015')" class="text-sm text-botnar-blue-600 dark:text-botnar-blue-400 hover:text-botnar-blue-700 dark:hover:text-botnar-blue-300 font-medium">
+                                    <button @click="viewGrantDetails('GNT-2023-015')" 
+                                            class="bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                                            aria-label="View details for Digital Education Platform Kenya">
                                         View Details
                                     </button>
                                 </div>
@@ -677,6 +709,11 @@
                     renderTime: 0
                 },
                 chartInstances: {},
+                createGrantLoading: false,
+                exportLoading: {
+                    'portfolio-distribution': false,
+                    'growth-trends': false
+                },
                 
                 async init() {
                     const startTime = performance.now();
@@ -793,11 +830,18 @@
                     }
                 },
                 
-                exportChart(chartType) {
+                async exportChart(chartType) {
+                    this.exportLoading[chartType] = true;
                     this.showNotification(`Exporting ${chartType} chart...`, 'info');
-                    setTimeout(() => {
+                    
+                    try {
+                        await new Promise(resolve => setTimeout(resolve, 1500));
                         this.showNotification('Chart exported successfully!', 'success');
-                    }, 1500);
+                    } catch (error) {
+                        this.showNotification('Export failed. Please try again.', 'error');
+                    } finally {
+                        this.exportLoading[chartType] = false;
+                    }
                 },
                 
                 generateReport() {
@@ -853,13 +897,19 @@
                     }, 1500);
                 },
                 
-                openCreateModal() {
+                async openCreateModal() {
+                    this.createGrantLoading = true;
                     this.showNotification('Opening new grant creation form...', 'info');
-                    // In a real app, this would open a modal for creating a new grant
-                    // For now, just show a notification
-                    setTimeout(() => {
+                    
+                    try {
+                        // In a real app, this would open a modal for creating a new grant
+                        await new Promise(resolve => setTimeout(resolve, 1000));
                         this.showNotification('Grant creation form would open here', 'info');
-                    }, 1000);
+                    } catch (error) {
+                        this.showNotification('Failed to open grant creation form', 'error');
+                    } finally {
+                        this.createGrantLoading = false;
+                    }
                 },
                 
                 showNotification(message, type = 'info') {

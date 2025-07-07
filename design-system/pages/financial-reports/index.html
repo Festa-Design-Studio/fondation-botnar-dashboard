@@ -24,6 +24,7 @@
     <script src="../error-handler.js"></script>
     <script src="../performance-optimizer.js"></script>
     <script src="../security-utils.js"></script>
+    <script src="../auth.js"></script>
     <script src="../chart-initializer.js"></script>
 
     <!-- Alpine.js - Load after Chart.js -->
@@ -310,13 +311,8 @@
       >
         <!-- Logo and Header -->
         <div class="p-6 border-b border-white/20">
-          <div class="flex items-center space-x-3">
-            <div class="flex items-center justify-center">
-              <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
-            </div>
-            <div>
-              <p class="text-sm text-blue-200">Dashboard</p>
-            </div>
+          <div class="flex items-center justify-center">
+            <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
           </div>
         </div>
 
@@ -818,18 +814,24 @@
                 >
                   Budget vs Actual
                 </h3>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-2" role="group" aria-label="Chart view options">
                   <button
                     @click="chartPeriod = 'monthly'"
-                    :class="chartPeriod === 'monthly' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                    class="px-3 py-1 rounded text-sm font-medium"
+                    :class="chartPeriod === 'monthly' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                    class="px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-1"
+                    :aria-pressed="chartPeriod === 'monthly'"
+                    role="button"
+                    aria-label="Show monthly chart data"
                   >
                     Monthly
                   </button>
                   <button
                     @click="chartPeriod = 'quarterly'"
-                    :class="chartPeriod === 'quarterly' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                    class="px-3 py-1 rounded text-sm font-medium"
+                    :class="chartPeriod === 'quarterly' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                    class="px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-1"
+                    :aria-pressed="chartPeriod === 'quarterly'"
+                    role="button"
+                    aria-label="Show quarterly chart data"
                   >
                     Quarterly
                   </button>

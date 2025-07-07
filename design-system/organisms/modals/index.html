@@ -1,827 +1,1241 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modal Dialog Systems - Organisms | Fondation Botnar Design System</title>
-    <meta name="description" content="Accessible modal dialog systems with focus trap, backdrop handling, and comprehensive ARIA patterns for complex user interactions">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Modal Dialog Systems - Organisms | Fondation Botnar Design System
+    </title>
+    <meta
+      name="description"
+      content="Accessible modal dialog systems with focus trap, backdrop handling, and comprehensive ARIA patterns for complex user interactions"
+    />
+
     <!-- Botnar Design System CSS -->
-    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
-    
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css" />
+
     <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
     <!-- Inter Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https:/np/fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Prism.js for code highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-</head>
+  </head>
 
-<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="modalSystemsDemo()">
+  <body class="h-full bg-gray-50 dark:bg-gray-900" x-data="modalSystemsDemo()">
     <!-- Skip to content link -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
-        Skip to main content
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50"
+    >
+      Skip to main content
     </a>
-    
+
     <div class="min-h-full">
-        <!-- Header -->
-        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="flex items-center justify-between h-16">
-                    <!-- Breadcrumb Navigation -->
-                    <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
-                        <a href="../../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Design System</a>
-                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        <a href="../../index.html" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Organisms</a>
-                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium">Modal Systems</span>
-                    </nav>
-                    
-                    <!-- Theme Toggle -->
-                    <button @click="toggleTheme()" 
-                            class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                            :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
-                        <svg x-show="theme === 'light'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                        </svg>
-                        <svg x-show="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </header>
+      <!-- Header -->
+      <header
+        class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+      >
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="flex items-center justify-between h-16">
+            <!-- Breadcrumb Navigation -->
+            <nav class="flex items-center space-x-4" aria-label="Breadcrumb">
+              <a
+                href="../../../index.html"
+                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >Design System</a
+              >
+              <svg
+                class="w-5 h-5 text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <a
+                href="../../index.html"
+                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >Organisms</a
+              >
+              <svg
+                class="w-5 h-5 text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span
+                class="text-botnar-pink-600 dark:text-botnar-pink-400 font-medium"
+                >Modal Systems</span
+              >
+            </nav>
 
-        <!-- Main Content -->
-        <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
-            
-            <!-- Page Header -->
-            <div class="mb-12">
-                <div class="mb-8">
-                    <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Modal Dialog Systems</h1>
-                    <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
-                        Accessible modal dialog systems with comprehensive focus management, backdrop handling, and ARIA patterns designed for complex user interactions in the Fondation Botnar dashboard ecosystem.
-                    </p>
-                    
-                    <!-- Component Status -->
-                    <div class="flex flex-wrap gap-3 mb-6">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
-                            ✅ Production Ready
-                        </span>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
-                            🔧 Interactive
-                        </span>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400">
-                            ♿ WCAG AA
-                        </span>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400">
-                            📱 Responsive
-                        </span>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">
-                            🔒 Focus Trap
-                        </span>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <button @click="showCode = !showCode" class="btn btn-primary">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                            </svg>
-                            <span x-text="showCode ? 'Hide Code' : 'View Code'"></span>
-                        </button>
-                        <button @click="resetDemo()" class="btn btn-secondary">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                            </svg>
-                            Reset Demo
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <!-- Theme Toggle -->
+            <button
+              @click="toggleTheme()"
+              class="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'"
+            >
+              <svg
+                x-show="theme === 'light'"
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                ></path>
+              </svg>
+              <svg
+                x-show="theme === 'dark'"
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
 
-            <!-- Modal Type Selector -->
-            <section class="mb-8">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Modal Variants</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <template x-for="modalType in modalTypes" :key="modalType.id">
-                        <button @click="openModal(modalType.id)" 
-                                class="p-4 rounded-lg border-2 text-left transition-all hover:border-botnar-pink-300 dark:hover:border-botnar-pink-600 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-                            <div class="flex items-center mb-3">
-                                <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-3"
-                                     :class="modalType.color">
-                                    <span x-html="modalType.icon"></span>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-900 dark:text-gray-100" x-text="modalType.name"></h3>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400" x-text="modalType.size"></p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 dark:text-gray-400" x-text="modalType.description"></p>
-                        </button>
-                    </template>
-                </div>
-            </section>
+      <!-- Main Content -->
+      <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="mb-12">
+          <div class="mb-8">
+            <h1
+              class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4"
+            >
+              Modal Dialog Systems
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-3xl">
+              Accessible modal dialog systems with comprehensive focus
+              management, backdrop handling, and ARIA patterns designed for
+              complex user interactions in the Fondation Botnar dashboard
+              ecosystem.
+            </p>
 
-            <!-- Demo Actions -->
-            <section class="mb-8">
-                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Interactive Demonstrations</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- Alert Dialogs -->
-                        <div class="space-y-3">
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Alert Dialogs</h4>
-                            <div class="space-y-2">
-                                <button @click="showAlert('info')" class="btn btn-secondary btn-sm w-full">Info Alert</button>
-                                <button @click="showAlert('warning')" class="btn btn-warning btn-sm w-full">Warning Alert</button>
-                                <button @click="showAlert('error')" class="btn btn-danger btn-sm w-full">Error Alert</button>
-                                <button @click="showAlert('success')" class="btn btn-success btn-sm w-full">Success Alert</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Confirmation Dialogs -->
-                        <div class="space-y-3">
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Confirmation Dialogs</h4>
-                            <div class="space-y-2">
-                                <button @click="showConfirmation('delete')" class="btn btn-danger btn-sm w-full">Delete Confirmation</button>
-                                <button @click="showConfirmation('save')" class="btn btn-primary btn-sm w-full">Save Changes</button>
-                                <button @click="showConfirmation('discard')" class="btn btn-secondary btn-sm w-full">Discard Changes</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Content Modals -->
-                        <div class="space-y-3">
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Content Modals</h4>
-                            <div class="space-y-2">
-                                <button @click="openModal('form')" class="btn btn-primary btn-sm w-full">Form Modal</button>
-                                <button @click="openModal('details')" class="btn btn-secondary btn-sm w-full">Details Modal</button>
-                                <button @click="openModal('gallery')" class="btn btn-secondary btn-sm w-full">Gallery Modal</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Drawer Panel Demo -->
-            <section class="mb-8">
-                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Drawer Panels</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <button @click="openDrawer('left')" class="btn btn-secondary btn-sm">Left Drawer</button>
-                        <button @click="openDrawer('right')" class="btn btn-secondary btn-sm">Right Drawer</button>
-                        <button @click="openDrawer('top')" class="btn btn-secondary btn-sm">Top Drawer</button>
-                        <button @click="openDrawer('bottom')" class="btn btn-secondary btn-sm">Bottom Drawer</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Modal Components -->
-            
-            <!-- Alert Modal -->
-            <div x-show="alertModal.show" 
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
-                 class="fixed inset-0 z-50 overflow-y-auto"
-                 aria-labelledby="alert-title"
-                 role="alertdialog"
-                 x-trap="alertModal.show"
-                 @keydown.escape.window="closeAlert()">
-                
-                <!-- Backdrop -->
-                <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-                     @click="closeAlert()"></div>
-                
-                <!-- Modal Content -->
-                <div class="flex min-h-full items-center justify-center p-4">
-                    <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-all w-full max-w-md"
-                         x-transition:enter="transition ease-out duration-300"
-                         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                         x-transition:leave="transition ease-in duration-200"
-                         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                        
-                        <div class="p-6">
-                            <!-- Alert Icon and Content -->
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 rounded-full flex items-center justify-center"
-                                         :class="getAlertIconColor(alertModal.type)">
-                                        <span x-html="getAlertIcon(alertModal.type)"></span>
-                                    </div>
-                                </div>
-                                <div class="ml-4 flex-1">
-                                    <h3 id="alert-title" class="text-lg font-medium text-gray-900 dark:text-gray-100" 
-                                        x-text="alertModal.title"></h3>
-                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400" 
-                                       x-text="alertModal.message"></p>
-                                </div>
-                            </div>
-                            
-                            <!-- Actions -->
-                            <div class="mt-6 flex justify-end space-x-3">
-                                <button @click="closeAlert()" 
-                                        class="btn btn-secondary"
-                                        x-ref="alertCloseButton">
-                                    OK
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Component Status -->
+            <div class="flex flex-wrap gap-3 mb-6">
+              <span
+                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+              >
+                ✅ Production Ready
+              </span>
+              <span
+                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
+              >
+                🔧 Interactive
+              </span>
+              <span
+                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400"
+              >
+                ♿ WCAG AA
+              </span>
+              <span
+                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
+              >
+                📱 Responsive
+              </span>
+              <span
+                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+              >
+                🔒 Focus Trap
+              </span>
             </div>
 
-            <!-- Confirmation Modal -->
-            <div x-show="confirmModal.show" 
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
-                 class="fixed inset-0 z-50 overflow-y-auto"
-                 aria-labelledby="confirm-title"
-                 role="dialog"
-                 x-trap="confirmModal.show"
-                 @keydown.escape.window="closeConfirmation()">
-                
-                <!-- Backdrop -->
-                <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-                     @click="closeConfirmation()"></div>
-                
-                <!-- Modal Content -->
-                <div class="flex min-h-full items-center justify-center p-4">
-                    <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-all w-full max-w-lg">
-                        <div class="p-6">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="ml-4 flex-1">
-                                    <h3 id="confirm-title" class="text-lg font-medium text-gray-900 dark:text-gray-100" 
-                                        x-text="confirmModal.title"></h3>
-                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400" 
-                                       x-text="confirmModal.message"></p>
-                                </div>
-                            </div>
-                            
-                            <!-- Actions -->
-                            <div class="mt-6 flex justify-end space-x-3">
-                                <button @click="closeConfirmation()" 
-                                        class="btn btn-secondary"
-                                        x-ref="confirmCancelButton">
-                                    Cancel
-                                </button>
-                                <button @click="confirmAction()" 
-                                        class="btn"
-                                        :class="confirmModal.type === 'delete' ? 'btn-danger' : 'btn-primary'">
-                                    <span x-text="confirmModal.actionText"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Quick Actions -->
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button @click="showCode = !showCode" class="btn btn-primary">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                  ></path>
+                </svg>
+                <span x-text="showCode ? 'Hide Code' : 'View Code'"></span>
+              </button>
+              <button @click="resetDemo()" class="btn btn-secondary">
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  ></path>
+                </svg>
+                Reset Demo
+              </button>
             </div>
+          </div>
+        </div>
 
-            <!-- Content Modal -->
-            <div x-show="contentModal.show" 
-                 x-transition:enter="transition ease-out duration-300"
-                 x-transition:enter-start="opacity-0"
-                 x-transition:enter-end="opacity-100"
-                 x-transition:leave="transition ease-in duration-200"
-                 x-transition:leave-start="opacity-100"
-                 x-transition:leave-end="opacity-0"
-                 class="fixed inset-0 z-50 overflow-y-auto"
-                 aria-labelledby="content-title"
-                 role="dialog"
-                 x-trap="contentModal.show"
-                 @keydown.escape.window="closeContentModal()">
-                
-                <!-- Backdrop -->
-                <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-                     @click="closeContentModal()"></div>
-                
-                <!-- Modal Content -->
-                <div class="flex min-h-full items-center justify-center p-4">
-                    <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-all w-full"
-                         :class="getContentModalSize()">
-                        
-                        <!-- Header -->
-                        <div class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center justify-between">
-                                <h3 id="content-title" class="text-lg font-medium text-gray-900 dark:text-gray-100" 
-                                    x-text="contentModal.title"></h3>
-                                <button @click="closeContentModal()" 
-                                        class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                                        aria-label="Close modal">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Content -->
-                        <div class="p-6" x-html="getContentModalContent()"></div>
-                        
-                        <!-- Footer -->
-                        <div class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex justify-end space-x-3">
-                                <button @click="closeContentModal()" class="btn btn-secondary">
-                                    Close
-                                </button>
-                                <button x-show="contentModal.type === 'form'" 
-                                        @click="submitForm()" 
-                                        class="btn btn-primary">
-                                    Save Changes
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Modal Type Selector -->
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            Modal Variants
+          </h2>
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
+          >
+            <template x-for="modalType in modalTypes" :key="modalType.id">
+              <button
+                @click="openModal(modalType.id)"
+                class="p-4 rounded-lg border-2 text-left transition-all hover:border-botnar-pink-300 dark:hover:border-botnar-pink-600 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
+              >
+                <div class="flex items-center mb-3">
+                  <div
+                    class="w-10 h-10 rounded-lg flex items-center justify-center mr-3"
+                    :class="modalType.color"
+                  >
+                    <span x-html="modalType.icon"></span>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-semibold text-gray-900 dark:text-gray-100"
+                      x-text="modalType.name"
+                    ></h3>
+                    <p
+                      class="text-xs text-gray-500 dark:text-gray-400"
+                      x-text="modalType.size"
+                    ></p>
+                  </div>
                 </div>
-            </div>
-
-            <!-- Drawer Components -->
-            <template x-for="position in ['left', 'right', 'top', 'bottom']" :key="position">
-                <div x-show="drawer.show && drawer.position === position" 
-                     x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0"
-                     x-transition:enter-end="opacity-100"
-                     x-transition:leave="transition ease-in duration-200"
-                     x-transition:leave-start="opacity-100"
-                     x-transition:leave-end="opacity-0"
-                     class="fixed inset-0 z-50 overflow-hidden"
-                     role="dialog"
-                     x-trap="drawer.show && drawer.position === position"
-                     @keydown.escape.window="closeDrawer()">
-                    
-                    <!-- Backdrop -->
-                    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-                         @click="closeDrawer()"></div>
-                    
-                    <!-- Drawer Panel -->
-                    <div class="fixed"
-                         :class="getDrawerClasses(position)"
-                         x-transition:enter="transition ease-out duration-300"
-                         x-transition:enter-start="transform"
-                         :x-transition:enter-start="getDrawerEnterStart(position)"
-                         x-transition:enter-end="transform translate-x-0 translate-y-0"
-                         x-transition:leave="transition ease-in duration-200"
-                         x-transition:leave-start="transform translate-x-0 translate-y-0"
-                         :x-transition:leave-end="getDrawerLeaveEnd(position)">
-                        
-                        <div class="bg-white dark:bg-gray-800 h-full flex flex-col shadow-xl">
-                            <!-- Drawer Header -->
-                            <div class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                        <span x-text="position.charAt(0).toUpperCase() + position.slice(1)"></span> Drawer
-                                    </h3>
-                                    <button @click="closeDrawer()" 
-                                            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                                            aria-label="Close drawer">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Drawer Content -->
-                            <div class="flex-1 p-6 overflow-y-auto">
-                                <div class="prose dark:prose-invert max-w-none">
-                                    <h4>Drawer Content</h4>
-                                    <p>This is a <span x-text="position"></span> drawer panel. It slides in from the <span x-text="position"></span> side of the screen and provides additional content space without navigating away from the current page.</p>
-                                    <p>Drawer panels are perfect for:</p>
-                                    <ul>
-                                        <li>Navigation menus</li>
-                                        <li>Filter panels</li>
-                                        <li>Secondary forms</li>
-                                        <li>Additional details</li>
-                                        <li>User settings</li>
-                                    </ul>
-                                    <p>This drawer maintains focus trap and can be closed with the Escape key.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Drawer Footer -->
-                            <div class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
-                                <div class="flex justify-end space-x-3">
-                                    <button @click="closeDrawer()" class="btn btn-secondary">
-                                        Close
-                                    </button>
-                                    <button class="btn btn-primary">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p
+                  class="text-sm text-gray-600 dark:text-gray-400"
+                  x-text="modalType.description"
+                ></p>
+              </button>
             </template>
+          </div>
+        </section>
 
-            <!-- Code Preview -->
-            <section x-show="showCode" class="mb-12">
-                <div class="bg-gray-900 rounded-lg p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-white">Implementation Code</h3>
-                        <button @click="copyCode()" class="btn btn-sm bg-gray-800 text-white hover:bg-gray-700">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                            </svg>
-                            Copy Code
-                        </button>
-                    </div>
-                    <pre><code class="language-javascript" x-text="getModalCode()"></code></pre>
+        <!-- Demo Actions -->
+        <section class="mb-8">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+          >
+            <h3
+              class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4"
+            >
+              Interactive Demonstrations
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Alert Dialogs -->
+              <div class="space-y-3">
+                <h4 class="font-medium text-gray-900 dark:text-gray-100">
+                  Alert Dialogs
+                </h4>
+                <div class="space-y-2">
+                  <button
+                    @click="showAlert('info')"
+                    class="btn btn-secondary btn-sm w-full"
+                  >
+                    Info Alert
+                  </button>
+                  <button
+                    @click="showAlert('warning')"
+                    class="btn btn-warning btn-sm w-full"
+                  >
+                    Warning Alert
+                  </button>
+                  <button
+                    @click="showAlert('error')"
+                    class="btn btn-danger btn-sm w-full"
+                  >
+                    Error Alert
+                  </button>
+                  <button
+                    @click="showAlert('success')"
+                    class="btn btn-success btn-sm w-full"
+                  >
+                    Success Alert
+                  </button>
                 </div>
-            </section>
+              </div>
 
-            <!-- Documentation -->
-            <section class="mb-12">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Usage Guidelines</h2>
-                
-                <div class="grid gap-8">
-                    <!-- Modal Types -->
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Modal Types</h3>
-                        <div class="grid gap-4">
-                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Alert Dialogs</h4>
-                                <p class="text-gray-600 dark:text-gray-400 mb-3">Single-action dialogs for important messages and system notifications.</p>
-                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                                    <li>• Info alerts for informational messages</li>
-                                    <li>• Warning alerts for potential issues</li>
-                                    <li>• Error alerts for critical problems</li>
-                                    <li>• Success alerts for positive confirmations</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Confirmation Dialogs</h4>
-                                <p class="text-gray-600 dark:text-gray-400 mb-3">Two-action dialogs for user confirmation of destructive or important actions.</p>
-                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                                    <li>• Delete confirmations with clear consequences</li>
-                                    <li>• Save changes prompts</li>
-                                    <li>• Discard changes warnings</li>
-                                    <li>• Action confirmations with cancel options</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Content Modals</h4>
-                                <p class="text-gray-600 dark:text-gray-400 mb-3">Full-featured dialogs for complex content and forms.</p>
-                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                                    <li>• Form modals for data entry</li>
-                                    <li>• Detail views for comprehensive information</li>
-                                    <li>• Gallery modals for media content</li>
-                                    <li>• Multi-step workflows</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                                <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Drawer Panels</h4>
-                                <p class="text-gray-600 dark:text-gray-400 mb-3">Slide-out panels for contextual content and navigation.</p>
-                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                                    <li>• Left/right drawers for navigation and filters</li>
-                                    <li>• Top/bottom drawers for notifications and quick actions</li>
-                                    <li>• Responsive sizing and positioning</li>
-                                    <li>• Persistent state management</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Accessibility Guidelines -->
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Accessibility Guidelines</h3>
-                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                            <div class="prose dark:prose-invert max-w-none">
-                                <h4>Focus Management</h4>
-                                <ul>
-                                    <li>Focus trap: Focus is contained within the modal when open</li>
-                                    <li>Initial focus: First interactive element receives focus on open</li>
-                                    <li>Return focus: Focus returns to trigger element on close</li>
-                                    <li>Tab order: Logical tab sequence within modal content</li>
-                                </ul>
-                                
-                                <h4>ARIA Implementation</h4>
-                                <ul>
-                                    <li>role="dialog" for content modals and confirmations</li>
-                                    <li>role="alertdialog" for alert notifications</li>
-                                    <li>aria-labelledby pointing to modal title</li>
-                                    <li>aria-describedby for additional context</li>
-                                </ul>
-                                
-                                <h4>Keyboard Navigation</h4>
-                                <ul>
-                                    <li>Escape key closes modal</li>
-                                    <li>Enter key activates primary action</li>
-                                    <li>Tab/Shift+Tab for navigation within modal</li>
-                                    <li>Arrow keys for drawer panel positioning</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+              <!-- Confirmation Dialogs -->
+              <div class="space-y-3">
+                <h4 class="font-medium text-gray-900 dark:text-gray-100">
+                  Confirmation Dialogs
+                </h4>
+                <div class="space-y-2">
+                  <button
+                    @click="showConfirmation('delete')"
+                    class="btn btn-danger btn-sm w-full"
+                  >
+                    Delete Confirmation
+                  </button>
+                  <button
+                    @click="showConfirmation('save')"
+                    class="btn btn-primary btn-sm w-full"
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    @click="showConfirmation('discard')"
+                    class="btn btn-secondary btn-sm w-full"
+                  >
+                    Discard Changes
+                  </button>
                 </div>
-            </section>
+              </div>
 
-        </main>
+              <!-- Content Modals -->
+              <div class="space-y-3">
+                <h4 class="font-medium text-gray-900 dark:text-gray-100">
+                  Content Modals
+                </h4>
+                <div class="space-y-2">
+                  <button
+                    @click="openModal('form')"
+                    class="btn btn-primary btn-sm w-full"
+                  >
+                    Form Modal
+                  </button>
+                  <button
+                    @click="openModal('details')"
+                    class="btn btn-secondary btn-sm w-full"
+                  >
+                    Details Modal
+                  </button>
+                  <button
+                    @click="openModal('gallery')"
+                    class="btn btn-secondary btn-sm w-full"
+                  >
+                    Gallery Modal
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Drawer Panel Demo -->
+        <section class="mb-8">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+          >
+            <h3
+              class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4"
+            >
+              Drawer Panels
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <button
+                @click="openDrawer('left')"
+                class="btn btn-secondary btn-sm"
+              >
+                Left Drawer
+              </button>
+              <button
+                @click="openDrawer('right')"
+                class="btn btn-secondary btn-sm"
+              >
+                Right Drawer
+              </button>
+              <button
+                @click="openDrawer('top')"
+                class="btn btn-secondary btn-sm"
+              >
+                Top Drawer
+              </button>
+              <button
+                @click="openDrawer('bottom')"
+                class="btn btn-secondary btn-sm"
+              >
+                Bottom Drawer
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Modal Components -->
+
+        <!-- Alert Modal -->
+        <div
+          x-show="alertModal.show"
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          class="fixed inset-0 z-50 overflow-y-auto"
+          aria-labelledby="alert-title"
+          role="alertdialog"
+          x-trap="alertModal.show"
+          @keydown.escape.window="closeAlert()"
+        >
+          <!-- Backdrop -->
+          <div
+            class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+            @click="closeAlert()"
+          ></div>
+
+          <!-- Modal Content -->
+          <div class="flex min-h-full items-center justify-center p-4">
+            <div
+              class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-all w-full max-w-md"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+              x-transition:leave="transition ease-in duration-200"
+              x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+              x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <div class="p-6">
+                <!-- Alert Icon and Content -->
+                <div class="flex items-start">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-10 h-10 rounded-full flex items-center justify-center"
+                      :class="getAlertIconColor(alertModal.type)"
+                    >
+                      <span x-html="getAlertIcon(alertModal.type)"></span>
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-1">
+                    <h3
+                      id="alert-title"
+                      class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                      x-text="alertModal.title"
+                    ></h3>
+                    <p
+                      class="mt-2 text-sm text-gray-600 dark:text-gray-400"
+                      x-text="alertModal.message"
+                    ></p>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="mt-6 flex justify-end space-x-3">
+                  <button
+                    @click="closeAlert()"
+                    class="btn btn-secondary"
+                    x-ref="alertCloseButton"
+                  >
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div
+          x-show="confirmModal.show"
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          class="fixed inset-0 z-50 overflow-y-auto"
+          aria-labelledby="confirm-title"
+          role="dialog"
+          x-trap="confirmModal.show"
+          @keydown.escape.window="closeConfirmation()"
+        >
+          <!-- Backdrop -->
+          <div
+            class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+            @click="closeConfirmation()"
+          ></div>
+
+          <!-- Modal Content -->
+          <div class="flex min-h-full items-center justify-center p-4">
+            <div
+              class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-all w-full max-w-lg"
+            >
+              <div class="p-6">
+                <div class="flex items-start">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-6 h-6 text-red-600 dark:text-red-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ml-4 flex-1">
+                    <h3
+                      id="confirm-title"
+                      class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                      x-text="confirmModal.title"
+                    ></h3>
+                    <p
+                      class="mt-2 text-sm text-gray-600 dark:text-gray-400"
+                      x-text="confirmModal.message"
+                    ></p>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="mt-6 flex justify-end space-x-3">
+                  <button
+                    @click="closeConfirmation()"
+                    class="btn btn-secondary"
+                    x-ref="confirmCancelButton"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    @click="confirmAction()"
+                    class="btn"
+                    :class="confirmModal.type === 'delete' ? 'btn-danger' : 'btn-primary'"
+                  >
+                    <span x-text="confirmModal.actionText"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Modal -->
+        <div
+          x-show="contentModal.show"
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          class="fixed inset-0 z-50 overflow-y-auto"
+          aria-labelledby="content-title"
+          role="dialog"
+          x-trap="contentModal.show"
+          @keydown.escape.window="closeContentModal()"
+        >
+          <!-- Backdrop -->
+          <div
+            class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+            @click="closeContentModal()"
+          ></div>
+
+          <!-- Modal Content -->
+          <div class="flex min-h-full items-center justify-center p-4">
+            <div
+              class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl transition-all w-full"
+              :class="getContentModalSize()"
+            >
+              <!-- Header -->
+              <div
+                class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+              >
+                <div class="flex items-center justify-between">
+                  <h3
+                    id="content-title"
+                    class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                    x-text="contentModal.title"
+                  ></h3>
+                  <button
+                    @click="closeContentModal()"
+                    class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                    aria-label="Close modal"
+                  >
+                    <svg
+                      class="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="p-6" x-html="getContentModalContent()"></div>
+
+              <!-- Footer -->
+              <div
+                class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-t border-gray-200 dark:border-gray-700"
+              >
+                <div class="flex justify-end space-x-3">
+                  <button
+                    @click="closeContentModal()"
+                    class="btn btn-secondary"
+                  >
+                    Close
+                  </button>
+                  <button
+                    x-show="contentModal.type === 'form'"
+                    @click="submitForm()"
+                    class="btn btn-primary"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer Components -->
+        <template
+          x-for="position in ['left', 'right', 'top', 'bottom']"
+          :key="position"
+        >
+          <div
+            x-show="drawer.show && drawer.position === position"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 overflow-hidden"
+            role="dialog"
+            x-trap="drawer.show && drawer.position === position"
+            @keydown.escape.window="closeDrawer()"
+          >
+            <!-- Backdrop -->
+            <div
+              class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+              @click="closeDrawer()"
+            ></div>
+
+            <!-- Drawer Panel -->
+            <div
+              class="fixed"
+              :class="getDrawerClasses(position)"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="transform"
+              :x-transition:enter-start="getDrawerEnterStart(position)"
+              x-transition:enter-end="transform translate-x-0 translate-y-0"
+              x-transition:leave="transition ease-in duration-200"
+              x-transition:leave-start="transform translate-x-0 translate-y-0"
+              :x-transition:leave-end="getDrawerLeaveEnd(position)"
+            >
+              <div
+                class="bg-white dark:bg-gray-800 h-full flex flex-col shadow-xl"
+              >
+                <!-- Drawer Header -->
+                <div
+                  class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                >
+                  <div class="flex items-center justify-between">
+                    <h3
+                      class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                    >
+                      <span
+                        x-text="position.charAt(0).toUpperCase() + position.slice(1)"
+                      ></span>
+                      Drawer
+                    </h3>
+                    <button
+                      @click="closeDrawer()"
+                      class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                      aria-label="Close drawer"
+                    >
+                      <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Drawer Content -->
+                <div class="flex-1 p-6 overflow-y-auto">
+                  <div class="prose dark:prose-invert max-w-none">
+                    <h4>Drawer Content</h4>
+                    <p>
+                      This is a <span x-text="position"></span> drawer panel. It
+                      slides in from the <span x-text="position"></span> side of
+                      the screen and provides additional content space without
+                      navigating away from the current page.
+                    </p>
+                    <p>Drawer panels are perfect for:</p>
+                    <ul>
+                      <li>Navigation menus</li>
+                      <li>Filter panels</li>
+                      <li>Secondary forms</li>
+                      <li>Additional details</li>
+                      <li>User settings</li>
+                    </ul>
+                    <p>
+                      This drawer maintains focus trap and can be closed with
+                      the Escape key.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Drawer Footer -->
+                <div
+                  class="bg-gray-50 dark:bg-gray-900 px-6 py-4 border-t border-gray-200 dark:border-gray-700"
+                >
+                  <div class="flex justify-end space-x-3">
+                    <button @click="closeDrawer()" class="btn btn-secondary">
+                      Close
+                    </button>
+                    <button class="btn btn-primary">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- Code Preview -->
+        <section x-show="showCode" class="mb-12">
+          <div class="bg-gray-900 rounded-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-white">
+                Implementation Code
+              </h3>
+              <button
+                @click="copyCode()"
+                class="btn btn-sm bg-gray-800 text-white hover:bg-gray-700"
+              >
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                Copy Code
+              </button>
+            </div>
+            <pre><code class="language-javascript" x-text="getModalCode()"></code></pre>
+          </div>
+        </section>
+
+        <!-- Documentation -->
+        <section class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+            Usage Guidelines
+          </h2>
+
+          <div class="grid gap-8">
+            <!-- Modal Types -->
+            <div>
+              <h3
+                class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4"
+              >
+                Modal Types
+              </h3>
+              <div class="grid gap-4">
+                <div
+                  class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+                >
+                  <h4
+                    class="font-semibold text-gray-900 dark:text-gray-100 mb-2"
+                  >
+                    Alert Dialogs
+                  </h4>
+                  <p class="text-gray-600 dark:text-gray-400 mb-3">
+                    Single-action dialogs for important messages and system
+                    notifications.
+                  </p>
+                  <ul
+                    class="text-sm text-gray-600 dark:text-gray-400 space-y-1"
+                  >
+                    <li>• Info alerts for informational messages</li>
+                    <li>• Warning alerts for potential issues</li>
+                    <li>• Error alerts for critical problems</li>
+                    <li>• Success alerts for positive confirmations</li>
+                  </ul>
+                </div>
+
+                <div
+                  class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+                >
+                  <h4
+                    class="font-semibold text-gray-900 dark:text-gray-100 mb-2"
+                  >
+                    Confirmation Dialogs
+                  </h4>
+                  <p class="text-gray-600 dark:text-gray-400 mb-3">
+                    Two-action dialogs for user confirmation of destructive or
+                    important actions.
+                  </p>
+                  <ul
+                    class="text-sm text-gray-600 dark:text-gray-400 space-y-1"
+                  >
+                    <li>• Delete confirmations with clear consequences</li>
+                    <li>• Save changes prompts</li>
+                    <li>• Discard changes warnings</li>
+                    <li>• Action confirmations with cancel options</li>
+                  </ul>
+                </div>
+
+                <div
+                  class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+                >
+                  <h4
+                    class="font-semibold text-gray-900 dark:text-gray-100 mb-2"
+                  >
+                    Content Modals
+                  </h4>
+                  <p class="text-gray-600 dark:text-gray-400 mb-3">
+                    Full-featured dialogs for complex content and forms.
+                  </p>
+                  <ul
+                    class="text-sm text-gray-600 dark:text-gray-400 space-y-1"
+                  >
+                    <li>• Form modals for data entry</li>
+                    <li>• Detail views for comprehensive information</li>
+                    <li>• Gallery modals for media content</li>
+                    <li>• Multi-step workflows</li>
+                  </ul>
+                </div>
+
+                <div
+                  class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+                >
+                  <h4
+                    class="font-semibold text-gray-900 dark:text-gray-100 mb-2"
+                  >
+                    Drawer Panels
+                  </h4>
+                  <p class="text-gray-600 dark:text-gray-400 mb-3">
+                    Slide-out panels for contextual content and navigation.
+                  </p>
+                  <ul
+                    class="text-sm text-gray-600 dark:text-gray-400 space-y-1"
+                  >
+                    <li>• Left/right drawers for navigation and filters</li>
+                    <li>
+                      • Top/bottom drawers for notifications and quick actions
+                    </li>
+                    <li>• Responsive sizing and positioning</li>
+                    <li>• Persistent state management</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Accessibility Guidelines -->
+            <div>
+              <h3
+                class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4"
+              >
+                Accessibility Guidelines
+              </h3>
+              <div
+                class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+              >
+                <div class="prose dark:prose-invert max-w-none">
+                  <h4>Focus Management</h4>
+                  <ul>
+                    <li>
+                      Focus trap: Focus is contained within the modal when open
+                    </li>
+                    <li>
+                      Initial focus: First interactive element receives focus on
+                      open
+                    </li>
+                    <li>
+                      Return focus: Focus returns to trigger element on close
+                    </li>
+                    <li>
+                      Tab order: Logical tab sequence within modal content
+                    </li>
+                  </ul>
+
+                  <h4>ARIA Implementation</h4>
+                  <ul>
+                    <li>role="dialog" for content modals and confirmations</li>
+                    <li>role="alertdialog" for alert notifications</li>
+                    <li>aria-labelledby pointing to modal title</li>
+                    <li>aria-describedby for additional context</li>
+                  </ul>
+
+                  <h4>Keyboard Navigation</h4>
+                  <ul>
+                    <li>Escape key closes modal</li>
+                    <li>Enter key activates primary action</li>
+                    <li>Tab/Shift+Tab for navigation within modal</li>
+                    <li>Arrow keys for drawer panel positioning</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
 
     <!-- Screen reader announcements -->
-    <div id="sr-announcements" class="sr-only" aria-live="polite" aria-atomic="true">
-        <span x-text="announcement"></span>
+    <div
+      id="sr-announcements"
+      class="sr-only"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span x-text="announcement"></span>
     </div>
 
     <script>
-        function modalSystemsDemo() {
-            return {
-                theme: 'light',
-                showCode: false,
-                announcement: '',
-                
-                // Modal states
-                alertModal: {
-                    show: false,
-                    type: 'info',
-                    title: '',
-                    message: ''
-                },
-                
-                confirmModal: {
-                    show: false,
-                    type: 'delete',
-                    title: '',
-                    message: '',
-                    actionText: '',
-                    callback: null
-                },
-                
-                contentModal: {
-                    show: false,
-                    type: 'form',
-                    title: '',
-                    size: 'medium'
-                },
-                
-                drawer: {
-                    show: false,
-                    position: 'left'
-                },
-                
-                // Modal type definitions
-                modalTypes: [
-                    {
-                        id: 'alert',
-                        name: 'Alert Dialog',
-                        size: 'Small',
-                        description: 'Single-action dialogs for important messages and notifications.',
-                        icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
-                        color: 'bg-blue-500'
-                    },
-                    {
-                        id: 'confirm',
-                        name: 'Confirmation',
-                        size: 'Medium',
-                        description: 'Two-action dialogs for user confirmation of important actions.',
-                        icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>',
-                        color: 'bg-orange-500'
-                    },
-                    {
-                        id: 'form',
-                        name: 'Form Modal',
-                        size: 'Large',
-                        description: 'Full-featured dialogs for complex forms and data entry.',
-                        icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>',
-                        color: 'bg-green-500'
-                    },
-                    {
-                        id: 'drawer',
-                        name: 'Drawer Panel',
-                        size: 'Variable',
-                        description: 'Slide-out panels for contextual content and navigation.',
-                        icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>',
-                        color: 'bg-purple-500'
-                    }
-                ],
-                
-                init() {
-                    this.theme = localStorage.getItem('botnar-theme') || 'light';
-                    this.applyTheme();
-                    
-                    // Focus trap setup
-                    this.$watch('alertModal.show', (value) => {
-                        if (value) {
-                            this.$nextTick(() => {
-                                this.$refs.alertCloseButton?.focus();
-                            });
-                        }
-                    });
-                    
-                    this.$watch('confirmModal.show', (value) => {
-                        if (value) {
-                            this.$nextTick(() => {
-                                this.$refs.confirmCancelButton?.focus();
-                            });
-                        }
-                    });
-                },
-                
-                // Modal actions
-                openModal(type) {
-                    switch(type) {
-                        case 'alert':
-                            this.showAlert('info');
-                            break;
-                        case 'confirm':
-                            this.showConfirmation('delete');
-                            break;
-                        case 'form':
-                            this.contentModal = {
-                                show: true,
-                                type: 'form',
-                                title: 'Create New Program',
-                                size: 'large'
-                            };
-                            this.announce('Form modal opened');
-                            break;
-                        case 'details':
-                            this.contentModal = {
-                                show: true,
-                                type: 'details',
-                                title: 'Program Details',
-                                size: 'medium'
-                            };
-                            this.announce('Details modal opened');
-                            break;
-                        case 'gallery':
-                            this.contentModal = {
-                                show: true,
-                                type: 'gallery',
-                                title: 'Image Gallery',
-                                size: 'extra-large'
-                            };
-                            this.announce('Gallery modal opened');
-                            break;
-                        case 'drawer':
-                            this.openDrawer('left');
-                            break;
-                    }
-                },
-                
-                showAlert(type) {
-                    const alerts = {
-                        info: {
-                            title: 'Information',
-                            message: 'This is an informational message. Please review the details and proceed as needed.'
-                        },
-                        warning: {
-                            title: 'Warning',
-                            message: 'Please be aware that this action may have unintended consequences. Review carefully before proceeding.'
-                        },
-                        error: {
-                            title: 'Error',
-                            message: 'An error has occurred while processing your request. Please try again or contact support if the problem persists.'
-                        },
-                        success: {
-                            title: 'Success',
-                            message: 'Your action has been completed successfully. The changes have been saved and are now in effect.'
-                        }
-                    };
-                    
-                    this.alertModal = {
-                        show: true,
-                        type: type,
-                        ...alerts[type]
-                    };
-                    
-                    this.announce(`${type} alert opened: ${alerts[type].title}`);
-                },
-                
-                closeAlert() {
-                    this.alertModal.show = false;
-                    this.announce('Alert closed');
-                },
-                
-                showConfirmation(type) {
-                    const confirmations = {
-                        delete: {
-                            title: 'Delete Program',
-                            message: 'Are you sure you want to delete this program? This action cannot be undone and all associated data will be permanently removed.',
-                            actionText: 'Delete',
-                            callback: () => this.announce('Program deleted')
-                        },
-                        save: {
-                            title: 'Save Changes',
-                            message: 'Do you want to save the changes you made to this program? Unsaved changes will be lost.',
-                            actionText: 'Save',
-                            callback: () => this.announce('Changes saved')
-                        },
-                        discard: {
-                            title: 'Discard Changes',
-                            message: 'Are you sure you want to discard your changes? Any modifications you made will be lost.',
-                            actionText: 'Discard',
-                            callback: () => this.announce('Changes discarded')
-                        }
-                    };
-                    
-                    this.confirmModal = {
-                        show: true,
-                        type: type,
-                        ...confirmations[type]
-                    };
-                    
-                    this.announce(`Confirmation dialog opened: ${confirmations[type].title}`);
-                },
-                
-                closeConfirmation() {
-                    this.confirmModal.show = false;
-                    this.announce('Confirmation dialog closed');
-                },
-                
-                confirmAction() {
-                    if (this.confirmModal.callback) {
-                        this.confirmModal.callback();
-                    }
-                    this.closeConfirmation();
-                },
-                
-                closeContentModal() {
-                    this.contentModal.show = false;
-                    this.announce('Content modal closed');
-                },
-                
-                submitForm() {
-                    this.announce('Form submitted successfully');
-                    this.closeContentModal();
-                },
-                
-                // Drawer actions
-                openDrawer(position) {
-                    this.drawer = {
-                        show: true,
-                        position: position
-                    };
-                    this.announce(`${position} drawer opened`);
-                },
-                
-                closeDrawer() {
-                    this.drawer.show = false;
-                    this.announce('Drawer closed');
-                },
-                
-                // Utility functions
-                getAlertIcon(type) {
-                    const icons = {
-                        info: '<svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
-                        warning: '<svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>',
-                        error: '<svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
-                        success: '<svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
-                    };
-                    return icons[type] || icons.info;
-                },
-                
-                getAlertIconColor(type) {
-                    const colors = {
-                        info: 'bg-blue-100 dark:bg-blue-900/20',
-                        warning: 'bg-yellow-100 dark:bg-yellow-900/20',
-                        error: 'bg-red-100 dark:bg-red-900/20',
-                        success: 'bg-green-100 dark:bg-green-900/20'
-                    };
-                    return colors[type] || colors.info;
-                },
-                
-                getContentModalSize() {
-                    const sizes = {
-                        small: 'max-w-md',
-                        medium: 'max-w-2xl',
-                        large: 'max-w-4xl',
-                        'extra-large': 'max-w-6xl'
-                    };
-                    return sizes[this.contentModal.size] || sizes.medium;
-                },
-                
-                getContentModalContent() {
-                    const content = {
-                        form: `
+      function modalSystemsDemo() {
+        return {
+          theme: "light",
+          showCode: false,
+          announcement: "",
+
+          // Modal states
+          alertModal: {
+            show: false,
+            type: "info",
+            title: "",
+            message: "",
+          },
+
+          confirmModal: {
+            show: false,
+            type: "delete",
+            title: "",
+            message: "",
+            actionText: "",
+            callback: null,
+          },
+
+          contentModal: {
+            show: false,
+            type: "form",
+            title: "",
+            size: "medium",
+          },
+
+          drawer: {
+            show: false,
+            position: "left",
+          },
+
+          // Modal type definitions
+          modalTypes: [
+            {
+              id: "alert",
+              name: "Alert Dialog",
+              size: "Small",
+              description:
+                "Single-action dialogs for important messages and notifications.",
+              icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+              color: "bg-blue-500",
+            },
+            {
+              id: "confirm",
+              name: "Confirmation",
+              size: "Medium",
+              description:
+                "Two-action dialogs for user confirmation of important actions.",
+              icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>',
+              color: "bg-orange-500",
+            },
+            {
+              id: "form",
+              name: "Form Modal",
+              size: "Large",
+              description:
+                "Full-featured dialogs for complex forms and data entry.",
+              icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>',
+              color: "bg-green-500",
+            },
+            {
+              id: "drawer",
+              name: "Drawer Panel",
+              size: "Variable",
+              description:
+                "Slide-out panels for contextual content and navigation.",
+              icon: '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>',
+              color: "bg-purple-500",
+            },
+          ],
+
+          init() {
+            this.theme = localStorage.getItem("botnar-theme") || "light";
+            this.applyTheme();
+
+            // Focus trap setup
+            this.$watch("alertModal.show", (value) => {
+              if (value) {
+                this.$nextTick(() => {
+                  this.$refs.alertCloseButton?.focus();
+                });
+              }
+            });
+
+            this.$watch("confirmModal.show", (value) => {
+              if (value) {
+                this.$nextTick(() => {
+                  this.$refs.confirmCancelButton?.focus();
+                });
+              }
+            });
+          },
+
+          // Modal actions
+          openModal(type) {
+            switch (type) {
+              case "alert":
+                this.showAlert("info");
+                break;
+              case "confirm":
+                this.showConfirmation("delete");
+                break;
+              case "form":
+                this.contentModal = {
+                  show: true,
+                  type: "form",
+                  title: "Create New Program",
+                  size: "large",
+                };
+                this.announce("Form modal opened");
+                break;
+              case "details":
+                this.contentModal = {
+                  show: true,
+                  type: "details",
+                  title: "Program Details",
+                  size: "medium",
+                };
+                this.announce("Details modal opened");
+                break;
+              case "gallery":
+                this.contentModal = {
+                  show: true,
+                  type: "gallery",
+                  title: "Image Gallery",
+                  size: "extra-large",
+                };
+                this.announce("Gallery modal opened");
+                break;
+              case "drawer":
+                this.openDrawer("left");
+                break;
+            }
+          },
+
+          showAlert(type) {
+            const alerts = {
+              info: {
+                title: "Information",
+                message:
+                  "This is an informational message. Please review the details and proceed as needed.",
+              },
+              warning: {
+                title: "Warning",
+                message:
+                  "Please be aware that this action may have unintended consequences. Review carefully before proceeding.",
+              },
+              error: {
+                title: "Error",
+                message:
+                  "An error has occurred while processing your request. Please try again or contact support if the problem persists.",
+              },
+              success: {
+                title: "Success",
+                message:
+                  "Your action has been completed successfully. The changes have been saved and are now in effect.",
+              },
+            };
+
+            this.alertModal = {
+              show: true,
+              type: type,
+              ...alerts[type],
+            };
+
+            this.announce(`${type} alert opened: ${alerts[type].title}`);
+          },
+
+          closeAlert() {
+            this.alertModal.show = false;
+            this.announce("Alert closed");
+          },
+
+          showConfirmation(type) {
+            const confirmations = {
+              delete: {
+                title: "Delete Program",
+                message:
+                  "Are you sure you want to delete this program? This action cannot be undone and all associated data will be permanently removed.",
+                actionText: "Delete",
+                callback: () => this.announce("Program deleted"),
+              },
+              save: {
+                title: "Save Changes",
+                message:
+                  "Do you want to save the changes you made to this program? Unsaved changes will be lost.",
+                actionText: "Save",
+                callback: () => this.announce("Changes saved"),
+              },
+              discard: {
+                title: "Discard Changes",
+                message:
+                  "Are you sure you want to discard your changes? Any modifications you made will be lost.",
+                actionText: "Discard",
+                callback: () => this.announce("Changes discarded"),
+              },
+            };
+
+            this.confirmModal = {
+              show: true,
+              type: type,
+              ...confirmations[type],
+            };
+
+            this.announce(
+              `Confirmation dialog opened: ${confirmations[type].title}`
+            );
+          },
+
+          closeConfirmation() {
+            this.confirmModal.show = false;
+            this.announce("Confirmation dialog closed");
+          },
+
+          confirmAction() {
+            if (this.confirmModal.callback) {
+              this.confirmModal.callback();
+            }
+            this.closeConfirmation();
+          },
+
+          closeContentModal() {
+            this.contentModal.show = false;
+            this.announce("Content modal closed");
+          },
+
+          submitForm() {
+            this.announce("Form submitted successfully");
+            this.closeContentModal();
+          },
+
+          // Drawer actions
+          openDrawer(position) {
+            this.drawer = {
+              show: true,
+              position: position,
+            };
+            this.announce(`${position} drawer opened`);
+          },
+
+          closeDrawer() {
+            this.drawer.show = false;
+            this.announce("Drawer closed");
+          },
+
+          // Utility functions
+          getAlertIcon(type) {
+            const icons = {
+              info: '<svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+              warning:
+                '<svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>',
+              error:
+                '<svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+              success:
+                '<svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+            };
+            return icons[type] || icons.info;
+          },
+
+          getAlertIconColor(type) {
+            const colors = {
+              info: "bg-blue-100 dark:bg-blue-900/20",
+              warning: "bg-yellow-100 dark:bg-yellow-900/20",
+              error: "bg-red-100 dark:bg-red-900/20",
+              success: "bg-green-100 dark:bg-green-900/20",
+            };
+            return colors[type] || colors.info;
+          },
+
+          getContentModalSize() {
+            const sizes = {
+              small: "max-w-md",
+              medium: "max-w-2xl",
+              large: "max-w-4xl",
+              "extra-large": "max-w-6xl",
+            };
+            return sizes[this.contentModal.size] || sizes.medium;
+          },
+
+          getContentModalContent() {
+            const content = {
+              form: `
                             <form class="space-y-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
@@ -854,7 +1268,7 @@
                                 </div>
                             </form>
                         `,
-                        details: `
+              details: `
                             <div class="space-y-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
@@ -898,7 +1312,7 @@
                                 </div>
                             </div>
                         `,
-                        gallery: `
+              gallery: `
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                                 <div class="aspect-w-1 aspect-h-1 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
                                     <span class="text-gray-500 dark:text-gray-400">Image 1</span>
@@ -919,71 +1333,71 @@
                                     <span class="text-gray-500 dark:text-gray-400">Image 6</span>
                                 </div>
                             </div>
-                        `
-                    };
-                    
-                    return content[this.contentModal.type] || content.form;
-                },
-                
-                getDrawerClasses(position) {
-                    const classes = {
-                        left: 'left-0 top-0 h-full w-80',
-                        right: 'right-0 top-0 h-full w-80',
-                        top: 'top-0 left-0 w-full h-80',
-                        bottom: 'bottom-0 left-0 w-full h-80'
-                    };
-                    return classes[position];
-                },
-                
-                getDrawerEnterStart(position) {
-                    const transforms = {
-                        left: '-translate-x-full',
-                        right: 'translate-x-full',
-                        top: '-translate-y-full',
-                        bottom: 'translate-y-full'
-                    };
-                    return transforms[position];
-                },
-                
-                getDrawerLeaveEnd(position) {
-                    return this.getDrawerEnterStart(position);
-                },
-                
-                resetDemo() {
-                    this.alertModal.show = false;
-                    this.confirmModal.show = false;
-                    this.contentModal.show = false;
-                    this.drawer.show = false;
-                    this.announce('Demo reset to default state');
-                },
-                
-                toggleTheme() {
-                    this.theme = this.theme === 'light' ? 'dark' : 'light';
-                    this.applyTheme();
-                    localStorage.setItem('botnar-theme', this.theme);
-                    this.announce('Switched to ' + this.theme + ' mode');
-                },
-                
-                applyTheme() {
-                    if (this.theme === 'dark') {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
-                },
-                
-                announce(message) {
-                    this.announcement = message;
-                    setTimeout(() => this.announcement = '', 1000);
-                },
-                
-                copyCode() {
-                    navigator.clipboard.writeText(this.getModalCode());
-                    this.announce('Code copied to clipboard');
-                },
-                
-                getModalCode() {
-                    return `// Modal Dialog Systems - Alpine.js Implementation
+                        `,
+            };
+
+            return content[this.contentModal.type] || content.form;
+          },
+
+          getDrawerClasses(position) {
+            const classes = {
+              left: "left-0 top-0 h-full w-80",
+              right: "right-0 top-0 h-full w-80",
+              top: "top-0 left-0 w-full h-80",
+              bottom: "bottom-0 left-0 w-full h-80",
+            };
+            return classes[position];
+          },
+
+          getDrawerEnterStart(position) {
+            const transforms = {
+              left: "-translate-x-full",
+              right: "translate-x-full",
+              top: "-translate-y-full",
+              bottom: "translate-y-full",
+            };
+            return transforms[position];
+          },
+
+          getDrawerLeaveEnd(position) {
+            return this.getDrawerEnterStart(position);
+          },
+
+          resetDemo() {
+            this.alertModal.show = false;
+            this.confirmModal.show = false;
+            this.contentModal.show = false;
+            this.drawer.show = false;
+            this.announce("Demo reset to default state");
+          },
+
+          toggleTheme() {
+            this.theme = this.theme === "light" ? "dark" : "light";
+            this.applyTheme();
+            localStorage.setItem("botnar-theme", this.theme);
+            this.announce("Switched to " + this.theme + " mode");
+          },
+
+          applyTheme() {
+            if (this.theme === "dark") {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
+          },
+
+          announce(message) {
+            this.announcement = message;
+            setTimeout(() => (this.announcement = ""), 1000);
+          },
+
+          copyCode() {
+            navigator.clipboard.writeText(this.getModalCode());
+            this.announce("Code copied to clipboard");
+          },
+
+          getModalCode() {
+            return `// Modal Dialog Systems - Alpine.js Implementation
 function modalSystemsDemo() {
     return {
         // Modal states
@@ -1169,9 +1583,9 @@ function modalSystemsDemo() {
 .fade-enter, .fade-leave-to {
     opacity: 0;
 }`;
-                }
-            }
-        }
+          },
+        };
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Home - Fondation Botnar Dashboard</title>
-    <meta name="description" content="Main dashboard home providing strategic overview of Fondation Botnar's global initiatives, portfolio performance, and impact metrics">
-    
+    <meta
+      name="description"
+      content="Main dashboard home providing strategic overview of Fondation Botnar's global initiatives, portfolio performance, and impact metrics"
+    />
+
     <!-- Botnar Design System CSS -->
-    <link rel="stylesheet" href="../../../dist/botnar-design-system.css">
+    <link rel="stylesheet" href="../../../dist/botnar-design-system.css" />
     <!-- Navigation utilities CSS -->
-    <link rel="stylesheet" href="../../molecules/navigation/navigation-utilities.css">
-    
+    <link
+      rel="stylesheet"
+      href="../../molecules/navigation/navigation-utilities.css"
+    />
+
     <!-- Chart.js - Load first -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
-    
+
     <!-- Botnar Chart Configuration - Load second -->
     <script src="../../assets/js/chart-config-cdn.js"></script>
-    
+
     <!-- Chart Initializer - Load third -->
     <script src="../chart-initializer.js"></script>
-    
+
     <!-- Data Management & Performance -->
     <script src="../data-manager.js"></script>
     <script src="../loading-components.js"></script>
@@ -27,652 +33,1149 @@
     <script src="../performance-optimizer.js"></script>
     <script src="../security-utils.js"></script>
     <script src="../auth.js"></script>
-    
-    <!-- Alpine.js - Load after Chart.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
-    <!-- Inter Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        
-        /* Mobile Content Fixes */
-        @media (max-width: 640px) {
-            /* Reduce header padding on mobile */
-            .main-content header .px-6 {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            /* Stack header elements on mobile */
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start !important;
-                gap: 1rem;
-            }
-            
-            /* Hide complex controls on very small screens */
-            .mobile-hide-sm {
-                display: none;
-            }
-            
-            /* Adjust main content padding */
-            main#main-content {
-                padding: 1rem;
-            }
-            
-            /* Make KPI cards stack better */
-            .kpi-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            /* Chart containers responsive */
-            .chart-container {
-                min-height: 200px;
-                overflow-x: auto;
-            }
-            
-            /* Adjust font sizes */
-            h1 {
-                font-size: 1.5rem !important;
-            }
-            
-            h2 {
-                font-size: 1.25rem !important;
-            }
-            
-            /* Better text wrapping */
-            .text-wrap {
-                word-break: break-word;
-                hyphens: auto;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            /* Tablet adjustments */
-            .main-content header .px-6 {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-            }
-            
-            main#main-content {
-                padding: 1.5rem;
-            }
-            
-            /* Chart responsive height */
-            .chart-container canvas {
-                max-height: 300px;
-            }
-            
-            /* Button text adjustment */
-            .btn-mobile-text {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 1023px) {
-            /* Ensure chart responsiveness */
-            .chart-wrapper {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* Table responsiveness */
-            .table-responsive {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* Grid improvements */
-            .grid-responsive {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
 
-<body class="h-full bg-gray-50 dark:bg-gray-900" x-data="dashboardHome()">
+    <!-- Alpine.js - Load after Chart.js -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Mobile Content Fixes */
+      @media (max-width: 640px) {
+        /* Reduce header padding on mobile */
+        .main-content header .px-6 {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        /* Stack header elements on mobile */
+        .header-content {
+          flex-direction: column;
+          align-items: flex-start !important;
+          gap: 1rem;
+        }
+
+        /* Hide complex controls on very small screens */
+        .mobile-hide-sm {
+          display: none;
+        }
+
+        /* Adjust main content padding */
+        main#main-content {
+          padding: 1rem;
+        }
+
+        /* Make KPI cards stack better */
+        .kpi-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        /* Chart containers responsive */
+        .chart-container {
+          min-height: 200px;
+          overflow-x: auto;
+        }
+
+        /* Adjust font sizes */
+        h1 {
+          font-size: 1.5rem !important;
+        }
+
+        h2 {
+          font-size: 1.25rem !important;
+        }
+
+        /* Better text wrapping */
+        .text-wrap {
+          word-break: break-word;
+          hyphens: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        /* Tablet adjustments */
+        .main-content header .px-6 {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+
+        main#main-content {
+          padding: 1.5rem;
+        }
+
+        /* Chart responsive height */
+        .chart-container canvas {
+          max-height: 300px;
+        }
+
+        /* Button text adjustment */
+        .btn-mobile-text {
+          display: none;
+        }
+      }
+
+      @media (max-width: 1023px) {
+        /* Ensure chart responsiveness */
+        .chart-wrapper {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        /* Table responsiveness */
+        .table-responsive {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        /* Grid improvements */
+        .grid-responsive {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-V4Q4JH6Y8T"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-V4Q4JH6Y8T");
+    </script>
+  </head>
+
+  <body class="h-full bg-gray-50 dark:bg-gray-900" x-data="dashboardHome()">
     <!-- Skip to content link -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50">
-        Skip to main content
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-botnar-blue-500 text-white px-4 py-2 rounded-md z-50"
+    >
+      Skip to main content
     </a>
-    
+
     <!-- Mobile Backdrop -->
-    <div class="mobile-backdrop" :class="{ 'show': sidebarOpen }" @click="sidebarOpen = false"></div>
-    
+    <div
+      class="mobile-backdrop"
+      :class="{ 'show': sidebarOpen }"
+      @click="sidebarOpen = false"
+    ></div>
+
     <div class="min-h-full flex">
-        <!-- Sidebar Navigation -->
-        <nav class="w-64 dashboard-nav text-white flex flex-col sidebar" :class="{ 'open': sidebarOpen }" aria-label="Main Navigation">
-            <!-- Logo and Header -->
-            <div class="p-6 border-b border-white/20">
-                <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center">
-                        <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
-                    </div>
-                    <div>
-                        <p class="text-sm text-blue-200">Dashboard</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Navigation Menu -->
-            <div class="flex-1 px-3 py-6 space-y-1">
-                <a href="index.html" class="nav-item active flex items-center px-3 py-2 rounded-md text-sm font-medium">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
-                    </svg>
-                    Dashboard Home
-                </a>
-                
-                <a href="../grant-portfolio/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                    </svg>
-                    Grant Portfolio
-                </a>
-                
-                <a href="../impact-assessment/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                    Impact Assessment
-                </a>
-                
-                <a href="../financial-reports/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
-                    </svg>
-                    Financial Reports
-                </a>
-                
-                <a href="../program-analysis/index.html" class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    Program Analysis
-                </a>
-            </div>
-            
-            <!-- User Section -->
-            <div class="p-4 border-t border-white/20">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm font-medium">Strategic Team</p>
-                        <p class="text-xs text-blue-200">Admin Access</p>
-                    </div>
-                    <div class="flex items-center space-x-1">
-                        <button @click="toggleTheme()" class="p-1 rounded hover:bg-white/10" title="Toggle Theme">
-                            <svg x-show="theme === 'light'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                            </svg>
-                            <svg x-show="theme === 'dark'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-                            </svg>
-                        </button>
-                        <button @click="logout()" class="p-1 rounded hover:bg-white/10 text-red-300 hover:text-red-200" title="Logout">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        
-        <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col main-content">
-            <!-- Top Header -->
-            <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-                <div class="px-6 py-4">
-                    <div class="flex items-center justify-between header-content">
-                        <div class="flex items-center">
-                            <!-- Mobile Menu Button -->
-                            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden mr-4 p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-botnar-blue-500">
-                                <span class="sr-only">Open sidebar</span>
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            </button>
-                            <div class="text-wrap">
-                                <h1 class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400">Dashboard Overview</h1>
-                                <p class="text-gray-600 dark:text-gray-300 hidden sm:block">Strategic insights and portfolio performance</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2 sm:space-x-4">
-                            <!-- Date Range Selector -->
-                            <select x-model="dateRange" @change="updateDateRange()" 
-                                    class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-sm mobile-hide-sm">
-                                <option value="30">Last 30 days</option>
-                                <option value="90">Last 3 months</option>
-                                <option value="365">Last year</option>
-                                <option value="all">All time</option>
-                            </select>
-                            
-                            <!-- Export Button -->
-                            <button @click="exportData()" 
-                                    class="btn btn-outline text-sm">
-                                <svg class="w-4 h-4 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                <span class="btn-mobile-text">Export</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            
-            <!-- Main Dashboard Content -->
-            <main id="main-content" class="flex-1 p-6 overflow-y-auto">
-                
-                <!-- Executive KPI Row -->
-                <div class="mb-8">
-                    <h2 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Key Performance Indicators</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 kpi-grid">
-                        <!-- Total Portfolio Value -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Portfolio Value</p>
-                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="formatCurrency(kpis.totalValue)">€45.6M</p>
-                                </div>
-                                <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-full">
-                                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex items-center">
-                                <span class="text-sm text-green-600 dark:text-green-400 font-medium">+12.5%</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">vs last quarter</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Active Grants -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Grants</p>
-                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="kpis.activeGrants">127</p>
-                                </div>
-                                <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full">
-                                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex items-center">
-                                <span class="text-sm text-blue-600 dark:text-blue-400 font-medium">+3 new</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">this month</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Beneficiaries Reached -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Beneficiaries Reached</p>
-                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="formatNumber(kpis.beneficiaries)">2.8M</p>
-                                </div>
-                                <div class="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-full">
-                                    <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex items-center">
-                                <span class="text-sm text-pink-600 dark:text-pink-400 font-medium">+28%</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">vs last year</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Impact Score -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Impact Score</p>
-                                    <p class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="kpis.impactScore">8.7</p>
-                                </div>
-                                <div class="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full">
-                                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex items-center">
-                                <span class="text-sm text-purple-600 dark:text-purple-400 font-medium">Excellent</span>
-                                <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">performance</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Charts Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 grid-responsive">
-                    <!-- Portfolio Growth Chart -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 chart-wrapper">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 space-y-2 sm:space-y-0">
-                            <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400">Portfolio Growth</h3>
-                            <div class="flex items-center space-x-1 sm:space-x-2">
-                                <button @click="chartPeriod = '1Y'" 
-                                        :class="chartPeriod === '1Y' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                                        class="px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium">1Y</button>
-                                <button @click="chartPeriod = '3Y'" 
-                                        :class="chartPeriod === '3Y' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                                        class="px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium">3Y</button>
-                                <button @click="chartPeriod = '5Y'" 
-                                        :class="chartPeriod === '5Y' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                                        class="px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium">5Y</button>
-                            </div>
-                        </div>
-                        <div class="h-64 chart-container">
-                            <canvas id="portfolioGrowthChart"></canvas>
-                        </div>
-                    </div>
-                    
-                    <!-- Regional Distribution Chart -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 chart-wrapper">
-                        <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Regional Distribution</h3>
-                        <div class="h-64 chart-container">
-                            <canvas id="regionalChart"></canvas>
-                        </div>
-                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-                                <span class="text-gray-600 dark:text-gray-400">Africa: 42%</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                                <span class="text-gray-600 dark:text-gray-400">Asia: 35%</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
-                                <span class="text-gray-600 dark:text-gray-400">Latin America: 18%</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
-                                <span class="text-gray-600 dark:text-gray-400">Europe: 5%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Recent Activity and Quick Actions -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 grid-responsive">
-                    <!-- Recent Activity -->
-                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Recent Activity</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start space-x-3">
-                                <div class="flex-shrink-0">
-                                    <div class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 dark:bg-blue-900/20">
-                                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm text-gray-900 dark:text-gray-100">Digital Health Initiative Kenya approved</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">New grant funding approved for €2.3M</p>
-                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">2 hours ago</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3">
-                                <div class="flex-shrink-0">
-                                    <div class="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 dark:bg-green-900/20">
-                                        <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm text-gray-900 dark:text-gray-100">Q4 Impact Assessment completed</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">Quarterly evaluation report available</p>
-                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">5 hours ago</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3">
-                                <div class="flex-shrink-0">
-                                    <div class="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-yellow-900/20">
-                                        <svg class="w-4 h-4 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.996-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm text-gray-900 dark:text-gray-100">Budget review required</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">Education Program Ethiopia needs review</p>
-                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">1 day ago</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3">
-                                <div class="flex-shrink-0">
-                                    <div class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 dark:bg-blue-900/20">
-                                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm text-gray-900 dark:text-gray-100">Urban Innovation Lab launched</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">New program launch in São Paulo</p>
-                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">2 days ago</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4">Quick Actions</h3>
-                        <div class="space-y-3">
-                            <button @click="navigateTo('grant-portfolio')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                    </svg>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">New Grant</span>
-                                </div>
-                            </button>
-                            
-                            <button @click="navigateTo('financial-reports')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Generate Report</span>
-                                </div>
-                            </button>
-                            
-                            <button @click="navigateTo('impact-assessment')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                    </svg>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Impact Review</span>
-                                </div>
-                            </button>
-                            
-                            <button @click="exportData()" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-orange-600 dark:text-orange-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Export Data</span>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-            </main>
+      <!-- Sidebar Navigation -->
+      <nav
+        class="w-64 dashboard-nav text-white flex flex-col sidebar"
+        :class="{ 'open': sidebarOpen }"
+        aria-label="Main Navigation"
+      >
+        <!-- Logo and Header -->
+        <div class="p-6 border-b border-white/20">
+          <div class="flex items-center justify-center">
+            <img
+              src="../../assets/images/logo-fondation-botnar.svg"
+              alt="Fondation Botnar Logo"
+              class="h-8 w-auto"
+            />
+          </div>
         </div>
+
+        <!-- Navigation Menu -->
+        <div class="flex-1 px-3 py-6 space-y-1">
+          <a
+            href="index.html"
+            class="nav-item active flex items-center px-3 py-2 rounded-md text-sm font-medium"
+          >
+            <svg
+              class="w-5 h-5 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
+              />
+            </svg>
+            Dashboard Home
+          </a>
+
+          <a
+            href="../grant-portfolio/index.html"
+            class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium"
+          >
+            <svg
+              class="w-5 h-5 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              />
+            </svg>
+            Grant Portfolio
+          </a>
+
+          <a
+            href="../impact-assessment/index.html"
+            class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium"
+          >
+            <svg
+              class="w-5 h-5 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+            Impact Assessment
+          </a>
+
+          <a
+            href="../financial-reports/index.html"
+            class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium"
+          >
+            <svg
+              class="w-5 h-5 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+              />
+            </svg>
+            Financial Reports
+          </a>
+
+          <a
+            href="../program-analysis/index.html"
+            class="nav-item flex items-center px-3 py-2 rounded-md text-sm font-medium"
+          >
+            <svg
+              class="w-5 h-5 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            Program Analysis
+          </a>
+        </div>
+
+        <!-- User Section -->
+        <div class="p-4 border-t border-white/20">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium">Strategic Team</p>
+              <p class="text-xs text-blue-200">Admin Access</p>
+            </div>
+            <div class="flex items-center space-x-1">
+              <button
+                @click="toggleTheme()"
+                class="p-1 rounded hover:bg-white/10"
+                title="Toggle Theme"
+              >
+                <svg
+                  x-show="theme === 'light'"
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
+                </svg>
+                <svg
+                  x-show="theme === 'dark'"
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+              </button>
+              <button
+                @click="logout()"
+                class="p-1 rounded hover:bg-white/10 text-red-300 hover:text-red-200"
+                title="Logout"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col main-content">
+        <!-- Top Header -->
+        <header
+          class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+        >
+          <div class="px-6 py-4">
+            <div class="flex items-center justify-between header-content">
+              <div class="flex items-center">
+                <!-- Mobile Menu Button -->
+                <button
+                  @click="sidebarOpen = !sidebarOpen"
+                  class="lg:hidden mr-4 p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-botnar-blue-500"
+                >
+                  <span class="sr-only">Open sidebar</span>
+                  <svg
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </button>
+                <div class="text-wrap">
+                  <h1
+                    class="text-2xl font-bold text-botnar-pink-600 dark:text-botnar-pink-400"
+                  >
+                    Dashboard Overview
+                  </h1>
+                  <p class="text-gray-600 dark:text-gray-300 hidden sm:block">
+                    Strategic insights and portfolio performance
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2 sm:space-x-4">
+                <!-- Date Range Selector -->
+                <select
+                  x-model="dateRange"
+                  @change="updateDateRange()"
+                  class="form-select mobile-hide-sm"
+                >
+                  <option value="30">Last 30 days</option>
+                  <option value="90">Last 3 months</option>
+                  <option value="365">Last year</option>
+                  <option value="all">All time</option>
+                </select>
+
+                <!-- Export Button -->
+                <button
+                  @click="exportData()"
+                  :disabled="exportLoading"
+                  class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Export dashboard data"
+                >
+                  <span x-show="!exportLoading" class="flex items-center">
+                    <svg
+                      class="w-4 h-4 sm:mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    <span class="btn-mobile-text">Export</span>
+                  </span>
+                  <span x-show="exportLoading" class="flex items-center">
+                    <svg
+                      class="animate-spin -ml-1 mr-3 h-4 w-4 text-current"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <span class="text-sm">Exporting...</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Dashboard Content -->
+        <main id="main-content" class="flex-1 p-6 overflow-y-auto">
+          <!-- Executive KPI Row -->
+          <div class="mb-8">
+            <h2
+              class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4"
+            >
+              Key Performance Indicators
+            </h2>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 kpi-grid"
+            >
+              <!-- Total Portfolio Value -->
+              <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-gray-600 dark:text-gray-400"
+                    >
+                      Total Portfolio Value
+                    </p>
+                    <p
+                      class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                      x-text="formatCurrency(kpis.totalValue)"
+                    >
+                      €45.6M
+                    </p>
+                  </div>
+                  <div
+                    class="p-3 bg-green-100 dark:bg-green-900/20 rounded-full"
+                  >
+                    <svg
+                      class="w-6 h-6 text-green-600 dark:text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="mt-4 flex items-center">
+                  <span
+                    class="text-sm text-green-600 dark:text-green-400 font-medium"
+                    >+12.5%</span
+                  >
+                  <span class="text-sm text-gray-500 dark:text-gray-400 ml-2"
+                    >vs last quarter</span
+                  >
+                </div>
+              </div>
+
+              <!-- Active Grants -->
+              <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-gray-600 dark:text-gray-400"
+                    >
+                      Active Grants
+                    </p>
+                    <p
+                      class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                      x-text="kpis.activeGrants"
+                    >
+                      127
+                    </p>
+                  </div>
+                  <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                    <svg
+                      class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="mt-4 flex items-center">
+                  <span
+                    class="text-sm text-blue-600 dark:text-blue-400 font-medium"
+                    >+3 new</span
+                  >
+                  <span class="text-sm text-gray-500 dark:text-gray-400 ml-2"
+                    >this month</span
+                  >
+                </div>
+              </div>
+
+              <!-- Beneficiaries Reached -->
+              <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-gray-600 dark:text-gray-400"
+                    >
+                      Beneficiaries Reached
+                    </p>
+                    <p
+                      class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                      x-text="formatNumber(kpis.beneficiaries)"
+                    >
+                      2.8M
+                    </p>
+                  </div>
+                  <div class="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-full">
+                    <svg
+                      class="w-6 h-6 text-pink-600 dark:text-pink-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="mt-4 flex items-center">
+                  <span
+                    class="text-sm text-pink-600 dark:text-pink-400 font-medium"
+                    >+28%</span
+                  >
+                  <span class="text-sm text-gray-500 dark:text-gray-400 ml-2"
+                    >vs last year</span
+                  >
+                </div>
+              </div>
+
+              <!-- Impact Score -->
+              <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-gray-600 dark:text-gray-400"
+                    >
+                      Impact Score
+                    </p>
+                    <p
+                      class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                      x-text="kpis.impactScore"
+                    >
+                      8.7
+                    </p>
+                  </div>
+                  <div
+                    class="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full"
+                  >
+                    <svg
+                      class="w-6 h-6 text-purple-600 dark:text-purple-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="mt-4 flex items-center">
+                  <span
+                    class="text-sm text-purple-600 dark:text-purple-400 font-medium"
+                    >Excellent</span
+                  >
+                  <span class="text-sm text-gray-500 dark:text-gray-400 ml-2"
+                    >performance</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Section -->
+          <div
+            class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 grid-responsive"
+          >
+            <!-- Portfolio Growth Chart -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 chart-wrapper"
+            >
+              <div
+                class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 space-y-2 sm:space-y-0"
+              >
+                <h3
+                  class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400"
+                >
+                  Portfolio Growth
+                </h3>
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                  <button
+                    @click="chartPeriod = '1Y'"
+                    :class="chartPeriod === '1Y' ? 'bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                    class="px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                    aria-label="Show 1 year data"
+                  >
+                    1Y
+                  </button>
+                  <button
+                    @click="chartPeriod = '3Y'"
+                    :class="chartPeriod === '3Y' ? 'bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                    class="px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                    aria-label="Show 3 year data"
+                  >
+                    3Y
+                  </button>
+                  <button
+                    @click="chartPeriod = '5Y'"
+                    :class="chartPeriod === '5Y' ? 'bg-botnar-pink-500 hover:bg-botnar-pink-600 dark:bg-botnar-pink-600 dark:hover:bg-botnar-pink-700 text-white' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                    class="px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                    aria-label="Show 5 year data"
+                  >
+                    5Y
+                  </button>
+                </div>
+              </div>
+              <div class="h-64 chart-container">
+                <canvas id="portfolioGrowthChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Regional Distribution Chart -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 chart-wrapper"
+            >
+              <h3
+                class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4"
+              >
+                Regional Distribution
+              </h3>
+              <div class="h-64 chart-container">
+                <canvas id="regionalChart"></canvas>
+              </div>
+              <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                <div class="flex items-center">
+                  <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                  <span class="text-gray-600 dark:text-gray-400"
+                    >Africa: 42%</span
+                  >
+                </div>
+                <div class="flex items-center">
+                  <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                  <span class="text-gray-600 dark:text-gray-400"
+                    >Asia: 35%</span
+                  >
+                </div>
+                <div class="flex items-center">
+                  <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                  <span class="text-gray-600 dark:text-gray-400"
+                    >Latin America: 18%</span
+                  >
+                </div>
+                <div class="flex items-center">
+                  <div class="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
+                  <span class="text-gray-600 dark:text-gray-400"
+                    >Europe: 5%</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity and Quick Actions -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 grid-responsive">
+            <!-- Recent Activity -->
+            <div
+              class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700"
+            >
+              <h3
+                class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4"
+              >
+                Recent Activity
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 dark:bg-blue-900/20"
+                    >
+                      <svg
+                        class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-900 dark:text-gray-100">
+                      Digital Health Initiative Kenya approved
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      New grant funding approved for €2.3M
+                    </p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      2 hours ago
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full flex items-center justify-center bg-green-100 dark:bg-green-900/20"
+                    >
+                      <svg
+                        class="w-4 h-4 text-green-600 dark:text-green-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-900 dark:text-gray-100">
+                      Q4 Impact Assessment completed
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      Quarterly evaluation report available
+                    </p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      5 hours ago
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-100 dark:bg-yellow-900/20"
+                    >
+                      <svg
+                        class="w-4 h-4 text-yellow-600 dark:text-yellow-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.996-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-900 dark:text-gray-100">
+                      Budget review required
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      Education Program Ethiopia needs review
+                    </p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      1 day ago
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 dark:bg-blue-900/20"
+                    >
+                      <svg
+                        class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-900 dark:text-gray-100">
+                      Urban Innovation Lab launched
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      New program launch in São Paulo
+                    </p>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      2 days ago
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700"
+            >
+              <h3
+                class="text-lg font-semibold text-botnar-pink-600 dark:text-botnar-pink-400 mb-4"
+              >
+                Quick Actions
+              </h3>
+              <div class="space-y-3">
+                <button
+                  @click="navigateTo('grant-portfolio')"
+                  class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 w-full flex items-center px-3 py-3 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                  aria-label="Create new grant"
+                >
+                  <svg
+                    class="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                  </svg>
+                  <span>New Grant</span>
+                </button>
+
+                <button
+                  @click="navigateTo('financial-reports')"
+                  class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 w-full flex items-center px-3 py-3 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                  aria-label="Generate financial report"
+                >
+                  <svg
+                    class="w-5 h-5 text-green-600 dark:text-green-400 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  <span>Generate Report</span>
+                </button>
+
+                <button
+                  @click="navigateTo('impact-assessment')"
+                  class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 w-full flex items-center px-3 py-3 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                  aria-label="Start impact assessment review"
+                >
+                  <svg
+                    class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                  <span>Impact Review</span>
+                </button>
+
+                <button
+                  @click="exportData()"
+                  class="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 w-full flex items-center px-3 py-3 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                  aria-label="Export dashboard data"
+                >
+                  <svg
+                    class="w-5 h-5 text-orange-600 dark:text-orange-400 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  <span>Export Data</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
 
     <script>
-        function dashboardHome() {
-            return {
-                currentPage: 'dashboard-home',
-                theme: localStorage.getItem('theme') || 'light',
-                sidebarOpen: false,
-                dateRange: '90',
-                chartPeriod: '1Y',
-                kpis: {
-                    totalValue: 0,
-                    activeGrants: 0,
-                    beneficiaries: 0,
-                    impactScore: 0
-                },
-                recentActivity: [],
-                loadingStates: {
-                    kpis: true,
-                    activities: true,
-                    charts: true
-                },
-                errors: {},
-                dataManager: null,
-                charts: {
-                    portfolio: null,
-                    regional: null
-                },
-                performanceMetrics: {
-                    loadTime: 0,
-                    chartRenderTime: 0
-                },
-                
-                async init() {
-                    const startTime = performance.now();
-                    
-                    // Check authentication first
-                    if (!this.checkAuth()) {
-                        return; // Will redirect to login
-                    }
-                    
-                    this.setTheme(this.theme);
-                    this.dataManager = window.dataManager;
-                    
-                    // Show loading skeletons
-                    this.showLoadingStates();
-                    
-                    // Subscribe to data manager events
-                    this.subscribeToDataEvents();
-                    
-                    // Load initial data
-                    await this.loadInitialData();
-                    
-                    // Wait for Chart.js to be available, then initialize charts
-                    await this.waitForChartJS();
-                    this.$nextTick(() => {
-                        this.initCharts();
-                    });
-                    
-                    this.performanceMetrics.loadTime = performance.now() - startTime;
-                    console.log(`Dashboard loaded in ${this.performanceMetrics.loadTime.toFixed(2)}ms`);
-                },
-                
-                async waitForChartJS() {
-                    console.log('Waiting for Chart.js to load...');
-                    let attempts = 0;
-                    const maxAttempts = 50;
-                    
-                    while (typeof Chart === 'undefined' && attempts < maxAttempts) {
-                        await new Promise(resolve => setTimeout(resolve, 100));
-                        attempts++;
-                    }
-                    
-                    if (typeof Chart === 'undefined') {
-                        console.error('Chart.js failed to load after', maxAttempts * 100, 'ms');
-                        this.showNotification('Chart.js failed to load', 'error');
-                        return false;
-                    }
-                    
-                    console.log('Chart.js loaded successfully');
-                    return true;
-                },
-                
-                showLoadingStates() {
-                    // Show KPI skeleton loaders
-                    window.loadingManager.showSkeleton('kpi-container', 'kpiCard', 4);
-                    
-                    // Show activity skeleton loaders
-                    const activityContainer = document.querySelector('.space-y-4');
-                    if (activityContainer) {
-                        activityContainer.innerHTML = Array(4).fill(LoadingComponents.activitySkeleton).join('');
-                    }
-                },
-                
-                subscribeToDataEvents() {
-                    if (this.dataManager) {
-                        this.dataManager.subscribe((event) => {
-                            if (event.type === 'loading') {
-                                this.loadingStates[event.endpoint.split('/').pop()] = event.state;
-                            } else if (event.type === 'error') {
-                                this.handleDataError(event);
-                            } else if (event.type === 'data') {
-                                this.handleDataUpdate(event);
-                            }
-                        });
-                    }
-                },
-                
-                async loadInitialData() {
-                    try {
-                        // Load KPIs
-                        this.kpis = await this.dataManager.getPortfolioKPIs();
-                        this.loadingStates.kpis = false;
-                        this.renderKPIs();
-                        
-                        // Load recent activities
-                        this.recentActivity = await this.dataManager.getRecentActivities(4);
-                        this.loadingStates.activities = false;
-                        this.renderActivities();
-                        
-                        // Load chart data
-                        await this.loadChartData();
-                        this.loadingStates.charts = false;
-                        
-                    } catch (error) {
-                        window.errorHandler.handleError(error, 'dashboard-init');
-                    }
-                },
-                
-                async loadChartData() {
-                    try {
-                        const [portfolioData, regionalData] = await Promise.all([
-                            this.dataManager.getPortfolioTrends(this.chartPeriod),
-                            this.dataManager.getRegionalDistribution()
-                        ]);
-                        
-                        this.portfolioData = portfolioData;
-                        this.regionalData = regionalData;
-                        
-                    } catch (error) {
-                        window.errorHandler.handleAPIError(error, 'chart-data');
-                    }
-                },
-                
-                renderKPIs() {
-                    const container = document.getElementById('kpi-container');
-                    if (!container || !this.kpis) return;
-                    
-                    container.innerHTML = `
+      function dashboardHome() {
+        return {
+          currentPage: "dashboard-home",
+          theme: localStorage.getItem("theme") || "light",
+          sidebarOpen: false,
+          dateRange: "90",
+          chartPeriod: "1Y",
+          kpis: {
+            totalValue: 0,
+            activeGrants: 0,
+            beneficiaries: 0,
+            impactScore: 0,
+          },
+          recentActivity: [],
+          loadingStates: {
+            kpis: true,
+            activities: true,
+            charts: true,
+          },
+          errors: {},
+          dataManager: null,
+          charts: {
+            portfolio: null,
+            regional: null,
+          },
+          performanceMetrics: {
+            loadTime: 0,
+            chartRenderTime: 0,
+          },
+          exportLoading: false,
+
+          async init() {
+            const startTime = performance.now();
+
+            // Check authentication first
+            if (!this.checkAuth()) {
+              return; // Will redirect to login
+            }
+
+            this.setTheme(this.theme);
+            this.dataManager = window.dataManager;
+
+            // Show loading skeletons
+            this.showLoadingStates();
+
+            // Subscribe to data manager events
+            this.subscribeToDataEvents();
+
+            // Load initial data
+            await this.loadInitialData();
+
+            // Wait for Chart.js to be available, then initialize charts
+            await this.waitForChartJS();
+            this.$nextTick(() => {
+              this.initCharts();
+            });
+
+            this.performanceMetrics.loadTime = performance.now() - startTime;
+            console.log(
+              `Dashboard loaded in ${this.performanceMetrics.loadTime.toFixed(
+                2
+              )}ms`
+            );
+          },
+
+          async waitForChartJS() {
+            console.log("Waiting for Chart.js to load...");
+            let attempts = 0;
+            const maxAttempts = 50;
+
+            while (typeof Chart === "undefined" && attempts < maxAttempts) {
+              await new Promise((resolve) => setTimeout(resolve, 100));
+              attempts++;
+            }
+
+            if (typeof Chart === "undefined") {
+              console.error(
+                "Chart.js failed to load after",
+                maxAttempts * 100,
+                "ms"
+              );
+              this.showNotification("Chart.js failed to load", "error");
+              return false;
+            }
+
+            console.log("Chart.js loaded successfully");
+            return true;
+          },
+
+          showLoadingStates() {
+            // Show KPI skeleton loaders
+            window.loadingManager.showSkeleton("kpi-container", "kpiCard", 4);
+
+            // Show activity skeleton loaders
+            const activityContainer = document.querySelector(".space-y-4");
+            if (activityContainer) {
+              activityContainer.innerHTML = Array(4)
+                .fill(LoadingComponents.activitySkeleton)
+                .join("");
+            }
+          },
+
+          subscribeToDataEvents() {
+            if (this.dataManager) {
+              this.dataManager.subscribe((event) => {
+                if (event.type === "loading") {
+                  this.loadingStates[event.endpoint.split("/").pop()] =
+                    event.state;
+                } else if (event.type === "error") {
+                  this.handleDataError(event);
+                } else if (event.type === "data") {
+                  this.handleDataUpdate(event);
+                }
+              });
+            }
+          },
+
+          async loadInitialData() {
+            try {
+              // Load KPIs
+              this.kpis = await this.dataManager.getPortfolioKPIs();
+              this.loadingStates.kpis = false;
+              this.renderKPIs();
+
+              // Load recent activities
+              this.recentActivity = await this.dataManager.getRecentActivities(
+                4
+              );
+              this.loadingStates.activities = false;
+              this.renderActivities();
+
+              // Load chart data
+              await this.loadChartData();
+              this.loadingStates.charts = false;
+            } catch (error) {
+              window.errorHandler.handleError(error, "dashboard-init");
+            }
+          },
+
+          async loadChartData() {
+            try {
+              const [portfolioData, regionalData] = await Promise.all([
+                this.dataManager.getPortfolioTrends(this.chartPeriod),
+                this.dataManager.getRegionalDistribution(),
+              ]);
+
+              this.portfolioData = portfolioData;
+              this.regionalData = regionalData;
+            } catch (error) {
+              window.errorHandler.handleAPIError(error, "chart-data");
+            }
+          },
+
+          renderKPIs() {
+            const container = document.getElementById("kpi-container");
+            if (!container || !this.kpis) return;
+
+            container.innerHTML = `
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <!-- Total Portfolio Value -->
                             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Portfolio Value</p>
-                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${this.formatCurrency(this.kpis.totalValue)}</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${this.formatCurrency(
+                                          this.kpis.totalValue
+                                        )}</p>
                                     </div>
                                     <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-full">
                                         <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -691,7 +1194,9 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Grants</p>
-                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${this.kpis.activeGrants}</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${
+                                          this.kpis.activeGrants
+                                        }</p>
                                     </div>
                                     <div class="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full">
                                         <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -710,7 +1215,9 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Beneficiaries Reached</p>
-                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${this.formatNumber(this.kpis.beneficiaries)}</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${this.formatNumber(
+                                          this.kpis.beneficiaries
+                                        )}</p>
                                     </div>
                                     <div class="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-full">
                                         <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -729,7 +1236,9 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Impact Score</p>
-                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${this.kpis.impactScore}</p>
+                                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">${
+                                          this.kpis.impactScore
+                                        }</p>
                                     </div>
                                     <div class="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full">
                                         <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -744,228 +1253,286 @@
                             </div>
                         </div>
                     `;
-                },
-                
-                renderActivities() {
-                    const container = document.querySelector('.space-y-4');
-                    if (!container || !this.recentActivity.length) return;
-                    
-                    container.innerHTML = this.recentActivity.map(activity => `
+          },
+
+          renderActivities() {
+            const container = document.querySelector(".space-y-4");
+            if (!container || !this.recentActivity.length) return;
+
+            container.innerHTML = this.recentActivity
+              .map(
+                (activity) => `
                         <div class="flex items-start space-x-3">
                             <div class="flex-shrink-0">
                                 <div class="w-8 h-8 rounded-full flex items-center justify-center ${
-                                    activity.type === 'grant' ? 'bg-blue-100 dark:bg-blue-900/20' : 
-                                    activity.type === 'report' ? 'bg-green-100 dark:bg-green-900/20' : 
-                                    'bg-yellow-100 dark:bg-yellow-900/20'
+                                  activity.type === "grant"
+                                    ? "bg-blue-100 dark:bg-blue-900/20"
+                                    : activity.type === "report"
+                                    ? "bg-green-100 dark:bg-green-900/20"
+                                    : "bg-yellow-100 dark:bg-yellow-900/20"
                                 }">
                                     <svg class="w-4 h-4 ${
-                                        activity.type === 'grant' ? 'text-blue-600 dark:text-blue-400' : 
-                                        activity.type === 'report' ? 'text-green-600 dark:text-green-400' : 
-                                        'text-yellow-600 dark:text-yellow-400'
+                                      activity.type === "grant"
+                                        ? "text-blue-600 dark:text-blue-400"
+                                        : activity.type === "report"
+                                        ? "text-green-600 dark:text-green-400"
+                                        : "text-yellow-600 dark:text-yellow-400"
                                     }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${
-                                            activity.type === 'grant' ? 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' : 
-                                            activity.type === 'report' ? 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' :
-                                            'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.996-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z'
+                                          activity.type === "grant"
+                                            ? "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                            : activity.type === "report"
+                                            ? "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                            : "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.996-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z"
                                         }"/>
                                     </svg>
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <p class="text-sm text-gray-900 dark:text-gray-100">${activity.title}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">${activity.description}</p>
-                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${activity.time}</p>
+                                <p class="text-sm text-gray-900 dark:text-gray-100">${
+                                  activity.title
+                                }</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">${
+                                  activity.description
+                                }</p>
+                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${
+                                  activity.time
+                                }</p>
                             </div>
                         </div>
-                    `).join('');
-                },
-                
-                handleDataError(event) {
-                    this.errors[event.endpoint] = event.state;
-                    
-                    // Show error in appropriate container
-                    if (event.endpoint.includes('kpis')) {
-                        window.loadingManager.showError('kpi-container', 'Failed to load KPIs', () => this.retryKPIs());
-                    }
-                },
-                
-                handleDataUpdate(event) {
-                    // Handle real-time data updates
-                    if (event.endpoint.includes('kpis')) {
-                        this.kpis = event.data;
-                        this.renderKPIs();
-                    } else if (event.endpoint.includes('activities')) {
-                        this.recentActivity = event.data;
-                        this.renderActivities();
-                    }
-                },
-                
-                async retryKPIs() {
-                    try {
-                        this.loadingStates.kpis = true;
-                        window.loadingManager.showSkeleton('kpi-container', 'kpiCard', 4);
-                        this.kpis = await this.dataManager.getPortfolioKPIs();
-                        this.loadingStates.kpis = false;
-                        this.renderKPIs();
-                    } catch (error) {
-                        window.errorHandler.handleAPIError(error, 'kpis-retry');
-                    }
-                },
-                
-                navigateTo(page) {
-                    this.currentPage = page;
-                    // Close sidebar on mobile after navigation
-                    this.sidebarOpen = false;
-                    
-                    // In a real application, this would handle routing
-                    console.log(`Navigate to: ${page}`);
-                    
-                    // Show notification for demo
-                    this.showNotification(`Navigating to ${page.replace('-', ' ')}...`);
-                },
-                
-                toggleTheme() {
-                    this.theme = this.theme === 'light' ? 'dark' : 'light';
-                    this.setTheme(this.theme);
-                    localStorage.setItem('theme', this.theme);
-                },
-                
-                setTheme(theme) {
-                    if (theme === 'dark') {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
-                },
-                
-                updateDateRange() {
-                    // Update charts with new date range
-                    this.showNotification(`Updated to show data for last ${this.dateRange} ${this.dateRange === 'all' ? 'periods' : 'days'}`);
-                },
-                
-                // Authentication methods
-                checkAuth() {
-                    return window.authManager.requireAuth('../auth/login.html');
-                },
-                
-                logout() {
-                    window.authManager.logout('../auth/login.html');
-                },
-                
-                exportData() {
-                    this.showNotification('Exporting dashboard data...', 'info');
-                    // Simulate export process
-                    setTimeout(() => {
-                        this.showNotification('Dashboard data exported successfully!', 'success');
-                    }, 2000);
-                },
-                
-                formatCurrency(value) {
-                    return new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: 'EUR',
-                        notation: 'compact',
-                        maximumFractionDigits: 1
-                    }).format(value);
-                },
-                
-                formatNumber(value) {
-                    return new Intl.NumberFormat('en-US', {
-                        notation: 'compact',
-                        maximumFractionDigits: 1
-                    }).format(value);
-                },
-                
-                showNotification(message, type = 'info') {
-                    // Simple notification system
-                    const notification = document.createElement('div');
-                    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${
-                        type === 'success' ? 'bg-green-500 text-white' :
-                        type === 'error' ? 'bg-red-500 text-white' :
-                        'bg-blue-500 text-white'
-                    }`;
-                    notification.textContent = message;
-                    document.body.appendChild(notification);
-                    
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 3000);
-                },
-                
-                initCharts() {
-                    if (!window.chartInitializer) {
-                        console.error('Chart initializer not available');
-                        return;
-                    }
+                    `
+              )
+              .join("");
+          },
 
-                    // Define chart configurations
-                    const chartConfigs = {
-                        'portfolioGrowthChart': {
-                            type: 'line',
-                            data: {
-                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                                datasets: [{
-                                    label: 'Portfolio Value (€M)',
-                                    data: [38.5, 39.2, 41.1, 42.3, 43.8, 44.2, 45.1, 44.9, 45.6, 46.2, 45.8, 45.6],
-                                    borderColor: '#0066CC',
-                                    backgroundColor: 'rgba(0, 102, 204, 0.1)',
-                                    tension: 0.4,
-                                    fill: true
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    }
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: false,
-                                        ticks: {
-                                            callback: function(value) {
-                                                return '€' + value + 'M';
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        'regionalChart': {
-                            type: 'doughnut',
-                            data: {
-                                labels: ['Africa', 'Asia', 'Latin America', 'Europe'],
-                                datasets: [{
-                                    data: [42, 35, 18, 5],
-                                    backgroundColor: [
-                                        '#3B82F6',
-                                        '#10B981', 
-                                        '#8B5CF6',
-                                        '#F59E0B'
-                                    ],
-                                    borderWidth: 0
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    }
-                                }
-                            }
-                        }
-                    };
+          handleDataError(event) {
+            this.errors[event.endpoint] = event.state;
 
-                    // Initialize charts with the new system
-                    window.chartInitializer.initializeCharts(chartConfigs);
-                }
+            // Show error in appropriate container
+            if (event.endpoint.includes("kpis")) {
+              window.loadingManager.showError(
+                "kpi-container",
+                "Failed to load KPIs",
+                () => this.retryKPIs()
+              );
             }
-        }
-    </script>
+          },
 
-</body>
+          handleDataUpdate(event) {
+            // Handle real-time data updates
+            if (event.endpoint.includes("kpis")) {
+              this.kpis = event.data;
+              this.renderKPIs();
+            } else if (event.endpoint.includes("activities")) {
+              this.recentActivity = event.data;
+              this.renderActivities();
+            }
+          },
+
+          async retryKPIs() {
+            try {
+              this.loadingStates.kpis = true;
+              window.loadingManager.showSkeleton("kpi-container", "kpiCard", 4);
+              this.kpis = await this.dataManager.getPortfolioKPIs();
+              this.loadingStates.kpis = false;
+              this.renderKPIs();
+            } catch (error) {
+              window.errorHandler.handleAPIError(error, "kpis-retry");
+            }
+          },
+
+          navigateTo(page) {
+            this.currentPage = page;
+            // Close sidebar on mobile after navigation
+            this.sidebarOpen = false;
+
+            // In a real application, this would handle routing
+            console.log(`Navigate to: ${page}`);
+
+            // Show notification for demo
+            this.showNotification(`Navigating to ${page.replace("-", " ")}...`);
+          },
+
+          toggleTheme() {
+            this.theme = this.theme === "light" ? "dark" : "light";
+            this.setTheme(this.theme);
+            localStorage.setItem("theme", this.theme);
+          },
+
+          setTheme(theme) {
+            if (theme === "dark") {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
+          },
+
+          updateDateRange() {
+            // Update charts with new date range
+            this.showNotification(
+              `Updated to show data for last ${this.dateRange} ${
+                this.dateRange === "all" ? "periods" : "days"
+              }`
+            );
+          },
+
+          // Authentication methods
+          checkAuth() {
+            return window.authManager.requireAuth("../auth/login.html");
+          },
+
+          logout() {
+            window.authManager.logout("../auth/login.html");
+          },
+
+          async exportData() {
+            this.exportLoading = true;
+            this.showNotification("Exporting dashboard data...", "info");
+
+            try {
+              // Simulate export process
+              await new Promise((resolve) => setTimeout(resolve, 2000));
+              this.showNotification(
+                "Dashboard data exported successfully!",
+                "success"
+              );
+            } catch (error) {
+              this.showNotification(
+                "Export failed. Please try again.",
+                "error"
+              );
+            } finally {
+              this.exportLoading = false;
+            }
+          },
+
+          formatCurrency(value) {
+            return new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "EUR",
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(value);
+          },
+
+          formatNumber(value) {
+            return new Intl.NumberFormat("en-US", {
+              notation: "compact",
+              maximumFractionDigits: 1,
+            }).format(value);
+          },
+
+          showNotification(message, type = "info") {
+            // Simple notification system
+            const notification = document.createElement("div");
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${
+              type === "success"
+                ? "bg-green-500 text-white"
+                : type === "error"
+                ? "bg-red-500 text-white"
+                : "bg-blue-500 text-white"
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+              notification.remove();
+            }, 3000);
+          },
+
+          initCharts() {
+            if (!window.chartInitializer) {
+              console.error("Chart initializer not available");
+              return;
+            }
+
+            // Define chart configurations
+            const chartConfigs = {
+              portfolioGrowthChart: {
+                type: "line",
+                data: {
+                  labels: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                  ],
+                  datasets: [
+                    {
+                      label: "Portfolio Value (€M)",
+                      data: [
+                        38.5, 39.2, 41.1, 42.3, 43.8, 44.2, 45.1, 44.9, 45.6,
+                        46.2, 45.8, 45.6,
+                      ],
+                      borderColor: "#0066CC",
+                      backgroundColor: "rgba(0, 102, 204, 0.1)",
+                      tension: 0.4,
+                      fill: true,
+                    },
+                  ],
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: false,
+                      ticks: {
+                        callback: function (value) {
+                          return "€" + value + "M";
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              regionalChart: {
+                type: "doughnut",
+                data: {
+                  labels: ["Africa", "Asia", "Latin America", "Europe"],
+                  datasets: [
+                    {
+                      data: [42, 35, 18, 5],
+                      backgroundColor: [
+                        "#3B82F6",
+                        "#10B981",
+                        "#8B5CF6",
+                        "#F59E0B",
+                      ],
+                      borderWidth: 0,
+                    },
+                  ],
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                },
+              },
+            };
+
+            // Initialize charts with the new system
+            window.chartInitializer.initializeCharts(chartConfigs);
+          },
+        };
+      }
+    </script>
+  </body>
 </html>

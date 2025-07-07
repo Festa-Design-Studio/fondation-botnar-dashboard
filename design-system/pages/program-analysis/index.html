@@ -21,6 +21,7 @@
     <script src="../error-handler.js"></script>
     <script src="../performance-optimizer.js"></script>
     <script src="../security-utils.js"></script>
+    <script src="../auth.js"></script>
     <script src="../chart-initializer.js"></script>
     
     <!-- Alpine.js - Load after Chart.js -->
@@ -241,13 +242,8 @@
         <nav class="w-64 dashboard-nav text-white flex flex-col sidebar" :class="{ 'open': sidebarOpen }" aria-label="Main Navigation">
             <!-- Logo and Header -->
             <div class="p-6 border-b border-white/20">
-                <div class="flex items-center space-x-3">
-                    <div class="flex items-center justify-center">
-                        <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
-                    </div>
-                    <div>
-                        <p class="text-sm text-blue-200">Dashboard</p>
-                    </div>
+                <div class="flex items-center justify-center">
+                    <img src="../../assets/images/logo-fondation-botnar.svg" alt="Fondation Botnar Logo" class="h-8 w-auto">
                 </div>
             </div>
             
@@ -490,16 +486,25 @@
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Program Comparison</h3>
-                            <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-2" role="group" aria-label="Chart comparison options">
                                 <button @click="comparisonMetric = 'impact'" 
-                                        :class="comparisonMetric === 'impact' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                                        class="px-3 py-1 rounded text-sm font-medium">Impact</button>
+                                        :class="comparisonMetric === 'impact' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                        class="px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-1"
+                                        :aria-pressed="comparisonMetric === 'impact'"
+                                        role="button"
+                                        aria-label="Compare by impact metrics">Impact</button>
                                 <button @click="comparisonMetric = 'efficiency'" 
-                                        :class="comparisonMetric === 'efficiency' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                                        class="px-3 py-1 rounded text-sm font-medium">Efficiency</button>
+                                        :class="comparisonMetric === 'efficiency' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                        class="px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-1"
+                                        :aria-pressed="comparisonMetric === 'efficiency'"
+                                        role="button"
+                                        aria-label="Compare by efficiency metrics">Efficiency</button>
                                 <button @click="comparisonMetric = 'growth'" 
-                                        :class="comparisonMetric === 'growth' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'text-gray-500'"
-                                        class="px-3 py-1 rounded text-sm font-medium">Growth</button>
+                                        :class="comparisonMetric === 'growth' ? 'bg-botnar-blue-100 dark:bg-botnar-blue-900/20 text-botnar-blue-700 dark:text-botnar-blue-400' : 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                        class="px-3 py-2 rounded text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-botnar-blue-500 focus:ring-offset-1"
+                                        :aria-pressed="comparisonMetric === 'growth'"
+                                        role="button"
+                                        aria-label="Compare by growth metrics">Growth</button>
                             </div>
                         </div>
                         <div class="h-64">
